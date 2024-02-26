@@ -1,8 +1,11 @@
+<!-- Create new project Form -->
 <html>
 	<head>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="index.css">
+    <script src='header.js'></script>
     <title>Create Project</title>
 	<script>
 		function addFunderField(num){
@@ -36,9 +39,11 @@
 		};
 	</script>
 	</head>
-	<body>
+	<body onload='displayHeader()'>
+  		<div class='header' id='header'></div>
+		
 		<h1>Create Project</h1>
-		<form method="post" action="jobBoard.php">
+		<form method="post" action="projectList.php">
 			<fieldset>
 				<h3>Project Details</h3>
 				<label for="projectCode">Project Code:</label>

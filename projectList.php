@@ -3,6 +3,8 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="index.css">
+    <script src='header.js'></script>
     <title>Projects</title>
 <style>
     table {
@@ -19,7 +21,8 @@
     }
     </style>
 </head>
-<body>
+<body onload='displayHeader()'>
+  <div class='header' id='header'></div>
 <h1>Projects</h1>
 <table>
   <tr>
