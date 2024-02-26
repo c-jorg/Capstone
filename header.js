@@ -1,15 +1,7 @@
 function displayHeader(){
-	var xmlhttp = new XMLHttpRequest();
-	
-	xmlhttp.onreadystatechange = function() {
-		if(xmlhttp.readyState != 4 && xmlhttp.status == 200){
-			document.getElementById('header').innerHTML = 'Validating..';
-		} else if (xmlhttp.readyState == 4 && xmlhttp.status == 20){
-			document.getElementById('header').innerHTML = xmlhttp.responseText;
-		} else {
-			document.getElementById('header').innerHTML = "Error Occurred. <a href='login.html'>Reload or Try Again</a>";
-		}	
-	}
-	xmlhttp.open("GET", "header.php");
-	xmlhttp.send();
+	console.log('displayHeader function called');
+	var header = document.getElementById("header");
+	var headerText = "<ul class='headerUl' id='headerUl' name='headerUl'><li class='headerLi' id='homeLi' name='homeLi'><a class='headerA' id='homeA' name='homeA' href='index.html'>Dashboard</a></li><li class='headerLi' id='fundersLi' name='fundersLi'><a class='headerA' id='fundersA' name='fundersA' href='funders.html'>Funders</a></li><li class='headerLi' id='projectsLi' name='projectsLi'><a class='headerA' id='projectsA' name='projectsA' href='projects.html'>Projects</a></li><li class='headerLi' id='usernameLi' name='usernameLi'><a class='headerA' id='usernameA' name='usernameA'>test</a></li><li class='headerLi' id='logoutLi' name='logoutLi'><a class='headerA' div='logoutA' name='logoutA' href='logout.php'>Logout</a></li></ul>";
+	header.innerHTML = headerText;
+	console.log('displayHeader function reached end');
 }
