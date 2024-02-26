@@ -1,0 +1,40 @@
+@charset "ISO-8859-1";
+* {
+	margin: 0;
+	padding: 0;
+	font-family: 'roboto', sans-seriff;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	min-height: 100%;
+	background-color: bisque;
+}
+
+.centered h3{
+	padding: 20px;
+	text-align: center;
+}
+
+.recentUl {
+	min-width: 100%;
+	max-width: 100%;
+	list-style-type: none;
+	overflow: hidden;
+	background-color: white;
+}
+
+.recentLi {
+	float: left;
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+.header {
+	background: #dc3545;
+}
