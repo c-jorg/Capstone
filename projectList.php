@@ -24,6 +24,7 @@
 <body onload='displayHeader()'>
   <div class='header' id='header'></div>
 <h1>Projects</h1>
+<h4><a href="./projectPosting.php">+ Create New Project</a></h4>
 <table>
   <tr>
   	<th>Status</th>
