@@ -36,6 +36,11 @@ body {
 	text-decoration: none;
 }
 
+.recentLi {
+	width: 30%;
+	
+}
+
 .header {
 	background: #dc3545;
 	padding: 10px;
@@ -72,4 +77,8 @@ body {
     overflow-y: auto; /* This enables vertical scrolling */
     border: 1px solid #ccc;
     padding: 10px;
+}
+
+.quickAccess  {
+	text-align: left;
 }
