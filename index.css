@@ -65,3 +65,11 @@ body {
 	text-decoration: none;
 	font-size: 20px;
 }
+
+.scrollable-area {
+    width: 500px;
+    height: 200px;
+    overflow-y: auto; /* This enables vertical scrolling */
+    border: 1px solid #ccc;
+    padding: 10px;
+}
