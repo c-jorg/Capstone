@@ -14,9 +14,10 @@ body {
 	background-color: bisque;
 }
 
-.centered h3{
+.centered {
 	padding: 20px;
 	text-align: center;
+	font-size: 28px;
 }
 
 .recentUl {
@@ -37,4 +38,30 @@ body {
 
 .header {
 	background: #dc3545;
+	padding: 10px;
+	min-width: 100%;
+	height: 50px;
+}
+
+.headerUl {
+	list-style-type: none;
+	background: #dc3545;
+	text-align: center;
+}
+
+.headerLi {
+	float: left;
+	padding: 14px 16px;
+}
+
+#usernameLi, #logoutLi{
+	float: right;
+}
+
+.headerA {
+	display: block;
+	color: black;
+	text-align: center;
+	text-decoration: none;
+	font-size: 20px;
 }
