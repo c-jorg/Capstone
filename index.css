@@ -20,7 +20,7 @@ body {
 	font-size: 28px;
 }
 
-.recentUl {
+.recentUl, .funderProjectUL {
 	min-width: 100%;
 	max-width: 100%;
 	list-style-type: none;
@@ -28,7 +28,7 @@ body {
 	background-color: white;
 }
 
-.recentLi {
+.recentLi, .funderProjectLI {
 	float: left;
 	display: block;
 	text-align: center;
