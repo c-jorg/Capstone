@@ -51,7 +51,7 @@
 		<h1>Create Project</h1>
 		<form method="post" action="#">
 			<fieldset>
-				<strong>Add Contact:</strong>
+				<strong>Add Person:</strong>
 				&emsp;
     			<label for="salutation">Salutation:</label>
                 <select name="salutation" id="salutation">
@@ -63,28 +63,28 @@
                 </select>
 				&emsp;
 				<label for="firstName">First Name:</label>
-				<input type="text" id="firstName" name="firstName" required>
+				<input type="text" id="firstName" name="firstName">
 				&emsp;
 				<label for="lastName">Last Name:</label>
-				<input type="text" id="lastName" name="lastName" required>
+				<input type="text" id="lastName" name="lastName">
 				&emsp;
 				<label for="contactEmail">Email:</label>
 				<input type="email" id="contactEmail" name="contactEmail" required>
 				&emsp;
-				<input type="submit" value="Add Contact">
+				<input type="submit" value="Add Person">
 			</fieldset>
     	</form>
     	<form method="post" action="#">
 			<fieldset>
-				<strong>Add Client:</strong>
+				<strong>Add Business:</strong>
 				&emsp;
 				<label for="businessName">Business Name:</label>
-				<input type="text" id="businessName" name="businessName" required>
+				<input type="text" id="businessName" name="businessName">
 				&emsp;
 				<label for="businessEmail">Email:</label>
 				<input type="email" id="businessEmail" name="businessEmail" required>
 				&emsp;
-				<input type="submit" value="Add Client">
+				<input type="submit" value="Add Business">
 			</fieldset>
     	</form>	
 		<form method="post" action="projectList.php">
@@ -111,12 +111,12 @@
 				<textarea id="description" name="description" rows="4" cols="55" required></textarea>
 				<br><br>
 				<label for="projectType">Project Type:</label>
-                <select name="projectType" id="projectType">
-                    <option value="community">Community</option>
-                    <option value="technical">Technical</option>
-                    <option value="business">Business</option>
-                    <option value="other">Other...</option>
-                </select>
+				<input list="projectTypes" name="projectType" id="projectType">
+                <datalist id="projectTypes">
+                    <option value="Community">
+                    <option value="Technical">
+                    <option value="Business">
+                </datalist>
 				<br><br>
 				<div id="funders">
     				<label for="funder1">Funder 1:</label>
