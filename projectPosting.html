@@ -11,6 +11,12 @@
 		function addFunderField(num){
 			const s = `<br>	<label for="funder${num}">Funder ${num}:</label>
 							<input type="text" id="funder${num}" name="funder${num}" required>
+							&emsp;
+							<label for="fundingTotal${num}">Funding Total: $</label>
+            				<input type="number" id="funding${num}" name="funding${num}" min="1" step="any" pattern="^\d+(\.)\d{2}$" required>
+            				<input type="checkbox" id="yearly${num}" name="yearly${num}" value="yearly${num}">
+            				<label for="yearly${num}">yearly</label>
+							&emsp;
                 			<span id="addFunder${num+1}">
                 				<a onclick="addFunderField(${num+1});return false;" href="#">+add</a>
                 			</span>
@@ -43,6 +49,15 @@
                 			</span>
 			`;
   			document.getElementById(`addContractor${num}`).innerHTML = s;
+		};
+		function addClientField(num){
+			const s = `<br>	<label for="client${num}">Client ${num}:</label>
+							<input type="text" id="client${num}" name="client${num}" required>
+                			<span id="addClient${num+1}">
+                				<a onclick="addClientField(${num+1});return false;" href="#">+add</a>
+                			</span>
+			`;
+  			document.getElementById(`addClient${num}`).innerHTML = s;
 		};
 	</script>
 	</head>
@@ -108,7 +123,7 @@
                 </select>
 				<br><br>
 				<label for="description">Description:</label><br>
-				<textarea id="description" name="description" rows="4" cols="55" required></textarea>
+				<textarea id="description" name="description" rows="4" cols="100" required></textarea>
 				<br><br>
 				<label for="projectType">Project Type:</label>
 				<input list="projectTypes" name="projectType" id="projectType">
@@ -117,64 +132,83 @@
                     <option value="Technical">
                     <option value="Business">
                 </datalist>
+                <br><br>
+				<label for="projectManager">Project Manager:</label>
+				<input type="text" id="projectManager" name="projectManager" required>
 				<br><br>
 				<div id="funders">
-    				<label for="funder1">Funder 1:</label>
+    				<label for="funder1">Funder:</label>
     				<input type="text" id="funder1" name="funder1" required>
+    				&emsp;
+    				<label for="fundingTotal">Funding Total: $</label>
+    				<input type="number" id="funding" name="funding" min="1" step="any" pattern="^\d+(\.)\d{2}$" required>
+    				<input type="checkbox" id="yearly1" name="yearly1" value="yearly1">
+    				<label for="yearly1">yearly</label>
+    				&emsp;
     				<span id='addFunder2'>
     					<a onclick="addFunderField(2);return false;" href="#">+add</a>
     				</span>
     			</div>
 				<br>
-				<label for="fundingTotal">Funding Total: $</label>
-				<input type="number" id="funder" name="funder" min="1" step="any" pattern="^\d+(\.)\d{2}$" required>
-				<input type="radio" id="yearly" name="frequency" value="yearly">
-				<label for="yearly">yearly</label>
-				<input type="radio" id="monthly" name="frequency" value="monthly">
-				<label for="monthly">monthly</label>
-				<br><br>
 				<label for="startDate">Start Date:</label>
 				<input type="date" id="startDate" name="startDate" required>&emsp;
 				<label for="endDate">End Date:</label>
 				<input type="date" id="endDate" name="endDate" required>
 				<br><br>
-				<label for="client">Client:</label>
-				<input type="text" id="client" name="client" required>
+				<input type="submit" value="Create Project" style="width:100px">		
 				<br><br>
-				<label for="projectManager">Project Manager:</label>
-				<input type="text" id="projectManager" name="projectManager" required>
+			</fieldset>
+		</form>
+		<form  method="post" action="#">
+			<fieldset>
+				<h3>Activity Details</h3>
+				<br>
+				<label for="forProjectCode">Project Code:</label>
+				<input type="text" id="forProjectCode" name="forProjectCode" required>
+				&emsp;
+				<label for="activityCode">Activity Code:</label>
+				<input type="text" id="activityCode" name="activityCode" required>
 				<br><br>
+				<div id="clients">
+    				<label for="client1">Client:</label>
+    				<input type="text" id="client" name="client1" required>
+    				<span id='addClient2'>
+        				<a onclick="addClientField(2);return false;" href="#">+add</a>
+        			</span>
+    			</div>
+				<br>
 				<label for="principleResearcher">Principle Researcher:</label>
 				<input type="text" id="principleResearcher" name="principleResearcher" required>
 				<br><br>
 				<div id="researchers">
-    				<label for="coResearcher1">Co-Researcher 1:</label>
+    				<label for="coResearcher1">Co-Researcher:</label>
     				<input type="text" id="coResearcher1" name="coResearcher1" required>
   					<span id='addCoResearcher2'>
     					<a onclick="addCoResearcherField(2);return false;" href="#">+add</a>
     				</span>
     			</div>
-				<br><br>
+				<br>
 				<div id="students">
-    				<label for="student1">Student 1:</label>
+    				<label for="student1">Student:</label>
     				<input type="text" id="student1" name="student1" required>
     				<span id='addStudent2'>
     					<a onclick="addStudentField(2);return false;" href="#">+add</a>
     				</span>
 				</div>
-				<br><br>
+				<br>
 				<div id="contractors">
-    				<label for="contractor1">Contractor 1:</label>
+    				<label for="contractor1">Contractor:</label>
     				<input type="text" id="contractor1" name="contractor1" required>
     				<span id='addContractor2'>
         				<a onclick="addContractorField(2);return false;" href="#">+add</a>
         			</span>
     			</div>
-				<br><br>
+				<br>
 				<label for="notes">Notes:</label><br>
-				<textarea id="notes" name="notes" rows="8" cols="55"></textarea>
+				<textarea id="notes" name="notes" rows="8" cols="110"></textarea>
 				<br><br>
-				<input type="submit" value="Create Project">		
+				<input type="submit" value="Add Activity" style="width:100px">	
+				<br><br>	
 			</fieldset>
 		</form>
 	</body>
