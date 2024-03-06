@@ -1,0 +1,23 @@
+CREATE TABLE Entities (id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(100), last_name VARCHAR(100), email VARCHAR(200) UNIQUE, salutation VARCHAR(10), company VARCHAR(100));
+
+CREATE TABLE Projects (project_code VARCHAR(100) PRIMARY KEY, 
+    title VARCHAR(200),
+	description VARCHAR(65532),
+	stage ENUM("Ideation", "Proposal in Progress", "Awaiting Funding", "In Progress", "Completed - Not Signed Off", "Completed - Signed Off"),
+    type VARCHAR(100),
+    project_manager VARCHAR(200),
+    start_date DATE,
+	end_date DATE
+);
+
+CREATE TABLE Activities(
+    activity_code VARCHAR(100) PRIMARY KEY,
+	project_code VARCHAR(100),
+	description MEDIUMTEXT,
+	type VARCHAR(100),
+	project_manager VARCHAR(200),
+	start_date DATE,
+	end_date DATE,
+	principal_researcher VARCHAR(100)
+	);
+	
