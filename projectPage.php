@@ -1,4 +1,5 @@
 <?php 
+
     $numOfFunders = random_int(1, 3);
     $numOfClients = random_int(1, 3);
     $numOfCoResearchers = random_int(1, 3);
@@ -15,6 +16,7 @@
     <script src='header.js'></script>
     <title>Project : 123456</title>
 <script>
+
 	function editProject(numOfFunders) {
 		const id_array = ['title','stage','description','type','manager','startDate','endDate'];
 		for (let i = 1; i <= numOfFunders; i++) {
