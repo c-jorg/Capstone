@@ -6,7 +6,7 @@
     $numOfContractors = random_int(1, 3);
     
     $numOfActivities = 5;
-    
+//dummy variables    
 ?>
 <html>
 <head>
