@@ -1,4 +1,12 @@
-CREATE TABLE Entities (id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(100), last_name VARCHAR(100), email VARCHAR(200) UNIQUE, salutation VARCHAR(10), company VARCHAR(100));
+CREATE DATABASE Research;
+
+CREATE TABLE Entities (
+	id INT AUTO_INCREMENT PRIMARY KEY, 
+	first_name VARCHAR(100), last_name VARCHAR(100),
+	email VARCHAR(200) UNIQUE, salutation VARCHAR(10),
+	company VARCHAR(100)
+);
+
 
 CREATE TABLE Projects (project_code VARCHAR(100) PRIMARY KEY, 
     title VARCHAR(200),
@@ -9,6 +17,7 @@ CREATE TABLE Projects (project_code VARCHAR(100) PRIMARY KEY,
     start_date DATE,
 	end_date DATE
 );
+
 
 CREATE TABLE Activities(
     activity_code VARCHAR(100) PRIMARY KEY,
@@ -26,5 +35,71 @@ ALTER TABLE Activities
 	FOREIGN KEY (project_code)
 	REFERENCES Projects (project_code);
 	
+	
 CREATE TABLE Researchers (
-    
+    entity_id INT,
+	activity_code VARCHAR(100)
+);
+
+ALTER TABLE Researchers
+	ADD CONSTRAINT Researchers_Entities_FK
+	FOREIGN KEY (entity_id)
+	REFERENCES Entities (id);
+	
+ALTER TABLE Researchers
+	ADD CONSTRAINT Researchers_Activities_FK
+	FOREIGN KEY (activity_code)
+	REFERENCES Activities (activity_code);
+	
+	
+CREATE TABLE Clients (
+	entity_id int,
+	project_code VARCHAR(100)
+);
+
+ALTER TABLE Clients 
+	ADD CONSTRAINT Clients_Entities_FK
+	FOREIGN KEY (entity_id)
+	REFERENCES Entities (id);
+	
+ALTER TABLE Clients 
+	ADD CONSTRAINT Clients_Projects_FK
+	FOREIGN KEY (project_code)
+	REFERENCES Projects (project_code);
+	
+
+CREATE TABLE Funders (
+	entity_id INT,
+	project_code VARCHAR(100),
+	funding_amt DECIMAL,
+	date_given DATE,
+	frequency INT
+);
+
+ALTER TABLE Funders
+	ADD CONSTRAINT Funders_Entities_FK
+	FOREIGN KEY (entity_id)
+	REFERENCES Entities (id);
+	
+ALTER TABLE Funders	
+	ADD CONSTRAINT Funders_Projects_FK
+	FOREIGN KEY (project_code)
+	REFERENCES Projects (project_code);
+	
+
+CREATE TABLE Contractors (
+	entity_id INT,
+	activity_code VARCHAR(100),
+	payment DECIMAL,
+	date_payed DATE
+);
+
+ALTER TABLE Contractors 
+	ADD CONSTRAINT Contractors_Entities_FK
+	FOREIGN KEY (entity_id)
+	REFERENCES Entities (id);
+	
+ALTER TABLE Contractors
+	ADD CONSTRAINT Contractors_Activities_FK
+	FOREIGN KEY (activity_code)
+	REFERENCES Activities (activity_code);
