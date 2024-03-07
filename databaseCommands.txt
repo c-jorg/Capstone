@@ -114,4 +114,4 @@ CREATE TABLE Login (
 );
 
 
-INSERT INTO Login VALUES("test", "letmein");
+INSERT INTO Login VALUES(NULL, "test", "letmein");
