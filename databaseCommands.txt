@@ -112,3 +112,6 @@ CREATE TABLE Login (
 	username VARCHAR(100),
 	password VARCHAR(10000)
 );
+
+
+INSERT INTO Login VALUES("test", "letmein");
