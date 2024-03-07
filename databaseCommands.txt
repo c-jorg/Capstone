@@ -103,3 +103,12 @@ ALTER TABLE Contractors
 	ADD CONSTRAINT Contractors_Activities_FK
 	FOREIGN KEY (activity_code)
 	REFERENCES Activities (activity_code);
+	
+	
+***NEW***
+
+CREATE TABLE Login (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	username VARCHAR(100),
+	password VARCHAR(10000)
+);
