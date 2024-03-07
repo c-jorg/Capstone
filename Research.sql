@@ -158,6 +158,30 @@ LOCK TABLES `funders` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `login`
+--
+
+DROP TABLE IF EXISTS `login`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `login` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) DEFAULT NULL,
+  `password` varchar(10000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `login`
+--
+
+LOCK TABLES `login` WRITE;
+/*!40000 ALTER TABLE `login` DISABLE KEYS */;
+/*!40000 ALTER TABLE `login` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `projects`
 --
 
@@ -221,4 +245,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-07 13:15:13
+-- Dump completed on 2024-03-07 13:38:00
