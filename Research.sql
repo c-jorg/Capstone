@@ -1,0 +1,248 @@
+-- MariaDB dump 10.19  Distrib 10.4.32-MariaDB, for Win64 (AMD64)
+--
+-- Host: localhost    Database: Research
+-- ------------------------------------------------------
+-- Server version	10.4.32-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `activities`
+--
+
+DROP TABLE IF EXISTS `activities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `activities` (
+  `activity_code` varchar(100) NOT NULL,
+  `project_code` varchar(100) DEFAULT NULL,
+  `description` mediumtext DEFAULT NULL,
+  `type` varchar(100) DEFAULT NULL,
+  `project_manager` varchar(200) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `principal_researcher` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`activity_code`),
+  KEY `Activities_Projects_FK` (`project_code`),
+  CONSTRAINT `Activities_Projects_FK` FOREIGN KEY (`project_code`) REFERENCES `projects` (`project_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `activities`
+--
+
+LOCK TABLES `activities` WRITE;
+/*!40000 ALTER TABLE `activities` DISABLE KEYS */;
+/*!40000 ALTER TABLE `activities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `clients`
+--
+
+DROP TABLE IF EXISTS `clients`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `clients` (
+  `entity_id` int(11) DEFAULT NULL,
+  `project_code` varchar(100) DEFAULT NULL,
+  KEY `Clients_Entities_FK` (`entity_id`),
+  KEY `Clients_Projects_FK` (`project_code`),
+  CONSTRAINT `Clients_Entities_FK` FOREIGN KEY (`entity_id`) REFERENCES `entities` (`id`),
+  CONSTRAINT `Clients_Projects_FK` FOREIGN KEY (`project_code`) REFERENCES `projects` (`project_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clients`
+--
+
+LOCK TABLES `clients` WRITE;
+/*!40000 ALTER TABLE `clients` DISABLE KEYS */;
+/*!40000 ALTER TABLE `clients` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `contractors`
+--
+
+DROP TABLE IF EXISTS `contractors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `contractors` (
+  `entity_id` int(11) DEFAULT NULL,
+  `activity_code` varchar(100) DEFAULT NULL,
+  `payment` decimal(10,0) DEFAULT NULL,
+  `date_payed` date DEFAULT NULL,
+  KEY `Contractors_Entities_FK` (`entity_id`),
+  KEY `Contractors_Activities_FK` (`activity_code`),
+  CONSTRAINT `Contractors_Activities_FK` FOREIGN KEY (`activity_code`) REFERENCES `activities` (`activity_code`),
+  CONSTRAINT `Contractors_Entities_FK` FOREIGN KEY (`entity_id`) REFERENCES `entities` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contractors`
+--
+
+LOCK TABLES `contractors` WRITE;
+/*!40000 ALTER TABLE `contractors` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contractors` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `entities`
+--
+
+DROP TABLE IF EXISTS `entities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `entities` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(100) DEFAULT NULL,
+  `last_name` varchar(100) DEFAULT NULL,
+  `email` varchar(200) DEFAULT NULL,
+  `salutation` varchar(10) DEFAULT NULL,
+  `company` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `entities`
+--
+
+LOCK TABLES `entities` WRITE;
+/*!40000 ALTER TABLE `entities` DISABLE KEYS */;
+/*!40000 ALTER TABLE `entities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `funders`
+--
+
+DROP TABLE IF EXISTS `funders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `funders` (
+  `entity_id` int(11) DEFAULT NULL,
+  `project_code` varchar(100) DEFAULT NULL,
+  `funding_amt` decimal(10,0) DEFAULT NULL,
+  `date_given` date DEFAULT NULL,
+  `frequency` int(11) DEFAULT NULL,
+  KEY `Funders_Entities_FK` (`entity_id`),
+  KEY `Funders_Projects_FK` (`project_code`),
+  CONSTRAINT `Funders_Entities_FK` FOREIGN KEY (`entity_id`) REFERENCES `entities` (`id`),
+  CONSTRAINT `Funders_Projects_FK` FOREIGN KEY (`project_code`) REFERENCES `projects` (`project_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `funders`
+--
+
+LOCK TABLES `funders` WRITE;
+/*!40000 ALTER TABLE `funders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `funders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `login`
+--
+
+DROP TABLE IF EXISTS `login`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `login` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) DEFAULT NULL,
+  `password` varchar(10000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `login`
+--
+
+LOCK TABLES `login` WRITE;
+/*!40000 ALTER TABLE `login` DISABLE KEYS */;
+/*!40000 ALTER TABLE `login` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `projects`
+--
+
+DROP TABLE IF EXISTS `projects`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `projects` (
+  `project_code` varchar(100) NOT NULL,
+  `title` varchar(200) DEFAULT NULL,
+  `description` mediumtext DEFAULT NULL,
+  `stage` enum('Ideation','Proposal in Progress','Awaiting Funding','In Progress','Completed - Not Signed Off','Completed - Signed Off') DEFAULT NULL,
+  `type` varchar(100) DEFAULT NULL,
+  `project_manager` varchar(200) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  PRIMARY KEY (`project_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `projects`
+--
+
+LOCK TABLES `projects` WRITE;
+/*!40000 ALTER TABLE `projects` DISABLE KEYS */;
+/*!40000 ALTER TABLE `projects` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `researchers`
+--
+
+DROP TABLE IF EXISTS `researchers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `researchers` (
+  `entity_id` int(11) DEFAULT NULL,
+  `activity_code` varchar(100) DEFAULT NULL,
+  KEY `Researchers_Entities_FK` (`entity_id`),
+  KEY `Researchers_Activities_FK` (`activity_code`),
+  CONSTRAINT `Researchers_Activities_FK` FOREIGN KEY (`activity_code`) REFERENCES `activities` (`activity_code`),
+  CONSTRAINT `Researchers_Entities_FK` FOREIGN KEY (`entity_id`) REFERENCES `entities` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `researchers`
+--
+
+LOCK TABLES `researchers` WRITE;
+/*!40000 ALTER TABLE `researchers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `researchers` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-03-07 13:38:00
