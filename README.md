@@ -17,3 +17,5 @@ dumping database into file
 
 xampp control panel start apache then mysql
 open shell from xampp control panel
+mysqldump -u root -p -v database > database.sql
+file will be in xampp folder
