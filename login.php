@@ -1,19 +1,28 @@
 <?php
+$db_host = 'Research'; // Hostname of database
+$db_name = 'Login';
+$db_user = 'username';
+$db_pass = 'password';
+
+try {
+    $pdo = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Your connection to our database has failed: " . $e->getMessage());
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $valid_username = "user123";
-    $valid_password = "password123";
+    $username = $_POST['username']; 
+    $password = $_POST['password']; 
 
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $stmt = $pdo->prepare("SELECT password FROM Login WHERE username = $db_pass");
+    $stmt->execute([$username]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($username === $valid_username && $password === $valid_password) {
-        header("Location: success.html");
+    if ($row && password_verify($password, $row['password'])) {
+        header("Location: index.html");
         exit;
     } else {
-        header("Location: login.html?error=1");
-        exit;
+        echo "Invalid username or password.";
     }
-} else {
-    header("Location: login.html");
-    exit;
 }

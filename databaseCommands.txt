@@ -113,5 +113,49 @@ CREATE TABLE Login (
 	password VARCHAR(10000)
 );
 
+<<<<<<< HEAD
 
 INSERT INTO Login VALUES(NULL, "test", "letmein");
+=======
+**NEWER**
+
+ALTER TABLE Researchers ADD (level VARCHAR(100));
+
+ALTER TABLE Contractors
+	ADD CONSTRAINT Contractors_PK
+	PRIMARY KEY (entity_id,activity_code,date_payed);
+	
+
+INSERT INTO Entities (id,first_name,last_name,email,salutation,company) VALUES
+	(NULL, "Jane", "Doe", "jdoe@gmail.com", "MRS.", NULL),
+	(NULL, "John", "Doe", "jodoe@gmail.com", "DR.", NULL),
+	(NULL, NULL, NULL, "funder1@gmail.com", NULL, "Science Company"),
+	(NULL,NULL,NULL,"funder2@gmail.com",NULL,"Tech Company"),
+	(NULL,NULL,NULL,"client1@gmail.com",NULL,"Science Client"),
+	(NULL,NULL,NULL,"client2@gmail.com",NULL,"Tech Client"),
+	(NULL,NULL,NULL,"contractor1@gmail.com",NULL,"Science Contractor");
+					 
+INSERT INTO Projects 
+	("ABC","projects 1", "test Projects", "In Progress", "Science", NULL, "2024-01-01", "2026-01-01"),
+	("123","project 2", "test Projects", "Proposal in Progress", "Tech", "James", "2026-01-01", "2028-01-01");
+	
+INSERT INTO Activities
+	("ABC","ABC","Test Activity","Science",NULL,"2024-01-01","2026-01-01",1),
+	("123","123","test Activity","Tech","James","2026-01-01","2028-01-01",2);
+	
+INSERT INTO Contractors (7, "ABC", 10000.00, "2024-02-02");
+
+INSERT INTO Clients 
+	(5,"ABC"),
+	(6,"123");
+	
+INSERT INTO Funders
+	(3,"ABC",1000000.00,"2023-01-01",1),
+	(4,"123",50000.00,"2026-01-01",2);
+	
+INSERT INTO Clients
+	(5,"ABC"),
+	(6,"123");
+	
+	
+>>>>>>> main

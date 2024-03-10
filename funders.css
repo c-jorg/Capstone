@@ -1,0 +1,84 @@
+@charset "ISO-8859-1";
+* {
+	margin: 0;
+	padding: 0;
+	font-family: 'roboto', sans-seriff;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	min-height: 100%;
+	background-color: bisque;
+}
+
+.centered {
+	padding: 20px;
+	text-align: center;
+	font-size: 28px;
+}
+
+.recentUl, .funderProjectUL {
+	min-width: 100%;
+	max-width: 100%;
+	list-style-type: none;
+	overflow: hidden;
+	background-color: white;
+}
+
+.recentLi, .funderProjectLI {
+	float: left;
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+.header {
+	background: #dc3545;
+	padding: 10px;
+	min-width: 100%;
+	height: 50px;
+}
+
+.headerUl {
+	list-style-type: none;
+	background: #dc3545;
+	text-align: center;
+}
+
+.headerLi {
+	float: left;
+	padding: 14px 16px;
+}
+
+#usernameLi, #logoutLi{
+	float: right;
+}
+
+.headerA {
+	display: block;
+	color: black;
+	text-align: center;
+	text-decoration: none;
+	font-size: 20px;
+}
+
+.scrollable-area {
+	width: 90% auto;
+    height: 200px;
+    overflow-y: auto; /* This enables vertical scrolling */
+	padding: 10px;
+}
+
+.funderProjectLI{
+	border: 1px solid #ccc;
+	border-radius: 16px;
+	margin: 5px;
+}
+
+.funderProjectUL{
+	padding: 3%;
+}
