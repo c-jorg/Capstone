@@ -54,7 +54,7 @@ for($i = 1; $i < 15; $i++) {
     $entry = "<tr>
                 <td bgcolor='{$colors[$i % count($colors)]}'>{$colors[$i % count($colors)]}</td>
                 <td>{$randomNum}</td>
-                <td><a href='#'>Project{$i}</a></td>
+                <td><a href='projectPage.php'>Project{$i}</a></td>
                 <td>{$stage[$i % count($stage)]}</td>
                 <td>{$type[$i % count($type)]}</td>
                 <td>Funder{$i}</td>
