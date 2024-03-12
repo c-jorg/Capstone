@@ -19,6 +19,10 @@
       padding: 8px;
       text-align: center;
     }
+
+    h1, th {
+        font-family: 'Noto Serif';
+    }
     </style>
 </head>
 <body onload='displayHeader()'>
