@@ -5,6 +5,7 @@
 	<title>Reports</title>
 	<link rel='stylesheet' href='index.css'>
 	<script src='header.js'></script>
+	<script src='financialReports.js'></script> 
 </head>
 <body onload='displayHeader()'>
 	<div class='header' id='header' name='header'></div>
@@ -13,7 +14,7 @@
 		<br/>
 		<h3 class='centered' id='queriesH3'>Click to Show</h3>
 		<br /><br/>
-		<p class='query' id='receivedYear'><input type='button' class='queryButton' id='amtFundingYearBtn' value='Show'> Amount of funding received during the fiscal year of <input class='numberInput' id='receivedYearNum' type='number' value='2023'></p>
+		<p class='query' id='receivedYear'><input onclick='displayByYear("fundingReceivedYear","receivedYearNum","fundingByYear")' type='button' class='queryButton' id='amtFundingYearBtn' value='Show'> Amount of funding received during the fiscal year of <input class='numberInput' id='receivedYearNum' type='number' value='2023'><div class='reportGeneration' id='fundingReceivedYear'></div></p>
 		<br/><br/>
 		<p class='query' id='spentContractorsYear'><input type='button' class='queryButton' id='contractorYearBtn' value='Show'> Amount spent on contractors in year <input class='numberInput' id='contractorYearNum' value='2023'></p>
 		
