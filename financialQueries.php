@@ -13,7 +13,7 @@ $result = mysqli_query($sqli,$fundingYear);
 if($result){
     if(mysqli_num_rows($result) > 0){
         while($row = mysqli_fetch_array($result)){
-            echo "".stripslashes($row['entity_id'])." ".stripslashes($row['project_code'])." ".stripslashes($row['funding_amt'])." ".stripslashes($row['date_given'])." ".stripslashes($row['frequency'])." \n";
+            echo " $".stripslashes($row['funding_amt'])."";
         }
     }
 }
