@@ -14,7 +14,7 @@ class Project {
     }
     
     public function updateProjectData($pCode) {
-        $mysqli = mysqli_connect("localhost", "root", "letmein", "Research");
+        $mysqli = new mysqli("localhost:3306", "root", "", "Research");
         
         if(mysqli_connect_errno()) {
             echo "Error connecting to the Database";
@@ -42,7 +42,7 @@ class Project {
     }
     
     private function getProjectData($pCode) {
-        $mysqli = mysqli_connect("localhost", "root", "letmein", "Research");
+        $mysqli = new mysqli("localhost:3306", "root", "", "Research");
         if(mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
