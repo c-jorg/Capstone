@@ -6,24 +6,6 @@
     <link rel="stylesheet" href="index.css">
     <script src='header.js'></script>
     <title>Projects</title>
-<style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-    
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-      text-align: center;
-    }
-
-    h1, th {
-        font-family: 'Noto Serif';
-    }
-    </style>
 </head>
 <body onload='displayHeader()'>
   <div class='header' id='header'></div>
