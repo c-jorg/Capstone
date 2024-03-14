@@ -161,7 +161,7 @@ ALTER TABLE Activities
 	REFERENCES Entities (id);
 	
 	
-**NEW***
+**NEW NEW***
 
 ALTER TABLE Activities
 DROP FOREIGN KEY Activities_Entities_FK;
