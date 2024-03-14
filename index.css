@@ -1,0 +1,117 @@
+@charset "ISO-8859-1";
+@import url(https://db.onlinewebfonts.com/c/74613e9d0612d09be09dd6de7c898d50?family=Modern+Era);
+@import url(https://fonts.google.com/noto/specimen/Noto+Serif); 
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: 'Modern Era', sans-serif;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	min-height: 100%;
+	background-color: white;
+}
+
+table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+}
+    
+td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+      text-align: center;
+}
+
+h1, th {
+	font-family: 'Noto Serif';
+}
+
+.centered {
+	padding: 20px;
+	text-align: center;
+	font-size: 28px;
+	background-color: rgba(222, 156, 238, .1);
+}
+
+.projectTitle {
+	padding: 20px;
+	text-align: center;
+	font-size: 28px;
+}
+
+.recentUl, .funderProjectUL {
+	min-width: 100%;
+	max-width: 100%;
+	list-style-type: none;
+	overflow: hidden;
+	/*background-color: rgba(222, 156, 238, .1);*/
+}
+
+.recentLi, .funderProjectLI {
+	float: left;
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	/*background-color: rgba(222, 156, 238, .1);*/
+}
+
+
+
+.recentLi, .recentUl {
+	width: 30%;
+	
+}
+
+.header {
+	background: #E10054;
+	padding: 10px;
+	min-width: 100%;
+	height: 50px;
+}
+
+.headerUl {
+	list-style-type: none;
+	background: #E10054;
+	text-align: center;
+	color: white;
+}
+
+.headerLi {
+	float: left;
+	padding: 14px 16px;
+	color: white;
+}
+
+#usernameLi, #logoutLi{
+	float: right;
+}
+
+.headerA {
+	display: block;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	font-size: 20px;
+}
+
+.scrollable-area {
+    width: 500px;
+    height: 200px;
+    overflow-y: auto; /* This enables vertical scrolling */
+    border: 1px solid #ccc;
+    padding: 10px;
+	background-color: #DE9CEE;
+}
+
+.quickAccess  {
+	text-align: left;
+}

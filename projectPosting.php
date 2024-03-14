@@ -101,6 +101,7 @@
 				<br>
 				<label for="projectCode">Project Code:</label>
 				<input type="text" id="projectCode" name="projectCode" required>
+
 				<br><br>
 				<label for="projectTitle">Project Title:</label>
 				<input type="text" id="projectTitle" name="projectTitle" required>
@@ -162,6 +163,7 @@
 				<label for="activityCode">Activity Code:</label>
 				<input type="text" id="activityCode" name="activityCode" required>
 				<br><br>
+
 				<label for="activityTitle">Activity Title:</label>
 				<input type="text" id="activityTitle" name="activityTitle" required>
 				<br><br>
@@ -193,18 +195,22 @@
     			</div>
 				<br>
 				<div id="students">
+
     				<label for="Student1">Student 1:</label>
     				<input type="text" id="Student1" name="Student1" required>
     				<span id='addStudent2'>
     					<a onclick="addMoreField(2,'Student');return false;" href="#">+add</a>
+
     				</span>
 				</div>
 				<br>
 				<div id="contractors">
+
     				<label for="Contractor1">Contractor 1:</label>
     				<input type="text" id="Contractor1" name="Contractor1" required>
     				<span id='addContractor2'>
         				<a onclick="addMoreField(2,'Contractor');return false;" href="#">+add</a>
+
         			</span>
     			</div>
 				<br>
@@ -216,4 +222,6 @@
 			</fieldset>
 		</form>
 	</body>
+
 </html>
+

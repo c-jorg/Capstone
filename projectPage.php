@@ -34,12 +34,12 @@ count($newP->funders);
 				input = `<input type="text" id='${id_array[i]}' name='${id_array[i]}' value='${text}'>`;
 			} else if (id_array[i] === 'stage') {
 				input = `<select name='${id_array[i]}' id='${id_array[i]}'>
-                        <option value="ideation">Ideation</option>
-                        <option value="proposalInProgress">Proposal in Progress</option>
-                        <option value="awaitingFunding">Awaiting Funding</option>
-                        <option value="inProgress">In Progress</option>
-                        <option value="completedNotSignedOff">Completed - Not Signed Off</option>
-                        <option value="completedSignedOff">Completed - Signed Off</option>
+                        <option value="Ideation">Ideation</option>
+                        <option value="Proposal in Progress">Proposal in Progress</option>
+                        <option value="Awaiting Funding">Awaiting Funding</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed - Not Signed Off">Completed - Not Signed Off</option>
+                        <option value="Completed - Signed Off">Completed - Signed Off</option>
                    		</select>`;
                 input = input.replace(`>${text}<`, `selected>${text}<`);
 			} else if (id_array[i] === 'type') {

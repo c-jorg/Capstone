@@ -1,0 +1,177 @@
+CREATE DATABASE Research;
+
+CREATE TABLE Entities (
+	id INT AUTO_INCREMENT PRIMARY KEY, 
+	first_name VARCHAR(100), last_name VARCHAR(100),
+	email VARCHAR(200) UNIQUE, salutation VARCHAR(10),
+	company VARCHAR(100)
+);
+
+
+CREATE TABLE Projects (project_code VARCHAR(100) PRIMARY KEY, 
+    title VARCHAR(200),
+	description MEDIUMTEXT,
+	stage ENUM("Ideation", "Proposal in Progress", "Awaiting Funding", "In Progress", "Completed - Not Signed Off", "Completed - Signed Off"),
+    type VARCHAR(100),
+    project_manager VARCHAR(200),
+    start_date DATE,
+	end_date DATE
+);
+
+
+CREATE TABLE Activities(
+    activity_code VARCHAR(100) PRIMARY KEY,
+	project_code VARCHAR(100),
+	description MEDIUMTEXT,
+	type VARCHAR(100),
+	project_manager VARCHAR(200),
+	start_date DATE,
+	end_date DATE,
+	principal_researcher VARCHAR(100)
+);
+
+ALTER TABLE Activities 
+    ADD CONSTRAINT Activities_Projects_FK
+	FOREIGN KEY (project_code)
+	REFERENCES Projects (project_code);
+	
+	
+CREATE TABLE Researchers (
+    entity_id INT,
+	activity_code VARCHAR(100)
+);
+
+ALTER TABLE Researchers
+	ADD CONSTRAINT Researchers_Entities_FK
+	FOREIGN KEY (entity_id)
+	REFERENCES Entities (id);
+	
+ALTER TABLE Researchers
+	ADD CONSTRAINT Researchers_Activities_FK
+	FOREIGN KEY (activity_code)
+	REFERENCES Activities (activity_code);
+	
+	
+CREATE TABLE Clients (
+	entity_id int,
+	project_code VARCHAR(100)
+);
+
+ALTER TABLE Clients 
+	ADD CONSTRAINT Clients_Entities_FK
+	FOREIGN KEY (entity_id)
+	REFERENCES Entities (id);
+	
+ALTER TABLE Clients 
+	ADD CONSTRAINT Clients_Projects_FK
+	FOREIGN KEY (project_code)
+	REFERENCES Projects (project_code);
+	
+
+CREATE TABLE Funders (
+	entity_id INT,
+	project_code VARCHAR(100),
+	funding_amt DECIMAL,
+	date_given DATE,
+	frequency INT
+);
+
+ALTER TABLE Funders
+	ADD CONSTRAINT Funders_Entities_FK
+	FOREIGN KEY (entity_id)
+	REFERENCES Entities (id);
+	
+ALTER TABLE Funders	
+	ADD CONSTRAINT Funders_Projects_FK
+	FOREIGN KEY (project_code)
+	REFERENCES Projects (project_code);
+	
+
+CREATE TABLE Contractors (
+	entity_id INT,
+	activity_code VARCHAR(100),
+	payment DECIMAL,
+	date_payed DATE
+);
+
+ALTER TABLE Contractors 
+	ADD CONSTRAINT Contractors_Entities_FK
+	FOREIGN KEY (entity_id)
+	REFERENCES Entities (id);
+	
+ALTER TABLE Contractors
+	ADD CONSTRAINT Contractors_Activities_FK
+	FOREIGN KEY (activity_code)
+	REFERENCES Activities (activity_code);
+	
+	
+***NEW***
+
+CREATE TABLE Login (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	username VARCHAR(100),
+	password VARCHAR(10000)
+);
+
+**NEWER**
+
+ALTER TABLE Researchers ADD (level VARCHAR(100));
+
+ALTER TABLE Contractors
+	ADD CONSTRAINT Contractors_PK
+	PRIMARY KEY (entity_id,activity_code,date_payed);
+	
+
+INSERT INTO Entities (id,first_name,last_name,email,salutation,company) VALUES
+	(NULL, "Jane", "Doe", "jdoe@gmail.com", "MRS.", NULL),
+	(NULL, "John", "Doe", "jodoe@gmail.com", "DR.", NULL),
+	(NULL, NULL, NULL, "funder1@gmail.com", NULL, "Science Company"),
+	(NULL,NULL,NULL,"funder2@gmail.com",NULL,"Tech Company"),
+	(NULL,NULL,NULL,"client1@gmail.com",NULL,"Science Client"),
+	(NULL,NULL,NULL,"client2@gmail.com",NULL,"Tech Client"),
+	(NULL,NULL,NULL,"contractor1@gmail.com",NULL,"Science Contractor");
+					 
+INSERT INTO Projects 
+	("ABC","projects 1", "test Projects", "In Progress", "Science", NULL, "2024-01-01", "2026-01-01"),
+	("123","project 2", "test Projects", "Proposal in Progress", "Tech", "James", "2026-01-01", "2028-01-01");
+	
+ALTER TABLE Activities MODIFY principal_researcher INT;
+
+INSERT INTO Activities VALUES
+	("ABC","ABC","Test Activity","Science",NULL,"2024-01-01","2026-01-01",1),
+	("123","123","test Activity","Tech","James","2026-01-01","2028-01-01",2);
+	
+INSERT INTO Contractors VALUES (7, "ABC", 10000.00, "2024-02-02");
+
+INSERT INTO Clients VALUES
+	(5,"ABC"),
+	(6,"123");
+	
+INSERT INTO Funders VALUES
+	(3,"ABC",1000000.00,"2023-01-01",1),
+	(4,"123",50000.00,"2026-01-01",2);
+	
+INSERT INTO Clients VALUES
+	(5,"ABC"),
+	(6,"123");
+	
+ALTER TABLE Activities
+	ADD CONSTRAINT Activities_Entities_FK
+	FOREIGN KEY (principal_researcher)
+	REFERENCES Entities (id);
+	
+	
+**NEW***
+
+ALTER TABLE Activities
+DROP FOREIGN KEY Activities_Entities_FK;
+
+ALTER TABLE Activities DROP project_manager;
+
+ALTER TABLE Activities DROP principal_researcher;
+
+ALTER TABLE Activities ADD (title VARCHAR(255));
+
+ALTER TABLE Activities MODIFY title VARCHAR(255) AFTER project_code;
+
+ALTER TABLE Activities DROP type;

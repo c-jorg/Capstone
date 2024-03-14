@@ -6,24 +6,11 @@
     <link rel="stylesheet" href="index.css">
     <script src='header.js'></script>
     <title>Projects</title>
-<style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-    
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-      text-align: center;
-    }
-    </style>
 </head>
 <body onload='displayHeader()'>
   <div class='header' id='header'></div>
 <h1>Projects</h1>
+<h4><a href="./projectPosting.php">+ Create New Project</a></h4>
 <table>
   <tr>
   	<th>Status</th>
@@ -49,7 +36,7 @@ for($i = 1; $i < 15; $i++) {
     $entry = "<tr>
                 <td bgcolor='{$colors[$i % count($colors)]}'>{$colors[$i % count($colors)]}</td>
                 <td>{$randomNum}</td>
-                <td><a href='#'>Project{$i}</a></td>
+                <td><a href='projectPage.php'>Project{$i}</a></td>
                 <td>{$stage[$i % count($stage)]}</td>
                 <td>{$type[$i % count($type)]}</td>
                 <td>Funder{$i}</td>
