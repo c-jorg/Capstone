@@ -10,10 +10,8 @@ $contractorYear = ""; //unfinished
 
 $result = mysqli_query($sqli,$fundingYear);
 
-if($result){
-    if(mysqli_num_rows($result) > 0){
-        while($row = mysqli_fetch_array($result)){
-            echo " $".stripslashes($row['funding_amt'])."";
-        }
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_array($result)) {
+        echo " $" . stripslashes($row['funding_amt']) . "";
     }
 }
