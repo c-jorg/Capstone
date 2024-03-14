@@ -40,6 +40,14 @@
             const category = document.getElementById(`category`).value;
             console.log(salutation, firstName, lastName, company, email, category);
            	
+           	document.getElementById(`salutation`).value = "None";
+            document.getElementById(`firstName`).value = "";
+            document.getElementById(`lastName`).value = "";
+            document.getElementById(`company`).value = "";
+            document.getElementById(`email`).value = "";
+            document.getElementById(`category`).value  = "None" ;
+     
+           	
            	const entries = `salutation=$salutation&
            					 first_name=$firstName&
            					 last_name=$lastName&
@@ -101,7 +109,6 @@
 				<br>
 				<label for="projectCode">Project Code:</label>
 				<input type="text" id="projectCode" name="projectCode" required>
-
 				<br><br>
 				<label for="projectTitle">Project Title:</label>
 				<input type="text" id="projectTitle" name="projectTitle" required>
@@ -163,7 +170,6 @@
 				<label for="activityCode">Activity Code:</label>
 				<input type="text" id="activityCode" name="activityCode" required>
 				<br><br>
-
 				<label for="activityTitle">Activity Title:</label>
 				<input type="text" id="activityTitle" name="activityTitle" required>
 				<br><br>
@@ -187,30 +193,18 @@
 				<input type="text" id="principalResearcher" name="principalResearcher" required>
 				<br><br>
 				<div id="researchers">
-    				<label for="Co-Researcher1">Co-Researcher 1:</label>
-    				<input type="text" id="Co-Researcher1" name="Co-Researcher1" required>
-  					<span id='addCo-Researcher2'>
-    					<a onclick="addMoreField(2,'Co-Researcher');return false;" href="#">+add</a>
+    				<label for="Researcher1">Researcher 1:</label>
+    				<input type="text" id="Researcher1" name="Researcher1" required>
+  					<span id='addResearcher2'>
+    					<a onclick="addMoreField(2,'Researcher');return false;" href="#">+add</a>
     				</span>
     			</div>
 				<br>
-				<div id="students">
-
-    				<label for="Student1">Student 1:</label>
-    				<input type="text" id="Student1" name="Student1" required>
-    				<span id='addStudent2'>
-    					<a onclick="addMoreField(2,'Student');return false;" href="#">+add</a>
-
-    				</span>
-				</div>
-				<br>
 				<div id="contractors">
-
     				<label for="Contractor1">Contractor 1:</label>
     				<input type="text" id="Contractor1" name="Contractor1" required>
     				<span id='addContractor2'>
         				<a onclick="addMoreField(2,'Contractor');return false;" href="#">+add</a>
-
         			</span>
     			</div>
 				<br>
@@ -222,6 +216,4 @@
 			</fieldset>
 		</form>
 	</body>
-
 </html>
-
