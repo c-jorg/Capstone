@@ -159,3 +159,19 @@ ALTER TABLE Activities
 	ADD CONSTRAINT Activities_Entities_FK
 	FOREIGN KEY (principal_researcher)
 	REFERENCES Entities (id);
+	
+	
+**NEW***
+
+ALTER TABLE Activities
+DROP FOREIGN KEY Activities_Entities_FK;
+
+ALTER TABLE Activities DROP project_manager;
+
+ALTER TABLE Activities DROP principal_researcher;
+
+ALTER TABLE Activities ADD (title VARCHAR(255));
+
+ALTER TABLE Activities MODIFY title VARCHAR(255) AFTER project_code;
+
+ALTER TABLE Activities DROP type;
