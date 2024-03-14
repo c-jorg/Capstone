@@ -8,6 +8,14 @@
     <script src='header.js'></script>
     <title>Create Project</title>
 	<script>
+		function addMoreField(index, fieldName) {
+			const s = `<br>	<label for="${fieldName}${index}">${fieldName} ${index}:</label>
+							<input type="text" id="${fieldName}${index}" name="${fieldName}${index}">
+                			<span id="add${fieldName}${index+1}">
+                				<a onclick="addMoreField(${index+1},'${fieldName}');return false;" href="#">+add</a>
+                			</span>`;
+  			document.getElementById(`add${fieldName}${index}`).innerHTML = s;
+		};
 		function addFunderField(num){
 			const s = `<br>	<label for="funder${num}">Funder ${num}:</label>
 							<input type="text" id="funder${num}" name="funder${num}" required>
@@ -23,107 +31,93 @@
 			`;
   			document.getElementById(`addFunder${num}`).innerHTML = s;
 		};
-		function addCoResearcherField(num){
-			const s = `<br>	<label for="coResearcher${num}">Co-Researcher ${num}:</label>
-							<input type="text" id="coResearcher${num}" name="coResearcher${num}" required>
-                			<span id="addCoResearcher${num+1}">
-                				<a onclick="addCoResearcherField(${num+1});return false;" href="#">+add</a>
-                			</span>
-			`;
-  			document.getElementById(`addCoResearcher${num}`).innerHTML = s;
-		};
-		function addStudentField(num){
-			const s = `<br>	<label for="student${num}">Student ${num}:</label>
-							<input type="text" id="student${num}" name="student${num}" required>
-                			<span id="addStudent${num+1}">
-                				<a onclick="addStudentField(${num+1});return false;" href="#">+add</a>
-                			</span>
-			`;
-  			document.getElementById(`addStudent${num}`).innerHTML = s;
-		};
-		function addContractorField(num){
-			const s = `<br>	<label for="contractor${num}">Contractor ${num}:</label>
-							<input type="text" id="contractor${num}" name="contractor${num}" required>
-                			<span id="addContractor${num+1}">
-                				<a onclick="addContractorField(${num+1});return false;" href="#">+add</a>
-                			</span>
-			`;
-  			document.getElementById(`addContractor${num}`).innerHTML = s;
-		};
-		function addClientField(num){
-			const s = `<br>	<label for="client${num}">Client ${num}:</label>
-							<input type="text" id="client${num}" name="client${num}" required>
-                			<span id="addClient${num+1}">
-                				<a onclick="addClientField(${num+1});return false;" href="#">+add</a>
-                			</span>
-			`;
-  			document.getElementById(`addClient${num}`).innerHTML = s;
-		};
+		function addEntity() {
+            const salutation = document.getElementById(`salutation`).value;
+            const firstName = document.getElementById(`firstName`).value;
+            const lastName = document.getElementById(`lastName`).value;
+            const company = document.getElementById(`company`).value;
+            const email = document.getElementById(`email`).value;
+            const category = document.getElementById(`category`).value;
+            console.log(salutation, firstName, lastName, company, email, category);
+           	
+           	const entries = `salutation=$salutation&
+           					 first_name=$firstName&
+           					 last_name=$lastName&
+           					 company=$company&
+           					 email=$email&
+           					 category=$category`;
+           	
+            const request = new XMLHttpRequest();
+            request.onload = function(){
+                document.getElementById("addEntityReponse").innerHTML = this.responseText;
+            };
+            request.open("GET","insertEntity.php?" + entries);
+            request.send();
+        };
 	</script>
 	</head>
 	<body onload='displayHeader()'>
   		<div class='header' id='header'></div>
 		<h1>Create Project</h1>
-		<form method="post" action="#">
-			<fieldset>
-				<strong>Add Person:</strong>
-				&emsp;
+			<fieldset id="addEntity">
+				<h4>Add Entity:</h4>&emsp; <div id="addEntityReponse"></div>
+				<br>
     			<label for="salutation">Salutation:</label>
                 <select name="salutation" id="salutation">
-                    <option value="mr">Mr.</option>
-                    <option value="mrs">Mrs.</option>
-                    <option value="miss">Miss</option>
-                    <option value="ms">Ms.</option>
-                    <option value="dr">Dr.</option>
+                    <option value="None" selected>None</option>
+                    <option value="Mr.">Mr.</option>
+                    <option value="Mrs.">Mrs.</option>
+                    <option value="Miss">Miss</option>
+                    <option value="Ms.">Ms.</option>
+                    <option value="Dr.">Dr.</option>
                 </select>
-				&emsp;
+				<br><br>
 				<label for="firstName">First Name:</label>
 				<input type="text" id="firstName" name="firstName">
-				&emsp;
+				<br><br>
 				<label for="lastName">Last Name:</label>
 				<input type="text" id="lastName" name="lastName">
-				&emsp;
-				<label for="contactEmail">Email:</label>
-				<input type="email" id="contactEmail" name="contactEmail" required>
-				&emsp;
-				<input type="submit" value="Add Person">
+				<br><br>
+				<label for="company">Company:</label>
+				<input type="text" id="company" name="company">
+				<br><br>
+				<label for="email">Email:</label>
+				<input type="email" id="email" name="email" required>
+				<br><br>
+				<label for="category">Category:</label>
+				<select name="category" id="category">
+                    <option value="None" selected>None</option>
+                    <option value="Student - Undergraduate">Student - Undergraduate</option>
+                    <option value="Student - Masters">Student - Masters</option>
+                    <option value="Student - PhD">Student - PhD</option>
+                    <option value="Student - Other">Student - Other</option>
+                </select>
+                <br><br>
+				<button onclick="addEntity();return false;">Add Entity</button>
 			</fieldset>
-    	</form>
-    	<form method="post" action="#">
-			<fieldset>
-				<strong>Add Business:</strong>
-				&emsp;
-				<label for="businessName">Business Name:</label>
-				<input type="text" id="businessName" name="businessName">
-				&emsp;
-				<label for="businessEmail">Email:</label>
-				<input type="email" id="businessEmail" name="businessEmail" required>
-				&emsp;
-				<input type="submit" value="Add Business">
-			</fieldset>
-    	</form>	
 		<form method="post" action="projectList.php">
 			<fieldset>
 				<h3>Project Details</h3>
 				<br>
 				<label for="projectCode">Project Code:</label>
 				<input type="text" id="projectCode" name="projectCode" required>
-				&emsp;
-				<label for="title">Title:</label>
-				<input type="text" id="title" name="title" required>
+
+				<br><br>
+				<label for="projectTitle">Project Title:</label>
+				<input type="text" id="projectTitle" name="projectTitle" required>
 				&emsp;
 				<label for="stage">Project Stage:</label>
                 <select name="stage" id="stage">
-                    <option value="ideation">Ideation</option>
-                    <option value="proposalInProgress">Proposal in Progress</option>
-                    <option value="awaitingFunding">Awaiting Funding</option>
-                    <option value="inProgress">In Progress</option>
-                    <option value="completedNotSignedOff">Completed - Not Signed Off</option>
-                    <option value="completedSignedOff">Completed - Signed Off</option>
+                    <option value="Ideation">Ideation</option>
+                    <option value="Proposal In Progress">Proposal in Progress</option>
+                    <option value="Awaiting Funding">Awaiting Funding</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed - Not Signed Off">Completed - Not Signed Off</option>
+                    <option value="Completed - Signed Off">Completed - Signed Off</option>
                 </select>
 				<br><br>
-				<label for="description">Description:</label><br>
-				<textarea id="description" name="description" rows="4" cols="100" required></textarea>
+				<label for="projectDescription">Project Description:</label><br>
+				<textarea id="projectDescription" name="projectDescription" rows="4" cols="100" required></textarea>
 				<br><br>
 				<label for="projectType">Project Type:</label>
 				<input list="projectTypes" name="projectType" id="projectType">
@@ -137,7 +131,7 @@
 				<input type="text" id="projectManager" name="projectManager" required>
 				<br><br>
 				<div id="funders">
-    				<label for="funder1">Funder:</label>
+    				<label for="funder1">Funder 1:</label>
     				<input type="text" id="funder1" name="funder1" required>
     				&emsp;
     				<label for="fundingTotal">Funding Total: $</label>
@@ -150,10 +144,10 @@
     				</span>
     			</div>
 				<br>
-				<label for="startDate">Start Date:</label>
-				<input type="date" id="startDate" name="startDate" required>&emsp;
-				<label for="endDate">End Date:</label>
-				<input type="date" id="endDate" name="endDate" required>
+				<label for="pStartDate">Start Date:</label>
+				<input type="date" id="pStartDate" name="pStartDate" required>&emsp;
+				<label for="pEndDate">End Date:</label>
+				<input type="date" id="pEndDate" name="pEndDate" required>
 				<br><br>
 				<input type="submit" value="Create Project" style="width:100px">		
 				<br><br>
@@ -169,38 +163,54 @@
 				<label for="activityCode">Activity Code:</label>
 				<input type="text" id="activityCode" name="activityCode" required>
 				<br><br>
+
+				<label for="activityTitle">Activity Title:</label>
+				<input type="text" id="activityTitle" name="activityTitle" required>
+				<br><br>
+				<label for="activityDescription">Activity Description:</label><br>
+				<textarea id="projectDescription" name="activityDescription" rows="4" cols="100"></textarea>
+				<br><br>
+				<label for="a1StartDate">Start Date:</label>
+				<input type="date" id="a1StartDate" name="a1StartDate" required>&emsp;
+				<label for="a1EndDate">End Date:</label>
+				<input type="date" id="a1EndDate" name="a2EndDate" required>
+				<br><br>
 				<div id="clients">
-    				<label for="client1">Client:</label>
-    				<input type="text" id="client" name="client1" required>
+    				<label for="Client1">Client 1:</label>
+    				<input type="text" id="Client1" name="Client1" required>
     				<span id='addClient2'>
-        				<a onclick="addClientField(2);return false;" href="#">+add</a>
+        				<a onclick="addMoreField(2,'Client');return false;" href="#">+add</a>
         			</span>
     			</div>
 				<br>
-				<label for="principleResearcher">Principle Researcher:</label>
-				<input type="text" id="principleResearcher" name="principleResearcher" required>
+				<label for="principalResearcher">Principal Researcher:</label>
+				<input type="text" id="principalResearcher" name="principalResearcher" required>
 				<br><br>
 				<div id="researchers">
-    				<label for="coResearcher1">Co-Researcher:</label>
-    				<input type="text" id="coResearcher1" name="coResearcher1" required>
-  					<span id='addCoResearcher2'>
-    					<a onclick="addCoResearcherField(2);return false;" href="#">+add</a>
+    				<label for="Co-Researcher1">Co-Researcher 1:</label>
+    				<input type="text" id="Co-Researcher1" name="Co-Researcher1" required>
+  					<span id='addCo-Researcher2'>
+    					<a onclick="addMoreField(2,'Co-Researcher');return false;" href="#">+add</a>
     				</span>
     			</div>
 				<br>
 				<div id="students">
-    				<label for="student1">Student:</label>
-    				<input type="text" id="student1" name="student1" required>
+
+    				<label for="Student1">Student 1:</label>
+    				<input type="text" id="Student1" name="Student1" required>
     				<span id='addStudent2'>
-    					<a onclick="addStudentField(2);return false;" href="#">+add</a>
+    					<a onclick="addMoreField(2,'Student');return false;" href="#">+add</a>
+
     				</span>
 				</div>
 				<br>
 				<div id="contractors">
-    				<label for="contractor1">Contractor:</label>
-    				<input type="text" id="contractor1" name="contractor1" required>
+
+    				<label for="Contractor1">Contractor 1:</label>
+    				<input type="text" id="Contractor1" name="Contractor1" required>
     				<span id='addContractor2'>
-        				<a onclick="addContractorField(2);return false;" href="#">+add</a>
+        				<a onclick="addMoreField(2,'Contractor');return false;" href="#">+add</a>
+
         			</span>
     			</div>
 				<br>
@@ -212,4 +222,6 @@
 			</fieldset>
 		</form>
 	</body>
+
 </html>
+
