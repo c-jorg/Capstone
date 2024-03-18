@@ -81,12 +81,12 @@
                 </datalist>
             <br><br>
 			<label for="projectManager">Project Manager:</label>
-			<input list="entities" name="projectManager" id="projectManager" style="width:200px;">
+			<input list="entities" name="projectManager" id="projectManager" style="width:300px;">
             <datalist id="entities"></datalist>
 			<br><br>
 			<div id="funders">
 				<label for="funder1">Funder 1:</label>
-				<input list="entities" name="funder1" id="funder1" style="width:200px;">
+				<input list="entities" name="funder1" id="funder1" style="width:300px;">
             	<datalist id="entities"></datalist>
 				&emsp;
 				<label for="amount1">Amount: $</label>
@@ -124,7 +124,7 @@
 			<input type="text" id="activityTitle" name="activityTitle">
 			<br><br>
 			<label for="activityDescription">Activity Description:</label><br>
-			<textarea id="projectDescription" name="activityDescription" rows="4" cols="100"></textarea>
+			<textarea id="activityDescription" name="activityDescription" rows="4" cols="100"></textarea>
 			<br><br>
 			<label for="a1StartDate">Start Date:</label>
 			<input type="date" id="a1StartDate" name="a1StartDate" required>
@@ -134,7 +134,7 @@
 			<br><br>
 			<div id="clients">
 				<label for="Client1">Client 1:</label>
-				<input list="entities" name="Client1" id="Client1" style="width:200px;">
+				<input list="entities" name="Client1" id="Client1" style="width:300px;">
         			<datalist id="entities"></datalist>
 				<span id='addClient2'>
     				<a onclick="addMoreField(2,'Client');return false;" id="addLink" href="#">+add</a>
@@ -142,12 +142,12 @@
 			</div>
 			<br>
 			<label for="principalResearcher">Principal Researcher:</label>
-			<input list="entities" name="principalResearcher" id="principalResearcher" style="width:200px;">
+			<input list="entities" name="principalResearcher" id="principalResearcher" style="width:300px;">
         		<datalist id="entities"></datalist>
 			<br><br>
 			<div id="researchers">
 				<label for="Researcher1">Researcher 1:</label>
-				<input list="entities" name="Researcher1" id="Researcher1" style="width:200px;">
+				<input list="entities" name="Researcher1" id="Researcher1" style="width:300px;">
         			<datalist id="entities"></datalist>
 				<span id='addResearcher2'>
 					<a onclick="addMoreField(2,'Researcher');return false;" id="addLink" href="#">+add</a>
@@ -156,10 +156,16 @@
 			<br>
 			<div id="contractors">
 				<label for="Contractor1">Contractor 1:</label>
-				<input list="entities" name="Contractor1" id="Contractor1" style="width:200px;">
+				<input list="entities" name="Contractor1" id="Contractor1" style="width:300px;">
         			<datalist id="entities"></datalist>
+        		&emsp;
+        		<label for="payment1">Payment: $</label>
+				<input type="number" id="payment1" name="payment1" min="1" step="any">
+        		&emsp;
+        		<label for="payDate1">Pay Date:</label>
+				<input type="date" id="payDate1" name="payDate1">
 				<span id='addContractor2'>
-    				<a onclick="addMoreField(2,'Contractor');return false;" id="addLink" href="#">+add</a>
+    				<a onclick="addContractorField(2);return false;" id="addLink" href="#">+add</a>
     			</span>
 			</div>
 			<br>

@@ -9,8 +9,9 @@ function loadEntities() {
 	$("datalist#entities").load("getEntities.php", (response, status) => {
 		if(status === "success") {
 			let s = "";
-			for(let i = 0; i < 100; i++) {
-				s += `<option value='ANEW${response}${i}'>`;
+			const entities = response.split("+");
+			for(let i = 0; i < entities.length; i++) {
+				s += "<option value='"+ entities[i] + "'>";
 			}
 			document.querySelector('datalist#entities').innerHTML = s;
 			console.log(response);
