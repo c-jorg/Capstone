@@ -56,7 +56,7 @@ $fullquery = "SELECT NVL(e.salutation, 'N/A') salutation,
               f.funding_amt
               FROM Funders f, Entities e
               WHERE e.id = f.entity_id
-              ORDER BY f.date_given";
+              ORDER BY f.date_given DESC";
               //need to do total funding amount...
 
 $result = mysqli_query($sqli, $fullquery);
