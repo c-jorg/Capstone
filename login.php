@@ -20,6 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($row && password_verify($password, $row['password'])) {
+	setcookie('username', '', 0, "/");
         header("Location: index.html");
         exit;
     } else {
