@@ -17,6 +17,7 @@ count($newP->funders);
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="index.css">
     <script src='header.js'></script>
+    <script src='projectPage.js'></script>
     <title>Project : <?=$pCode?></title>
 <script>
 	function editProject(pCode, numOfFunders) {

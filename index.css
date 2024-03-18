@@ -17,6 +17,23 @@ body {
 	background-color: white;
 }
 
+table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+}
+    
+td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+      text-align: center;
+}
+
+h1, th {
+	font-family: 'Noto Serif';
+}
+
 .centered {
 	padding: 20px;
 	text-align: center;
