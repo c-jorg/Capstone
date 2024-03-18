@@ -9,7 +9,7 @@ $fundingYear = 'SELECT * FROM Funders WHERE date_given BETWEEN "'.$start.'" AND 
 $contractorYear = ""; //unfinished
 
 $result = mysqli_query($sqli,$fundingYear);
-$file = fopen("output.csv","w");
+$file = fopen("output.txt","w");
 
 //echo $start;
 //echo $end;

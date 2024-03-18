@@ -2,10 +2,11 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>CSV</title>
 <script src='financialReports.js'></script>
 </head>
-<body onload='displayCSV()'>
+<body onload='displayCSVOnPage()'>
+<div id='download'><input type='button' value='download' id='downloadBTN' onclick='download()'></div>
 <div id='csvOutput'></div>
 </body>
 </html>
