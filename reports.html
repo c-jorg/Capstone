@@ -14,7 +14,7 @@
 		<br/>
 		<h3 class='centered' id='queriesH3'>Click to Show</h3>
 		<br /><br/>
-		<p class='query' id='receivedYear'><input onclick='displayByYear("fundingReceivedYear","receivedYearNum","fundingByYear")' type='button' class='queryButton' id='amtFundingYearBtn' value='Show'> Amount of funding received during the fiscal year of <input class='numberInput' id='receivedYearNum' type='number' value='2023'><div class='reportGeneration' id='fundingReceivedYear'></div></p>
+		<p class='query' id='receivedYear'><a onclick='displayByYear("fundingReceivedYear","receivedStartDate","receivedEndDate","fundingByYear")' href='csvOutput.html' target='_blank' class='queryButton' id='amtFundingYearBtn'>show </a> Amount of funding received between <input class='dateInput' id='receivedStartDate' type='date' value='2022-03-01'> and <input type='date' class='dateInput' id='receivedEndDate' value='2023-03-01'><div class='reportGeneration' id='fundingReceivedYear'></div></p>
 		<br/><br/>
 		<p class='query' id='spentContractorsYear'><input type='button' class='queryButton' id='contractorYearBtn' value='Show'> Amount spent on contractors in year <input class='numberInput' id='contractorYearNum' value='2023'></p>
 		
