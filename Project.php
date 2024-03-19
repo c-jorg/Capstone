@@ -47,7 +47,7 @@ class Project {
             echo "Error connecting to the Database";
             exit();
         } else {
-            $query_projects = "SELECT title, description, stage, type, project_manager, start_date, end_date" . 
+            $query_projects = "SELECT title, description, stage, type, start_date, end_date" . 
                                " FROM Projects" . 
                                " WHERE project_code = '{$pCode}';";
             $result_projects= mysqli_query($mysqli, $query_projects) or die(mysqli_error($mysqli));
@@ -70,7 +70,7 @@ class Project {
         $this->description = $project['description'];
         $this->stage = $project['stage'];
         $this->type = $project['type'];
-        $this->manager = $project['project_manager'];
+       // $this->manager = $project['project_manager'];
         $this->startDate = $project['start_date'];
         $this->endDate = $project['end_date'];
     }
