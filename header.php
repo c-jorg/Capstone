@@ -1,6 +1,9 @@
 <?php
 sessionStart();
 $_SESSION['username'] = 'test';
+if (isset($_COOKIE['username'])) {
+    $_SESSION['username'] = $_COOKIE['username'];
+}
 //above is temporary while making stuff work
 $header = "<ul class='headerUl' id='headerUl' name='headerUl'>
 <li class='headerLi' id='homeLi' name='homeLi'><a class='headerA' id='homeA' name='homeA' href='index.html'>Home</a></li>

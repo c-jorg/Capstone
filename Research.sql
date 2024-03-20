@@ -25,16 +25,13 @@ DROP TABLE IF EXISTS `activities`;
 CREATE TABLE `activities` (
   `activity_code` varchar(100) NOT NULL,
   `project_code` varchar(100) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
   `description` mediumtext DEFAULT NULL,
-  `type` varchar(100) DEFAULT NULL,
-  `project_manager` varchar(200) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
-  `principal_researcher` int(11) DEFAULT NULL,
+  `notes` mediumtext DEFAULT NULL,
   PRIMARY KEY (`activity_code`),
   KEY `Activities_Projects_FK` (`project_code`),
-  KEY `Activities_Entities_FK` (`principal_researcher`),
-  CONSTRAINT `Activities_Entities_FK` FOREIGN KEY (`principal_researcher`) REFERENCES `entities` (`id`),
   CONSTRAINT `Activities_Projects_FK` FOREIGN KEY (`project_code`) REFERENCES `projects` (`project_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -45,7 +42,7 @@ CREATE TABLE `activities` (
 
 LOCK TABLES `activities` WRITE;
 /*!40000 ALTER TABLE `activities` DISABLE KEYS */;
-INSERT INTO `activities` VALUES ('123','123','test Activity','Tech','James','2026-01-01','2028-01-01',2),('ABC','ABC','Test Activity','Science',NULL,'2024-01-01','2026-01-01',1);
+INSERT INTO `activities` VALUES ('123','123',NULL,'test Activity','2026-01-01','2028-01-01',NULL),('ABC','ABC',NULL,'Test Activity','2024-01-01','2026-01-01',NULL);
 /*!40000 ALTER TABLE `activities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,6 +116,7 @@ CREATE TABLE `entities` (
   `email` varchar(200) DEFAULT NULL,
   `salutation` varchar(10) DEFAULT NULL,
   `company` varchar(100) DEFAULT NULL,
+  `category` enum('non-student','Undergraduate','Masters','PHD','Other') DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -130,7 +128,7 @@ CREATE TABLE `entities` (
 
 LOCK TABLES `entities` WRITE;
 /*!40000 ALTER TABLE `entities` DISABLE KEYS */;
-INSERT INTO `entities` VALUES (1,'Jane','Doe','jdoe@gmail.com','MRS.',NULL),(2,'John','Doe','jodoe@gmail.com','DR.',NULL),(3,NULL,NULL,'funder1@gmail.com',NULL,'Science Company'),(4,NULL,NULL,'funder2@gmail.com',NULL,'Tech Company'),(5,NULL,NULL,'client1@gmail.com',NULL,'Science Client'),(6,NULL,NULL,'client2@gmail.com',NULL,'Tech Client'),(7,NULL,NULL,'contractor1@gmail.com',NULL,'Science Contractor');
+INSERT INTO `entities` VALUES (1,'Jane','Doe','jdoe@gmail.com','MRS.',NULL,NULL),(2,'John','Doe','jodoe@gmail.com','DR.',NULL,NULL),(3,NULL,NULL,'funder1@gmail.com',NULL,'Science Company',NULL),(4,NULL,NULL,'funder2@gmail.com',NULL,'Tech Company',NULL),(5,NULL,NULL,'client1@gmail.com',NULL,'Science Client',NULL),(6,NULL,NULL,'client2@gmail.com',NULL,'Tech Client',NULL),(7,NULL,NULL,'contractor1@gmail.com',NULL,'Science Contractor',NULL);
 /*!40000 ALTER TABLE `entities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -190,6 +188,58 @@ INSERT INTO `login` VALUES (1,'test','letmein');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `principal_researchers`
+--
+
+DROP TABLE IF EXISTS `principal_researchers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `principal_researchers` (
+  `entity_id` int(11) DEFAULT NULL,
+  `activity_code` varchar(100) DEFAULT NULL,
+  KEY `Principal_Researchers_Entities_FK` (`entity_id`),
+  KEY `Principal_Researchers_Activities_FK` (`activity_code`),
+  CONSTRAINT `Principal_Researchers_Activities_FK` FOREIGN KEY (`activity_code`) REFERENCES `activities` (`activity_code`),
+  CONSTRAINT `Principal_Researchers_Entities_FK` FOREIGN KEY (`entity_id`) REFERENCES `entities` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `principal_researchers`
+--
+
+LOCK TABLES `principal_researchers` WRITE;
+/*!40000 ALTER TABLE `principal_researchers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `principal_researchers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `project_managers`
+--
+
+DROP TABLE IF EXISTS `project_managers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project_managers` (
+  `entity_id` int(11) DEFAULT NULL,
+  `project_code` varchar(100) DEFAULT NULL,
+  KEY `Project_Managers_Entities_FK` (`entity_id`),
+  KEY `Project_Managers_Projects_FK` (`project_code`),
+  CONSTRAINT `Project_Managers_Entities_FK` FOREIGN KEY (`entity_id`) REFERENCES `entities` (`id`),
+  CONSTRAINT `Project_Managers_Projects_FK` FOREIGN KEY (`project_code`) REFERENCES `projects` (`project_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project_managers`
+--
+
+LOCK TABLES `project_managers` WRITE;
+/*!40000 ALTER TABLE `project_managers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `project_managers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `projects`
 --
 
@@ -202,7 +252,6 @@ CREATE TABLE `projects` (
   `description` mediumtext DEFAULT NULL,
   `stage` enum('Ideation','Proposal in Progress','Awaiting Funding','In Progress','Completed - Not Signed Off','Completed - Signed Off') DEFAULT NULL,
   `type` varchar(100) DEFAULT NULL,
-  `project_manager` varchar(200) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
   PRIMARY KEY (`project_code`)
@@ -215,7 +264,7 @@ CREATE TABLE `projects` (
 
 LOCK TABLES `projects` WRITE;
 /*!40000 ALTER TABLE `projects` DISABLE KEYS */;
-INSERT INTO `projects` VALUES ('123','project 2','test Projects','Proposal in Progress','Tech','James','2026-01-01','2028-01-01'),('ABC','projects 1','test Projects','In Progress','Science',NULL,'2024-01-01','2026-01-01');
+INSERT INTO `projects` VALUES ('123','project 2','test Projects','Awaiting Funding','Tech','2026-01-01','2028-01-01'),('ABC','projects 1','test Projects','In Progress','Science','2024-01-01','2026-01-01');
 /*!40000 ALTER TABLE `projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,7 +278,7 @@ DROP TABLE IF EXISTS `researchers`;
 CREATE TABLE `researchers` (
   `entity_id` int(11) DEFAULT NULL,
   `activity_code` varchar(100) DEFAULT NULL,
-  `level` varchar(100) DEFAULT NULL,
+  `category` enum('non-student','Undergraduate','Masters','PHD','Other') DEFAULT NULL,
   KEY `Researchers_Entities_FK` (`entity_id`),
   KEY `Researchers_Activities_FK` (`activity_code`),
   CONSTRAINT `Researchers_Activities_FK` FOREIGN KEY (`activity_code`) REFERENCES `activities` (`activity_code`),
@@ -255,4 +304,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-09 18:49:25
+-- Dump completed on 2024-03-14 13:33:14
