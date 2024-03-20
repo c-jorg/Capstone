@@ -38,7 +38,7 @@
     <th>Project Code</th> <!-- projectcode -->
     <th>Project Name</th> <!-- title -->
     <th>Date Received</th> <!-- dateReceived -->
-    <th>Frequency</th> <!-- depending on int value, Yearly or One-Time  -->
+    <th>Funding End Date</th> <!-- end date -->
     <th>Funding Amount</th> <!-- totalFunding -->
   </tr>
 <?php
@@ -49,7 +49,7 @@ $fullquery = "SELECT e.company,
               f.project_code,
               p.title,
               f.date_given,
-              f.frequency,
+              f.end_date,
               f.funding_amt
               FROM Funders f, Entities e, Projects p
               WHERE e.id = f.entity_id AND f.project_code = p.project_code
@@ -66,14 +66,13 @@ if(mysqli_num_rows($result) !== 0){
     $projectCode = stripslashes($row['project_code']);
     $projectTitle = stripslashes($row['title']);
     $dateGiven = stripslashes($row['date_given']);
-    //$frequency = stripslashes($row['frequency']);
+    $endDate = stripslashes($row['end_date']);
     $fundingAmt = stripslashes($row['funding_amt']);
 
-    if(stripslashes($row['frequency'] == 1)){
-      $frequency = 'One-Time';
-    }else if(stripslashes($row['frequency'] == 2)){
-      $frequency = 'Yearly';
+    if($dateGiven == $endDate){
+      $endDate = "One-Time";
     }
+
     //project page link is WIP... send project_code via GET...
     $entry = "<tr>
                 <td>".$company."</td>
@@ -81,8 +80,8 @@ if(mysqli_num_rows($result) !== 0){
                 <td>".$projectCode."</td>
                 <td><a href='projectPage.php'>".$projectTitle."</a></td>
                 <td>".$dateGiven."</td>
-                <td>".$frequency."</td>
-                <td>$".$fundingAmt."</td>
+                <td>".$endDate."</td>
+                <td>$".number_format($fundingAmt)."</td>
               </tr>";
     echo $entry;
   }
