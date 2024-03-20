@@ -18,7 +18,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
         //echo " $" . stripslashes($row['funding_amt']) . "";
         
-        echo "".stripslashes($row['entity_id'])." ".stripslashes($row['project_code'])." ".stripslashes($row['funding_amt'])." ".stripslashes($row['date_given'])." ".stripslashes($row['frequency'])."";
+        //echo "".stripslashes($row['entity_id'])." ".stripslashes($row['project_code'])." ".stripslashes($row['funding_amt'])." ".stripslashes($row['date_given'])." ".stripslashes($row['frequency'])."";
         array_splice($row, 0, 1);
         fputcsv($file, $row);
     }
