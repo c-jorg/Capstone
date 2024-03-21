@@ -245,16 +245,19 @@ INSERT INTO Researchers VALUES (8, '123'),(9,'123'),(9,"abc");
 INSERT INTO Entities VALUES(NULL,"Sally","Person","sally@gmail.com","MS.",NULL,'PHD');
 
 
-SELECT e.first_name, e.last_name, e.category, p.title, p.project_code, p.stage, p.type, p.start_date, p.end_date
+SELECT e.first_name, e.last_name, e.email, e.category, p.title, p.project_code, p.stage, p.type, p.start_date, p.end_date
 FROM Projects p, Entities e, Researchers r, Activities a
 WHERE 
 	(e.category NOT IN ("non-student") AND
 	e.id = r.entity_id AND
 	r.activity_code = a.activity_code AND
-	a.project_code = p.project_code) OR 
+	a.project_code = p.project_code)
+ORDER BY e.last_name;
+
+
+OR 
 	(e.id NOT IN (SELECT entity_id FROM Researchers) AND 
 	e.category NOT IN ('non-student'))
-ORDER BY e.last_name;
 
 
 

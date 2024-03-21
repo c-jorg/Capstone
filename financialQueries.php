@@ -2,7 +2,7 @@
 $start = $_GET['start'];
 //$year = 2022;
 $end = $_GET['end'];
-//$query = $_GET['query'];
+$query = $_GET['query'];
 $sqli = new mysqli('localhost:3306','root','','Research');
 //temporarily not used while other pages are still in works$fundingYear = 'SELECT * FROM Funders WHERE date_given BETWEEN "'.$year.'-04-01" AND "'.$year1.'-03-31"';
 $fundingYear = 'SELECT * FROM Funders WHERE date_given BETWEEN "'.$start.'" AND "'.$end.'"';
@@ -13,8 +13,11 @@ $file = fopen("output.txt","w");
 
 //echo $start;
 //echo $end;
+//$headers = array("First Name", "Last Name", "Email", "Student Type", "Title", "Project Code", "Stage", "Type", "Start Date", "End Date");
 
 if ($result && mysqli_num_rows($result) > 0) {
+    $headers = array("Project Code", "Funding Amount", "Date Received", "Date Finished");
+    fputcsv($file, $headers);
     while ($row = mysqli_fetch_assoc($result)) {
         //echo " $" . stripslashes($row['funding_amt']) . "";
         
