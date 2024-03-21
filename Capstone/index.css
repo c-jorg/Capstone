@@ -1,0 +1,135 @@
+@charset "ISO-8859-1";
+@import url(https://db.onlinewebfonts.com/c/74613e9d0612d09be09dd6de7c898d50?family=Modern+Era);
+@import url(https://fonts.google.com/noto/specimen/Noto+Serif); 
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: 'Modern Era', sans-serif;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	min-height: 100%;
+	background-color: white;
+}
+
+.home {
+	margin: 0;
+	padding: 0;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #f0f0f0;
+}
+
+.links {
+	text-align: center;
+	margin-top: -200px;
+	background-color: rgba(222, 156, 238, .25);
+}
+
+.links a {
+	display: block;
+	margin-bottom: 25px; /* Increased spacing between links */
+	font-size: 28px; /* Increased font size */
+	font-weight: bold;
+	color: #333;
+	text-decoration: none;
+	padding: 15px 30px; /* Increased padding for wider links */
+	border-radius: 15px; /* Increased border-radius for rounded corners */
+	background-color: #f7f7f7;
+	transition: background-color 0.3s ease;
+	width: 200px; /* Increased width of the links */
+	box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.links a:hover {
+	background-color: #ccc;
+}
+
+.centered {
+	padding: 20px;
+	text-align: center;
+	font-size: 28px;
+	background-color: rgba(222, 156, 238, .1);
+}
+
+.projectTitle {
+	padding: 20px;
+	text-align: center;
+	font-size: 28px;
+}
+
+.recentUl, .funderProjectUL {
+	min-width: 100%;
+	max-width: 100%;
+	list-style-type: none;
+	overflow: hidden;
+	/*background-color: rgba(222, 156, 238, .1);*/
+}
+
+.recentLi, .funderProjectLI {
+	float: left;
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	/*background-color: rgba(222, 156, 238, .1);*/
+}
+
+
+
+.recentLi, .recentUl {
+	width: 30%;
+	
+}
+
+.header {
+	background: #E10054;
+	padding: 10px;
+	min-width: 100%;
+	height: 50px;
+}
+
+.headerUl {
+	list-style-type: none;
+	background: #E10054;
+	text-align: center;
+	color: white;
+}
+
+.headerLi {
+	float: left;
+	padding: 14px 16px;
+	color: white;
+}
+
+#usernameLi, #logoutLi{
+	float: right;
+}
+
+.headerA {
+	display: block;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	font-size: 20px;
+}
+
+.scrollable-area {
+    width: 500px;
+    height: 200px;
+    overflow-y: auto; /* This enables vertical scrolling */
+    border: 1px solid #ccc;
+    padding: 10px;
+	background-color: #DE9CEE;
+}
+
+.quickAccess  {
+	text-align: left;
+}
