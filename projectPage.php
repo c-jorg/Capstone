@@ -1,148 +1,195 @@
 <?php
 include 'Project.php';
-$pCode = 123;
+include 'Funder.php';
+include 'Entity.php';
+include 'Project_Manager.php';
+include 'Activity.php';
+include 'Client.php';
 
-$numOfClients = 1;
-$numOfCoResearchers = 1;
-$numOfStudents = 1;
-$numOfContractors = 1;
-$numOfActivities = 1;
-$newP = new Project($pCode);
-count($newP->funders);
-?>
+include 'Principal_Researcher.php';
+include 'Researcher.php';
+include 'Contractor.php';
+// USE $_GET['project_code']; 
+ob_start();
+$project_code = $_GET['project_code'];
+$project = new Project($project_code);
+$project->openConnection();
+$project->getProject($project_code);
+$project->closeConnection();
+
+$managerId = Project_Manager::managerId($project);
+$manager;
+if ($managerId !== 0) {
+    $manager = new Project_Manager(new Entity($managerId), $project);
+    $manager->entity->openConnection();
+    $manager->entity->getEntity($managerId);
+    $manager->entity->closeConnection();
+}
+
+$numOfFunders = Funder::getNumOfFunders($project);
+$funderId = Funder::getFunderIds($project);
+
+$funder = [];
+for ($i = 0; $i < $numOfFunders; $i++) {
+    $funder[$i] = new Funder(new Entity($funderId[$i]), $project);
+    $funder[$i]->entity->openConnection();
+    $funder[$i]->entity->getEntity($funderId[$i]);
+    $funder[$i]->entity->openConnection();
+    $funder[$i]->openConnection();
+    $funder[$i]->getFunderDetails();
+    $funder[$i]->closeConnection();
+}
+$clientId = Client::clientId($project);
+$numOfClients = count($clientId);
+$client = [];
+for ($i = 0; $i < $numOfClients; $i++) {
+    $client[$i] = new Client(new Entity($clientId[$i]), $project);
+    $client[$i]->entity->openConnection();
+    $client[$i]->entity->getEntity($clientId[$i]);
+    $client[$i]->entity->closeConnection();
+}
+
+$activityCodes = Activity::getActivityCodes($project_code);
+$numOfActivities = count($activityCodes);
+$activity = [];
+$pResearcher = [];
+$researcher = [];
+$contractor = [];
+for ($i = 0; $i < $numOfActivities; $i++) {
+    $activity[$i] = new Activity($project, $activityCodes[$i]);
+    $activity[$i]->openConnection();
+    $activity[$i]->getActivity($activityCodes[$i]);
+    $activity[$i]->closeConnection();
+    $pResearcherId = Principal_Researcher::pResearcherId($activity[$i]);
+    if ($pResearcherId !== 0) {
+        $pResearcher[$i] = new Principal_Researcher(new Entity($managerId), $activity[$i]);
+        $pResearcher[$i]->entity->openConnection();
+        $pResearcher[$i]->entity->getEntity($pResearcherId);
+        $pResearcher[$i]->entity->closeConnection();
+    }
+    $researcherId = Researcher::researcherId($activity[$i]);
+    $numOfResearchers = count($researcherId);
+    $researcher[$i] = [];
+    for ($j = 0; $j < $numOfResearchers; $j++) {
+        $researcher[$i][$j] = new Researcher(new Entity($researcherId[$j]), $activity[$i]);
+        $researcher[$i][$j]->entity->openConnection();
+        $researcher[$i][$j]->entity->getEntity($researcherId[$j]);
+        $researcher[$i][$j]->entity->closeConnection();
+    }
+    $contractorId = Contractor::getContractorIds($activity[$i]);
+    $numOfContractors = count($contractorId);
+    $contractor[$i] = [];
+    for ($j = 0; $j < $numOfContractors; $j++) {
+        $contractor[$i][$j] = new Contractor(new Entity($contractorId[$j]), $activity[$i]);
+        $contractor[$i][$j]->entity->openConnection();
+        $contractor[$i][$j]->entity->getEntity($contractorId[$i]);
+        $contractor[$i][$j]->entity->openConnection();
+        $contractor[$i][$j]->openConnection();
+        $contractor[$i][$j]->getContractorDetails();
+        $contractor[$i][$j]->closeConnection();
+    }
+    ob_end_clean();
+}
+?> 
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="index.css">
-    <script src='header.js'></script>
-    <script src='projectPage.js'></script>
-    <title>Project : <?=$pCode?></title>
-<script>
-	function editProject(pCode, numOfFunders) {
-		document.querySelector(`a#editProject`).setAttribute("onclick","return false;");
-		const id_array = ['title','stage','description','type','manager','startDate','endDate'];
-		for (let i = 1; i <= numOfFunders; i++) {
-			id_array.push(`funder${i}`);
-		}
-		for (let i = 0; i < id_array.length; i++) {
-			let text = document.querySelector(`span#${id_array[i]}`).innerHTML;
-			if (text === '') {text = "abc" + Math.floor(Math.random() * 100);}
-			let input = "";
-			if (id_array[i] !== 'stage' && id_array[i] !== 'type') {
-				input = `<input type="text" id='${id_array[i]}' name='${id_array[i]}' value='${text}'>`;
-			} else if (id_array[i] === 'stage') {
-				input = `<select name='${id_array[i]}' id='${id_array[i]}'>
-                        <option value="Ideation">Ideation</option>
-                        <option value="Proposal in Progress">Proposal in Progress</option>
-                        <option value="Awaiting Funding">Awaiting Funding</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Completed - Not Signed Off">Completed - Not Signed Off</option>
-                        <option value="Completed - Signed Off">Completed - Signed Off</option>
-                   		</select>`;
-                input = input.replace(`>${text}<`, `selected>${text}<`);
-			} else if (id_array[i] === 'type') {
-				input = `<input list="projectTypes" name='${id_array[i]}' id='${id_array[i]}' value="${text}">
-                            <datalist id="projectTypes">
-                                <option value="Community">
-                                <option value="Technical">
-                                <option value="Business">
-                            </datalist>`;
-			}
-			document.querySelector(`span#${id_array[i]}`).innerHTML = input;
-		}
-		document.querySelector(`div#saveEditProject`).innerHTML = `<button onclick='saveEditProject(${pCode},${numOfFunders});return false;'>Save</button>`;
-	};
-	function saveEditProject(pCode, numOfFunders) {
-            document.querySelector(`a#editProject`).setAttribute("onclick",`editProject(${pCode},${numOfFunders});return false;`);
-            const id_array = ['title','description','stage','type','manager','startDate','endDate'];
-            const data = [pCode];
-            for (let i = 1; i <= numOfFunders; i++) { id_array.push(`funder${i}`); }
-            for (let i = 0; i < id_array.length; i++) {
-                if (id_array[i] === 'stage') {
-                    data.push(document.querySelector(`select#${id_array[i]}`).value);
-                    document.querySelector(`span#${id_array[i]}`).innerHTML = document.querySelector(`select#${id_array[i]}`).value;
-                } 
-                else {
-                    data.push(document.querySelector(`input#${id_array[i]}`).value);
-                    document.querySelector(`span#${id_array[i]}`).innerHTML = document.querySelector(`input#${id_array[i]}`).value;
-               }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="index.css">
+        <script src='header.js'></script>
+        <script src='projectPage.js'></script>
+        <!--<script src='projectPosting.js'></script>-->
+        <?php include './entityLookUp.php'; ?>
+        <title>Project : <?= $project_code ?></title>
+        <style>
+            .tag {
+                font-weight: bold;
             }
-            document.querySelector(`div#saveEditProject`).innerHTML = "";
-            console.log("BEFORE: " + data);
-            insertEditedProject(data);
-	}
-        function insertEditedProject(data) {
-            console.log(data);
-            const request = new XMLHttpRequest();
-            request.onload = function(){
-                let responseString = this.responseText;
-                console.log(responseString);
-            };
-            const pField = ['project_code', 'title', 'description', 'stage', 'type', 'project_manager', 'start_date', 'end_date'];
-            let path = "saveEdits.php?";
-            for (let i = 0; i < data.length; i++) {
-                path += pField[i] + "=" + data[i];
-                if(i + 1 !== data.length) { path += "&"; }
-            }
-            request.open("GET",path);
-            request.send();
-        }
-	function editActivity(activityCode,cl, co, s, con) {
-		document.querySelector(`a#editActivity${activityCode}`).setAttribute("onclick","return false;");
-		let id_array = ['activityTitle','activityDescription'];
-		for (let i = 1; i <= cl; i++) { id_array.push(`client${i}`);}
-		id_array.push(`principalResearcher`);
-		for (let i = 1; i <= co; i++) { id_array.push(`coResearcher${i}`);}
-		for (let i = 1; i <= s; i++) { id_array.push(`student${i}`);}
-		for (let i = 1; i <= con; i++) { id_array.push(`contractor${i}`);}
-		for (let i = 0; i < id_array.length; i++) {
-			let text = document.querySelector(`fieldset#activity${activityCode} span#${id_array[i]}`).innerHTML;
-			if (text === '') {text = "abc" + Math.floor(Math.random() * 100);}
-			let input = "";
-			input = `<input type="text" id='${id_array[i]}' name='${id_array[i]}' value='${text}'>`;
-			document.querySelector(`fieldset#activity${activityCode} span#${id_array[i]}`).innerHTML = input;
-		}
-		document.querySelector(`div#saveEditActivity${activityCode}`).innerHTML = "<button onclick='return false;'>Save</button>";
-	};
-</script>
-</head>
-<body onload='displayHeader()'>
-	<div class='header' id='header'></div>
-	<br>
-	<h1>Project : 123</h1>
+        </style>
+        <script></script>
+    </head>
+    <body onload='displayHeader()'>
+        <div class='header' id='header'></div>
         <br>
-	<fieldset>
-	<legend align="right"><a id="editProject" onclick="editProject(<?=$pCode;?>,<?=count($newP->funders);?>);return false;" href="#">Edit</a></legend>		
-  		<p>Title: <span id="title"><?=$newP->title?></span></p><br>
-  		<p>Stage: <span id="stage"><?=$newP->stage?></span></p><br>
-  		<p>Description: <span id="description"><?=$newP->description?></span></p><br>
-                <p>Type: <span id="type"><?=$newP->type?></span></p><br>
-  		<p>Manager: <span id="manager"><?=$newP->manager?></span></p><br>
-  		<p>Start Date: <span id="startDate"><?=$newP->startDate?></span></p><br>
-  		<p>End Date: <span id="endDate"><?=$newP->endDate?></span></p><br>
-  		<?php 
-            for ($i = 0; $i < count($newP->funders); $i++) { $j = $i+1; echo "<p>Funder {$j}: <span id='funder{$j}'>" . $newP->funders[$i] . "</span></p><br>";}            
-  		?>
-  		<div id="saveEditProject"></div>
-	</fieldset>
-	<?php
-	for ($j = 0; $j < $numOfActivities; $j++) {
-	    $rando = random_int(100, 999);
-	   $activity = "<br><h2>Activity : {$rando} </h2> <br> <fieldset id='activity{$rando}'>";
-	   $activity .= "<legend align='right'><a id='editActivity{$rando}' onclick='editActivity({$rando},{$numOfClients},{$numOfCoResearchers},{$numOfStudents},{$numOfContractors});return false;' href='#'>Edit</a></legend>";
-	   $activity .= "<br><p id='activityTitle'>Activity Title: <span id='activityTitle'>A-Title</span></p>";
-	   $activity .= "<br><p id='activityDescription'>Activity Description: <span id='activityDescription'>A-Description</span></p>";
-	   for ($i = 1; $i <= $numOfClients; $i++) { $activity .= "<br><p>Client {$i}: <span id='client{$i}'>ABC{$i}</span></p>"; }
-	   $activity .= "<br><p id='principalResearcher'>Principal Researcher: <span id='principalResearcher'>DEF</span></p>";
-	   for ($i = 1; $i <= $numOfCoResearchers; $i++) { $activity .= "<br><p>Co-Researcher {$i}: <span id='coResearcher{$i}'>GHI{$i}</span></p>"; }
-	   for ($i = 1; $i <= $numOfStudents; $i++) { $activity .= "<br><p>Student {$i}: <span id='student{$i}'>JKL{$i}</span></p>"; }
-	   for ($i = 1; $i <= $numOfContractors; $i++) { $activity .= "<br><p>Contractor {$i}: <span id='contractor{$i}'>MNO{$i}</span></p>"; }
-	   $activity .= "<br><div id='saveEditActivity{$rando}'></div>";
-	   $activity .= "<br></fieldset>";
-	   echo $activity;
-	}
-	?>
- </body>
- </html>
+        <h1>Project : <?= $project_code ?></h1>
+        <br>
+        <fieldset>
+            <legend align="right"><a id="editProject" onclick="editProject(<?= $project_code ?>, <?= $numOfFunders ?>, <?= $numOfClients ?>);loadEntities();return false;" href="#">Edit</a></legend>
+            <br>
+            <p><span class='tag'>Title: </span><span id="title"><?= $project->title ?></span></p><br>
+            <p><span class='tag'>Stage: </span><span id="stage"><?= $project->stage ?></span></p><br>
+            <p><span class='tag'>Description: </span><span id="description"><?= $project->description ?></span></p><br>
+            <p><span class='tag'>Type: </span><span id="type"><?= $project->type ?></span></p><br>           
+            <p><span class='tag'>Project Manager: </span><span id="manager"><?= $manager->entity->getName(); ?></span></p><br>           
+            <p><span class='tag'>Start Date: </span><span id="start_date"><?= $project->start_date ?></span></p><br>
+            <p><span class='tag'>End Date: </span><span id="end_date"><?= $project->end_date ?></span></p><br>
+            <h3>Funders</h3>
+            <?php
+            for ($i = 0; $i < $numOfFunders; $i++) {
+                $j = $i + 1;
+                echo "<p><span class='tag'>{$j}: </span><span id='funder{$j}'>" . $funder[$i]->entity->getName() . "</span>&ensp;"
+                . "<strong>Amount:</strong> $<span id='funding_amt{$j}'>" . $funder[$i]->funding_amt . "</span>&ensp;"
+                . "<strong>Date Received:</strong> <span id='date_given{$j}'>" . $funder[$i]->date_given . "</span>&ensp;"
+                . "<strong>Frequency:</strong> <span id='frequency{$j}'>" . $funder[$i]->frequency . "</span></p>";
+            }
+            $newFunder = $numOfFunders + 1;
+            echo "<span id='addFunder{$newFunder}'></span>";
+            echo "<br>";
+            echo "<h3>Clients</h3>";
+            for ($i = 1; $i <= $numOfClients; $i++) {
+                echo "<p><span class='tag'>{$i}: </span><span id='client{$i}'>"
+                . $client[$i - 1]->entity->getName() . "</span></p>";
+            }
+            ?>
+            <br>
+            <div id="saveEditProject"></div>
+        </fieldset>
+        <?php
+        for ($j = 0; $j < $numOfActivities; $j++) {
+            $k = $j + 1;
+            ?>
+            <br>
+            <h2>Activity : <?= $activity[$j]->activity_code ?></h2>
+            <br>
+            <fieldset id='activity<?= $k ?>'>
+                <legend align='right'><a id='editActivity<?= $k ?>' onclick='editActivity(<?= $k ?>,<?= $numOfClients ?>,<?= $numOfResearchers ?>,<?= $numOfStudents ?>,<?= $numOfContractors ?>);return false;' href='#'>Edit</a></legend>
+                <br>
+                <p><span class='tag'>Title: </span><span id='aTitle<?= $k ?>'><?= $activity[$j]->title ?></span></p>
+                <br>
+                <p><span class='tag'>Description: </span><span id='aDescription<?= $k ?>'><?= $activity[$j]->description ?></span></p>
+                <br>
+                <p><span class='tag'>Start date: </span><span id='aStartDate<?= $k ?>'><?= $activity[$j]->start_date ?></span></p>
+                <br>
+                <p><span class='tag'>End date: </span><span id='aEndDate<?= $k ?>'><?= $activity[$j]->end_date ?></span></p>
+                <br>
+                <?php
+                if ($pResearcher[$j]->entity->getName()) {
+                    ?>
+                    <p><span class='tag'>Principal Researcher: </span><span id='pResearcher<?= $k ?>'><?= $pResearcher[$j]->entity->getName() ?></span></p>
+                    <br>
+                    <?php
+                }
+                echo "<h3>Researchers</h3>";
+                for ($i = 1; $i <= count($researcher[$j]); $i++) {
+                    echo "<p><span class='tag'>{$i}: </span><span id='researcher{$j}{$i}'>"
+                    . $researcher[$j][$i - 1]->entity->getName() . "</span></p>";
+                }
+                echo "<br>";
+                echo "<h3>Contractors</h3>";
+                for ($i = 1; $i <= count($contractor[$j]); $i++) {
+                    echo "<p><span class='tag'>{$i}: </span><span id='contractor{$j}{$i}'>" . $contractor[$j][$i - 1]->entity->getName() . "</span>"
+                    . "&ensp;"
+                    . "<span class='tag'>Payment: </span><span id='payment{$j}{$i}'>$" . $contractor[$j][$i - 1]->payment . "</span>"
+                    . "&ensp;"
+                    . "<span class='tag'>Pay date: </span><span id='payDate{$j}{$i}'>" . $contractor[$j][$i - 1]->date_payed . "</span></p>";
+                }
+                //$activityS .= "<br><div id='saveEditActivity{$k}'></div>";
+                ?>
+                <br>
+            </fieldset>
+            <?php
+        }
+        ?>
+    </body>
+</html>
