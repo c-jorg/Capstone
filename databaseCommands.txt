@@ -161,7 +161,7 @@ ALTER TABLE Activities
 	REFERENCES Entities (id);
 	
 	
-**NEW***
+**NEW NEW***
 
 ALTER TABLE Activities
 DROP FOREIGN KEY Activities_Entities_FK;
@@ -176,30 +176,47 @@ ALTER TABLE Activities MODIFY title VARCHAR(255) AFTER project_code;
 
 ALTER TABLE Activities DROP type;
 
+ALTER TABLE Activities ADD (notes MEDIUMTEXT);
+
+
+ALTER TABLE Projects DROP project_manager;
+
+
+ALTER TABLE Researchers ADD (category ENUM("non-student","Undergraduate","Masters","PHD","Other"));
+
+ALTER TABLE Researchers DROP level;
+
+
 CREATE TABLE Project_Managers (
-	entity_id int,
+	entity_id INT,
 	project_code VARCHAR(100)
 );
-ALTER TABLE Project_Managers 
-	ADD CONSTRAINT Managers_Entities_FK
+
+ALTER TABLE Project_Managers
+	ADD CONSTRAINT Project_Managers_Entities_FK
 	FOREIGN KEY (entity_id)
 	REFERENCES Entities (id);
 	
-ALTER TABLE Clients 
-	ADD CONSTRAINT Managers_Projects_FK
+ALTER TABLE Project_Managers
+	ADD CONSTRAINT Project_Managers_Projects_FK
 	FOREIGN KEY (project_code)
 	REFERENCES Projects (project_code);
 
+	
 CREATE TABLE Principal_Researchers (
-	entity_id int,
+	entity_id INT,
 	activity_code VARCHAR(100)
 );
+
 ALTER TABLE Principal_Researchers
-	ADD CONSTRAINT pRes_Entities_FK
+	ADD CONSTRAINT Principal_Researchers_Entities_FK
 	FOREIGN KEY (entity_id)
 	REFERENCES Entities (id);
 	
-ALTER TABLE Principal_Researchers 
-	ADD CONSTRAINT pRes_Activities_FK
+ALTER TABLE Principal_Researchers
+	ADD CONSTRAINT Principal_Researchers_Activities_FK
 	FOREIGN KEY (activity_code)
 	REFERENCES Activities (activity_code);
+	
+
+ALTER TABLE Entities ADD (category ENUM("non-student","Undergraduate","Masters","PHD","Other"));
