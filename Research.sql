@@ -69,7 +69,7 @@ CREATE TABLE `clients` (
 
 LOCK TABLES `clients` WRITE;
 /*!40000 ALTER TABLE `clients` DISABLE KEYS */;
-INSERT INTO `clients` VALUES (5,'ABC'),(6,'123'),(5,'ABC'),(6,'123');
+INSERT INTO `clients` VALUES (5,'ABC'),(6,'123');
 /*!40000 ALTER TABLE `clients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,7 +119,7 @@ CREATE TABLE `entities` (
   `category` enum('non-student','Undergraduate','Masters','PHD','Other') DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +128,7 @@ CREATE TABLE `entities` (
 
 LOCK TABLES `entities` WRITE;
 /*!40000 ALTER TABLE `entities` DISABLE KEYS */;
-INSERT INTO `entities` VALUES (1,'Jane','Doe','jdoe@gmail.com','MRS.',NULL,NULL),(2,'John','Doe','jodoe@gmail.com','DR.',NULL,NULL),(3,NULL,NULL,'funder1@gmail.com',NULL,'Science Company',NULL),(4,NULL,NULL,'funder2@gmail.com',NULL,'Tech Company',NULL),(5,NULL,NULL,'client1@gmail.com',NULL,'Science Client',NULL),(6,NULL,NULL,'client2@gmail.com',NULL,'Tech Client',NULL),(7,NULL,NULL,'contractor1@gmail.com',NULL,'Science Contractor',NULL);
+INSERT INTO `entities` VALUES (1,'Jane','Doe','jdoe@gmail.com','MRS.',NULL,'non-student'),(2,'John','Doe','jodoe@gmail.com','DR.',NULL,'non-student'),(3,NULL,NULL,'funder1@gmail.com',NULL,'Science Company','non-student'),(4,NULL,NULL,'funder2@gmail.com',NULL,'Tech Company','non-student'),(5,NULL,NULL,'client1@gmail.com',NULL,'Science Client','non-student'),(6,NULL,NULL,'client2@gmail.com',NULL,'Tech Client','non-student'),(7,NULL,NULL,'contractor1@gmail.com',NULL,'Science Contractor','non-student'),(8,'Bob','Dob','dob@gmail.com','MR.',NULL,'Undergraduate'),(9,'Joe','Son','son@gmail.com',NULL,NULL,'Masters'),(10,'Sally','Person','sally@gmail.com','MS.',NULL,'PHD');
 /*!40000 ALTER TABLE `entities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -144,7 +144,7 @@ CREATE TABLE `funders` (
   `project_code` varchar(100) DEFAULT NULL,
   `funding_amt` decimal(10,0) DEFAULT NULL,
   `date_given` date DEFAULT NULL,
-  `frequency` int(11) DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
   KEY `Funders_Entities_FK` (`entity_id`),
   KEY `Funders_Projects_FK` (`project_code`),
   CONSTRAINT `Funders_Entities_FK` FOREIGN KEY (`entity_id`) REFERENCES `entities` (`id`),
@@ -158,7 +158,7 @@ CREATE TABLE `funders` (
 
 LOCK TABLES `funders` WRITE;
 /*!40000 ALTER TABLE `funders` DISABLE KEYS */;
-INSERT INTO `funders` VALUES (3,'ABC',1000000,'2023-01-01',1),(4,'123',50000,'2026-01-01',2);
+INSERT INTO `funders` VALUES (3,'ABC',1000000,'2023-01-01','2025-01-01'),(4,'123',50000,'2026-01-01','2026-01-01');
 /*!40000 ALTER TABLE `funders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -278,7 +278,6 @@ DROP TABLE IF EXISTS `researchers`;
 CREATE TABLE `researchers` (
   `entity_id` int(11) DEFAULT NULL,
   `activity_code` varchar(100) DEFAULT NULL,
-  `category` enum('non-student','Undergraduate','Masters','PHD','Other') DEFAULT NULL,
   KEY `Researchers_Entities_FK` (`entity_id`),
   KEY `Researchers_Activities_FK` (`activity_code`),
   CONSTRAINT `Researchers_Activities_FK` FOREIGN KEY (`activity_code`) REFERENCES `activities` (`activity_code`),
@@ -292,6 +291,7 @@ CREATE TABLE `researchers` (
 
 LOCK TABLES `researchers` WRITE;
 /*!40000 ALTER TABLE `researchers` DISABLE KEYS */;
+INSERT INTO `researchers` VALUES (8,'123'),(9,'123'),(9,'abc');
 /*!40000 ALTER TABLE `researchers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -304,4 +304,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-14 13:33:14
+-- Dump completed on 2024-03-20 16:20:15

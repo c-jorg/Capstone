@@ -220,3 +220,51 @@ ALTER TABLE Principal_Researchers
 	
 
 ALTER TABLE Entities ADD (category ENUM("non-student","Undergraduate","Masters","PHD","Other"));
+
+
+***NEW NEWER***
+
+ALTER TABLE Funders DROP frequency;
+
+ALTER TABLE Funders ADD (end_date DATE);
+
+UPDATE Funders SET end_date = '2026-01-01' WHERE entity_id = 4;
+
+UPDATE Funders SET end_date = '2025-01-01' WHERE entity_id = 3;
+
+
+UPDATE Entities SET category = 'non-student';
+
+ALTER TABLE Researchers DROP category;
+
+INSERT INTO Entities VALUES (NULL,"Bob","Dob","dob@gmail.com","MR.",NULL,'Undergraduate'),
+	(NULL,"Joe","Son","son@gmail.com",NULL,NULL,'Masters');
+	
+INSERT INTO Researchers VALUES (8, '123'),(9,'123'),(9,"abc");
+
+INSERT INTO Entities VALUES(NULL,"Sally","Person","sally@gmail.com","MS.",NULL,'PHD');
+
+
+SELECT e.first_name, e.last_name, e.email, e.category, p.title, p.project_code, p.stage, p.type, p.start_date, p.end_date
+FROM Projects p, Entities e, Researchers r, Activities a
+WHERE 
+	(e.category NOT IN ("non-student") AND
+	e.id = r.entity_id AND
+	r.activity_code = a.activity_code AND
+	a.project_code = p.project_code)
+ORDER BY e.last_name;
+
+
+OR 
+	(e.id NOT IN (SELECT entity_id FROM Researchers) AND 
+	e.category NOT IN ('non-student'))
+
+
+
+SELECT first_name, last_name, category
+FROM Entities e, Researchers r
+WHERE 
+	e.category NOT IN ("non-student") AND
+	e.id NOT IN (SELECT entity_id FROM Researchers)
+GROUP BY e.email
+ORDER BY e.last_name;
