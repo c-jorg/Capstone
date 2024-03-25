@@ -17,20 +17,33 @@ body {
 	background-color: white;
 }
 
+.homeLogo {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 15px;
+	width: 45%;
+}
+
+.homepage {
+	margin-top: -15px;
+	background-color: rgba(222, 156, 238, .25);
+}
+
 .home {
 	margin: 0;
 	padding: 0;
-	height: 100vh;
+	height: 110vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: #f0f0f0;
+	/*background-color: rgba(222, 156, 238, .25);*/
 }
 
 .links {
 	text-align: center;
-	margin-top: -200px;
-	background-color: rgba(222, 156, 238, .25);
+	margin-top: -300px;
+	/*background-color: rgba(222, 156, 238, .25);*/
 }
 
 .links a {
