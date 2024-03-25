@@ -40,6 +40,9 @@
 $sqli = new mysqli('localhost:3306','root','','Research');
 $fullquery = "SELECT
               e.company,
+              e.first_name,
+              e.last_name,
+              e.salutation,
               e.email,
               c.project_code,
               p.title
@@ -54,6 +57,10 @@ if(mysqli_num_rows($result) !== 0){
     $email = stripslashes($row['email']);
     $projectCode = stripslashes($row['project_code']);
     $projectName = stripslashes($row['title']);
+
+    if($companyName == NULL || $companyName == ''){
+      $companyName = stripslashes($row['salutation'] + ' ' + stripslashes($row['first_name']) + ' ' + stripslashes($row['last_name']));
+    }
 
     //project page link is WIP... send project_code via GET...
     $entry = "<tr>
