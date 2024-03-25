@@ -1,9 +1,12 @@
 <?php
-include 'Project.php';
-include 'Funder.php';
-include 'Project_Manager.php';
-include 'Client.php';
-include 'Entity.php';
+use Classes\{Project, Funder, Entity, Project_Manager, Activity, Client, Principal_Researcher, Researcher, Contractor};
+
+spl_autoload_register(function ($class) { include str_replace('\\', '/', $class) . ".php"; });
+//include 'Project.php';
+//include 'Funder.php';
+//include 'Project_Manager.php';
+//include 'Client.php';
+//include 'Entity.php';
 
 $project_code = $_GET['project_code'];
 $project = new Project($project_code);

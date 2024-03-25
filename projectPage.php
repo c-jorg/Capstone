@@ -1,14 +1,19 @@
 <?php
-include 'Project.php';
-include 'Funder.php';
-include 'Entity.php';
-include 'Project_Manager.php';
-include 'Activity.php';
-include 'Client.php';
+use Classes\{Project, Funder, Entity, Project_Manager, Activity, Client, Principal_Researcher, Researcher, Contractor};
 
-include 'Principal_Researcher.php';
-include 'Researcher.php';
-include 'Contractor.php';
+spl_autoload_register(function ($class) { include str_replace('\\', '/', $class) . ".php"; });
+    
+
+//include 'Classes/Project.php';
+//include 'Funder.php';
+//include 'Entity.php';
+//include 'Project_Manager.php';
+//include 'Activity.php';
+//include 'Client.php';
+//
+//include 'Principal_Researcher.php';
+//include 'Researcher.php';
+//include 'Contractor.php';
 // USE $_GET['project_code']; 
 ob_start();
 $project_code = $_GET['project_code'];

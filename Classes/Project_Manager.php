@@ -1,4 +1,5 @@
 <?php
+namespace Classes;
 
 class Project_Manager {
 
@@ -22,7 +23,7 @@ class Project_Manager {
     }
 
     public function openConnection() {
-        $this->mysqli = new mysqli("localhost", "root", "letmein", $this->database);
+        $this->mysqli = new \mysqli("localhost", "root", "letmein", $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();

@@ -1,5 +1,7 @@
 <?php
 
+namespace Classes;
+
 class Project {
 
     public $project_code; //primary key
@@ -10,6 +12,7 @@ class Project {
     private $table = "Projects";
 
     public function __construct($project_code) {
+        echo "HERE inside construct";
         $this->project_code = $project_code;
     }
 
@@ -27,7 +30,7 @@ class Project {
     }
 
     public function openConnection() {
-        $this->mysqli = new mysqli("localhost", "root", "letmein", $this->database);
+        $this->mysqli = new \mysqli("localhost", "root", "letmein", $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -100,7 +103,6 @@ class Project {
             echo "Project Not Found";
         }
     }
-    
 }
 
 ?>
