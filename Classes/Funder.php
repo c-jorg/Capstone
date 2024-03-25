@@ -83,7 +83,7 @@ class Funder {
             $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
             $this->funding_amt = $data['funding_amt'];
             $this->date_given = $data['date_given'];
-            $this->funder_end_date = $data['frequency'];
+            $this->funder_end_date = $data['end_date'];
         }   
     }
     
