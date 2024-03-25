@@ -12,7 +12,7 @@ WHERE
 	a.project_code = p.project_code)
 ORDER BY e.last_name';
 $showAllStudentsNotInProjects ='
-SELECT first_name, last_name, category
+SELECT first_name, last_name, e.email, category
 FROM Entities e, Researchers r
 WHERE 
 	e.category NOT IN ("non-student") AND

@@ -50,7 +50,15 @@ function displayCSV (query){
 			document.getElementById(div).innerHTML = "Checking..";
 		}else if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
 			var csvWindow = window.open('csvOutput.html');
-			csvWindow.document.getElementById(div).innerHTML = xmlhttp.responseText;
+			csvWindow.addEventListener('DOMContentLoaded', function(){
+				var element = csvWindow.document.getElementById(div);
+				if(element){
+					console.log(xmlhttp.responseText);
+					element.innerTHML = xmlhttp.responseText;
+				}else{
+					console.log(div + " Element not found in document")
+				}
+			});
 			//doesnt actually display anything the displayCSVOnPage function works though
 		}else {
 			document.getElementById(div).innerHTML = "Error ocurred.";
