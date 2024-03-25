@@ -31,13 +31,13 @@ function addFunderField(num) {
             	<datalist id="entities"></datalist>
                 &ensp;
                 <label for="amount${num}">Amount: $</label>
-                <input type="number" id="amount${num}" name="amount${num}" min="1" step="any">
+                <input type="number" id="amount${num}" name="amount${num}" min="1" step="any" style="width:100px;">
                 &ensp;
                 <label for="dateReceived${num}">Date Received:</label>
                 <input type="date" id="dateReceived${num}" name="dateReceived${num}">
                 &ensp;
-                <input type="checkbox" id="yearly${num}" name="yearly${num}" value="yearly">
-                <label for="yearly${num}">yearly</label>
+                <label for="funder_end_date${num}">End Date:</label>
+                <input type="date" id="funder_end_date${num}" name="funder_end_date${num}">
                 &ensp;
                 <span id="addFunder${num+1}">
                         <a onclick='removeFunderField(${num});return false;' href='#'>-remove</a>
@@ -142,19 +142,19 @@ function createProject() {
             let funderId = [];
 	    let amount = [];
 	    let dateReceived = [];
-	    let frequency = [];
+	    let funder_end_date = [];
 	    while (document.getElementById(`funder${i}`).value !== "") {
                 funderId.push(getEntityId(document.getElementById(`funder${i}`).value));
                 amount.push(document.getElementById(`amount${i}`).value);
                 dateReceived.push(document.getElementById(`dateReceived${i}`).value);
-                frequency.push(document.getElementById(`yearly${i}`).checked ? "yearly" : "lumpsum");
+                funder_end_date.push(document.getElementById(`funder_end_date${i}`).checked ? "funder_end_date" : "lumpsum");
                 if (i > 1) { removeFunderField(i); }
                 i++;
             }
             const startDate = document.getElementById(`pStartDate`).value;
 	    const endDate = document.getElementById(`pEndDate`).value;
 		
-	    //console.log(code, title, stage, description, type, manager, funder, amount, frequency, startDate, endDate);		
+	    //console.log(code, title, stage, description, type, manager, funder, amount, funder_end_date, startDate, endDate);		
 		
 	    document.getElementById(`projectCode`).value = "";
 	    document.getElementById(`projectTitle`).value = "";
@@ -165,7 +165,7 @@ function createProject() {
 	    document.getElementById(`funder1`).value = "";
 	    document.getElementById(`amount1`).value = "";
 	    document.getElementById(`dateReceived1`).value = "";
-	    document.getElementById(`yearly1`).checked = false;
+	    document.getElementById(`funder_end_date1`).checked = false;
 	    document.getElementById(`pStartDate`).value = "";
 	    document.getElementById(`pEndDate`).value = "";
 	    
@@ -182,7 +182,7 @@ function createProject() {
                            + `&entity_id${f}=${funderId[f]}`
                            + `&funding_amt${f}=${amount}`
                            + `&date_given${f}=${dateReceived}`
-                           + `&frequency${f}=${frequency}`;
+                           + `&funder_end_date${f}=${funder_end_date}`;
             }  	
          const request = new XMLHttpRequest();
          request.onload = function(){

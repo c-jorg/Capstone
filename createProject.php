@@ -36,7 +36,7 @@ if(!empty($_GET['entity_id0'])) {
         
         $funder[$i]->funding_amt = $_GET["funding_amt{$i}"];
         $funder[$i]->date_given = $_GET["date_given{$i}"] ? "'" . $_GET['date_given{$i}'] . "'" : "null";
-        $funder[$i]->frequency = $_GET["frequency{$i}"];
+        $funder[$i]->funder_end_date = $_GET["frequency{$i}"];
         echo $funder[$i];
         $funder[$i]->openConnection();
         $funder[$i]->insertFunder();

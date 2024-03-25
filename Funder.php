@@ -4,7 +4,7 @@ class Funder {
 
     public $entity;
     public $project;
-    public $funding_amt, $frequency;
+    public $funding_amt, $funder_end_date;
     public $date_given;
     
     private $mysqli;
@@ -19,7 +19,7 @@ class Funder {
         return "Funder[entity=" . $this->entity
                 . ", project=" . $this->project
                 . ", funding_amt=" . $this->funding_amt
-                . ", frequency=" . $this->frequency
+                . ", frequency=" . $this->funder_end_date
                 . ", date_given=" . $this->date_given
                 . ", database=" . $this->database
                 . ", table=" . $this->table
@@ -43,7 +43,7 @@ class Funder {
                 . "'{$this->project->project_code}',"
                 . "'$this->funding_amt',"
                 . "$this->date_given,"
-                . "'$this->frequency'"
+                . "'$this->funder_end_date'"
                 . ");";
         echo $query;
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
@@ -61,7 +61,7 @@ class Funder {
         $this->project = $project;
         $this->funding_amt = $funding_amt;
         $this->date_given = $date_given;
-        $this->frequency = $frequency;
+        $this->funder_end_date = $frequency;
         $this->insertFunder();
         $this->closeConnection();
     }
@@ -82,7 +82,7 @@ class Funder {
             $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
             $this->funding_amt = $data['funding_amt'];
             $this->date_given = $data['date_given'];
-            $this->frequency = $data['frequency'];
+            $this->funder_end_date = $data['frequency'];
         }   
     }
     

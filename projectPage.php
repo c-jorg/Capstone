@@ -131,7 +131,7 @@ for ($i = 0; $i < $numOfActivities; $i++) {
                 echo "<p><span class='tag'>{$j}: </span><span id='funder{$j}'>" . $funder[$i]->entity->getName() . "</span>&ensp;"
                 . "<strong>Amount:</strong> $<span id='funding_amt{$j}'>" . $funder[$i]->funding_amt . "</span>&ensp;"
                 . "<strong>Date Received:</strong> <span id='date_given{$j}'>" . $funder[$i]->date_given . "</span>&ensp;"
-                . "<strong>Frequency:</strong> <span id='frequency{$j}'>" . $funder[$i]->frequency . "</span></p>";
+                . "<strong>End Date:</strong> <span id='funder_end_date{$j}'>" . $funder[$i]->funder_end_date . "</span></p>";
             }
             $newFunder = $numOfFunders + 1;
             echo "<span id='addFunder{$newFunder}'></span>";

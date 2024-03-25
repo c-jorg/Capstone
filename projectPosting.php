@@ -91,13 +91,13 @@
                 <datalist id="entities"></datalist>
                 &ensp;
                 <label for="amount1">Amount: $</label>
-                <input type="number" id="amount1" name="amount1" min="1" step="any">
+                <input type="number" id="amount1" name="amount1" min="1" step="any" style="width:100px;">
                 &ensp;
                 <label for="dateReceived1">Date Received:</label>
                 <input type="date" id="dateReceived1" name="dateReceived1">
                 &ensp;
-                <input type="checkbox" id="yearly1" name="yearly1" value="yearly">
-                <label for="yearly1">yearly</label>
+                <label for="funder_end_date1">End Date:</label>
+                <input type="date" id="funder_end_date1" name="funder_end_date1">
                 &ensp;
                 <span id='addFunder2'>
                     <a onclick="addFunderField(2);return false;" id="addLink" href="#">+add</a>

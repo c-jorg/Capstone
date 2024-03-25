@@ -4,7 +4,7 @@ function editProject(project_code, numOfFunders, numOfClients) {
     for (let i = 1; i <= numOfFunders; i++) {
         id_array.push(`funder${i}`);
         id_array.push(`funding_amt${i}`);
-        id_array.push(`frequency${i}`);
+        id_array.push(`funder_end_date${i}`);
         id_array.push(`date_given${i}`);
     }
     for (let i = 1; i <= numOfClients; i++) {
@@ -31,16 +31,15 @@ function editProject(project_code, numOfFunders, numOfClients) {
                                         <option value="Technical">
                                         <option value="Business">
                                     </datalist>`;
-        } else if (id_array[i].startsWith("funder") || id_array[i].startsWith("client") || id_array[i].startsWith("manager")) {
+        } else if (id_array[i].includes("funder_end_date")) {
+            input = `<input type="date" id='${id_array[i]}' name='${id_array[i]}' value='${text}'>`;
+        }else if (id_array[i].startsWith("funder") || id_array[i].startsWith("client") || id_array[i].startsWith("manager")) {
             input = `<input list="entities" name="${id_array[i]}" id="${id_array[i]}" value='${text}' style="width:300px;">
                                 <datalist id="entities"></datalist>`;
         } else if (id_array[i].includes("date")) {
             input = `<input type="date" id='${id_array[i]}' name='${id_array[i]}' value='${text}'>`;
         } else if (id_array[i].includes("amt")) {
             input = `<input type="number" id='${id_array[i]}' name='${id_array[i]}' value='${text}' min="1" step="any" style="width:100px;">`;
-        } else if(id_array[i].startsWith("frequency")) {
-            const isChecked = text == 2 ? "checked value='2'" : "value='1'";
-            input = `<input type="checkbox" id="${id_array[i]}" name="${id_array[i]}" ${isChecked}><label for="${id_array[i]}${id_array[i]}"> yearly</label>`;
         } else {
             input = `<input type="text" id='${id_array[i]}' name='${id_array[i]}' value='${text}' style="width:150px;">`;
         }
@@ -56,7 +55,7 @@ function saveEditProject(project_code, numOfFunders, numOfClients) {
     for (let i = 1; i <= numOfFunders; i++) {
         id_array.push(`funder${i}`);
         id_array.push(`funding_amt${i}`);
-        id_array.push(`frequency${i}`);
+        id_array.push(`funder_end_date${i}`);
         id_array.push(`date_given${i}`);
     }
     for (let i = 1; i <= numOfClients; i++) {
@@ -92,7 +91,7 @@ function insertEditedProject(data) {
     for (let i = 1; i <= numOfFunders; i++) {
         fields.push(`funder${i}`);
         fields.push(`funding_amt${i}`);
-        fields.push(`frequency${i}`);
+        fields.push(`funder_end_date${i}`);
         fields.push(`date_given${i}`);
     }
     fields.push("numOfClients");
@@ -112,8 +111,8 @@ function insertEditedProject(data) {
 //                    <datalist id="entities"></datalist></span>&ensp;`
 //                  +`<strong>Amount:</strong> $<span id='funding_amt${num}'><input type="number" id="funding_amt${num}" name="funding_amt${num}" min="1" step="any" style="width:100px"></span>&ensp;`
 //                  +`<strong>Date Received:</strong> <span id='date_given${num}'><input type="date" id="date_given${num}" name="date_given${num}"></span>&ensp;`
-//                  +`<strong>Frequency:</strong> <span id='frequency${num}'><input type="checkbox" id="frequency${num}" name="frequency${num}" value="2">
-//                    <label for="frequency${num}">yearly</label></span></p>
+//                  +`<strong>Frequency:</strong> <span id='funder_end_date${num}'><input type="checkbox" id="funder_end_date${num}" name="funder_end_date${num}" value="2">
+//                    <label for="funder_end_date${num}">yearly</label></span></p>
 //                    &ensp;
 //                    <span id="addFunder${num+1}">
 //                            <a onclick='removeFunderField(${num});return false;' href='#'>-remove</a>
@@ -216,7 +215,7 @@ function insertEditedProject(data) {
 //        let responseString = this.responseText;
 //        console.log(responseString);
 //    };
-//    const pField = ['project_code', 'title', 'description', 'stage', 'type', 'project_manager', 'start_date', 'end_date', 'funding_amt', 'date_given', 'frequency', 'first_name', 'last_name', 'email', 'salutation', 'company'];
+//    const pField = ['project_code', 'title', 'description', 'stage', 'type', 'project_manager', 'start_date', 'end_date', 'funding_amt', 'date_given', 'funder_end_date', 'first_name', 'last_name', 'email', 'salutation', 'company'];
 //    let path = "saveEdits.php?";
 //    for (let i = 0; i < data.length; i++) {
 //        path += pField[i] + "=" + data[i];
