@@ -16,8 +16,9 @@
 		<br /><br/>
 		<p class='query' id='receivedYear'><input onclick='displayByYear("fundingReceivedYear","receivedStartDate","receivedEndDate","fundingByYear")' type='button' class='queryButton' id='amtFundingYearBtn' value='Show'> Amount of funding received between <input class='dateInput' id='receivedStartDate' type='date' value='2022-03-01'> and <input type='date' class='dateInput' id='receivedEndDate' value='2023-03-01'><div class='reportGeneration' id='fundingReceivedYear'></div></p>
 		<br/><br/>
-		<p class='query' id='spentContractorsYear'><input type='button' class='queryButton' id='contractorYearBtn' value='Show'> Amount spent on contractors in year <input class='numberInput' id='contractorYearNum' value='2023'></p>
-		
+		<p class='query' id='allStudents'><input onclick='displayAll("allStudentsQuery","allStudents")' type='button' class='queryButton' id='allStudentsQueryBtn' value='Show'> All student researchers<div class='reportGeneration' id='allStudentsQuery'></div></p>
+		<br/><br/>
+		<p class='query' id='allResearchers'><input onclick='displayAll("allResearchersQuery","allResearchers")' type='button' class='queryButton' id='allResearchersBtn' value='Show'> All non-student researchers<div class='reportGeneration' id='allResearchersQuery'></div></p>
 	</div>
 </body>
 </html>

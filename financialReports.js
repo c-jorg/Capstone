@@ -15,9 +15,27 @@ function displayByYear(div, start, end, query){
 		}
 	}
 	//console.log()
-	xmlhttp.open("GET", "financialQueries.php?start="+start+"&end="+end+"&query="+query,true);
+	xmlhttp.open("GET", "queriesByYear.php?start="+start+"&end="+end+"&query="+query,true);
 	xmlhttp.send();
+}
 
+function displayAll(div, query){
+	var xmlhttp = new XMLHttpRequest();
+	
+	xmlhttp.onreadystatechange = function() {
+		console.log("Ready state: " + xmlhttp.readyState + ", status: " + xmlhttp.status);
+		if(xmlhttp.readyState != 4 && xmlhttp.status == 200){
+			document.getElementById(div).innerHTML = "Checking..";
+		}else if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+			document.getElementById(div).innerHTML = xmlhttp.responseText;
+			displayCSV();
+		}else {
+			document.getElementById(div).innerHTML = "Error ocurred.";
+		}
+	}
+	
+	xmlhttp.open("GET", "queriesAll.php?query="+query,true);
+	xmlhttp.send();
 }
 
 function displayCSV (){
