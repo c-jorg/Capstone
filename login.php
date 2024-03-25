@@ -14,13 +14,16 @@ try {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username']; 
     $password = $_POST['password']; 
+	
+    $hashPass = hash('SHA256', $password);
 
-    $stmt = $pdo->prepare("SELECT password FROM Login WHERE username = $db_pass");
-    $stmt->execute([$username]);
+    $stmt = $pdo->prepare("SELECT password FROM Login WHERE username = :username");
+    $stmt->bindParam(':username', $username);
+    $stmt->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($row && password_verify($password, $row['password'])) {
-	setcookie('username', '', 0, "/");
+    if ($row && password_verify($row['password'], $hashPass)) {
+	setcookie('username', $username, 0, "/");
         header("Location: index.html");
         exit;
     } else {
