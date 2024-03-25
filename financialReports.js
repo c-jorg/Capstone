@@ -9,7 +9,7 @@ function displayByYear(div, start, end, query){
 			document.getElementById(div).innerHTML = "Checking..";
 		}else if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
 			document.getElementById(div).innerHTML = xmlhttp.responseText;
-			displayCSV();
+			displayCSV(query);
 		}else {
 			document.getElementById(div).innerHTML = "Error ocurred.";
 		}
@@ -20,7 +20,7 @@ function displayByYear(div, start, end, query){
 
 }
 
-function displayCSV (){
+function displayCSV (query){
 	var xmlhttp = new XMLHttpRequest();
 	//window.open(href, "csvOutput.html");
 	
@@ -32,7 +32,7 @@ function displayCSV (){
 			document.getElementById(div).innerHTML = "Checking..";
 		}else if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
 			var csvWindow = window.open('csvOutput.html');
-			csvWindow.document.getElementById(div).innerText = xmlhttp.responseText;
+			csvWindow.document.getElementById(div).innerHTML = xmlhttp.responseText;
 			//doesnt actually display anything the displayCSVOnPage function works though
 		}else {
 			document.getElementById(div).innerHTML = "Error ocurred.";
