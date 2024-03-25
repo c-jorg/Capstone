@@ -17,21 +17,52 @@ body {
 	background-color: white;
 }
 
-table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-}
-    
-td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-      text-align: center;
+.homeLogo {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 15px;
+	width: 45%;
 }
 
-h1, th {
-	font-family: 'Noto Serif';
+.homepage {
+	margin-top: -15px;
+	background-color: rgba(222, 156, 238, .25);
+}
+
+.home {
+	margin: 0;
+	padding: 0;
+	height: 110vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/*background-color: rgba(222, 156, 238, .25);*/
+}
+
+.links {
+	text-align: center;
+	margin-top: -300px;
+	/*background-color: rgba(222, 156, 238, .25);*/
+}
+
+.links a {
+	display: block;
+	margin-bottom: 25px; /* Increased spacing between links */
+	font-size: 28px; /* Increased font size */
+	font-weight: bold;
+	color: #333;
+	text-decoration: none;
+	padding: 15px 30px; /* Increased padding for wider links */
+	border-radius: 15px; /* Increased border-radius for rounded corners */
+	background-color: #f7f7f7;
+	transition: background-color 0.3s ease;
+	width: 200px; /* Increased width of the links */
+	box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.links a:hover {
+	background-color: #ccc;
 }
 
 .centered {
