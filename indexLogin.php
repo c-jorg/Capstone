@@ -9,7 +9,7 @@
 <body>
 
 <div class="container">
-    <img src='LoginLogo.png' alt='LoginLogo' style="width:100%; max-width:400px; display: block; margin: 0 auto;">	
+    <img src="img/OC_Primary_Logo_Black_RGB_1080px@72ppi_Digital.png" alt='LoginLogo' style="width:100%; max-width:400px; display: block; margin: 0 auto;">	
     <form method="post" action="login.php">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
