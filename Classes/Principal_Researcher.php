@@ -23,7 +23,7 @@ class Principal_Researcher {
     }
 
     public function openConnection() {
-        $this->mysqli = new \mysqli('localhost:3306','root','', $this->database);
+        $this->mysqli = new \mysqli("localhost", "root", "letmein", $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -35,6 +35,7 @@ class Principal_Researcher {
     }
 
     public function insertPrincipalResearcher() {
+    	$this->openConnection();
         $query = "INSERT INTO $this->table VALUES ('{$this->entity->id}','{$this->activity->activity_code}');";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
@@ -42,6 +43,7 @@ class Principal_Researcher {
         } else {
             echo "Error while saving record";
         }
+        $this->closeConnection();
     }
 
     public function updatePrincipalResearcher($entity_id, $project_code, $activity_code) {
@@ -52,6 +54,7 @@ class Principal_Researcher {
     }
 
     private function deletePrincipalResearcher() {
+    	$this->openConnection();
         $query = "DELETE FROM $this->table WHERE entity_id = '{$this->entity->id}' AND activity_code = '{$this->activity->activity_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result->num_rows == 1) {
@@ -59,6 +62,7 @@ class Principal_Researcher {
         } else {
             echo "Record Not Found";
         }
+        $this->closeConnection();
     }
 
     public static function pResearcherId($activity) {

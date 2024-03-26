@@ -4,6 +4,7 @@ $(document).ready(() => {
     loadEntities();
     $("button#addEntityBTN").click(() => { loadEntities(); });
     $("a#addLink").click(() => { loadEntities(); });
+    $("a#editProject").click(() => { loadEntities(); });
 });
 function loadEntities() {
     console.log("Loading entities...");
