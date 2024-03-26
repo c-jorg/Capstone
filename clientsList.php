@@ -67,7 +67,7 @@ if(mysqli_num_rows($result) !== 0){
                 <td>".$companyName."</td>
                 <td>".$email."</td>
                 <td>".$projectCode."</td>
-                <td><a href='projectPage.php'>".$projectName."</a></td>
+                <td><a href='projectPage.php?project_code=\"".$projectCode."\"'>".$projectName."</td>
               </tr>";
     echo $entry;
   }
