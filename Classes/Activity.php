@@ -33,7 +33,7 @@ class Activity {
     }
 
     public function openConnection() {
-        $this->mysqli = new \mysqli('localhost:3306','root','', $this->database);
+        $this->mysqli = new \mysqli("localhost", "root", "letmein", $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -45,6 +45,7 @@ class Activity {
     }
 
     public function createActivity() {
+    	$this->openConnection();
         $query = "INSERT INTO $this->table "
                 . "VALUES ('$this->activity_code',"
                 . "'{$this->project->project_code}',"
@@ -59,9 +60,11 @@ class Activity {
         } else {
             echo "Error while saving record";
         }
+        $this->closeConnection();
     }
 
     public function updateActivity() {
+    	$this->openConnection();
         $query = "UPDATE $this->table "
                 . "SET activity_code = '$this->activity_code',"
                 . "project_code = '{$this->project->project_code}'"
@@ -75,9 +78,11 @@ class Activity {
         if ($result) {
             echo "Record has been updated successfully";
         }
+        $this->closeConnection();
     }
 
     public function getActivity($activity_code) {
+    	$this->openConnection();
         $query = "SELECT *  FROM $this->table WHERE activity_code = {$activity_code} AND project_code = {$this->project->project_code};";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result->num_rows === 1) {
@@ -85,6 +90,7 @@ class Activity {
         } else {
             echo "Activity Not Found";
         }
+        $this->closeConnection();
     }
 
     public function setActivity($result) {
@@ -97,6 +103,7 @@ class Activity {
     }
 
     public function deleteActivity($activity_code) {
+    	$this->openConnection();
         $query = "DELETE FROM $this->table WHERE activity_code = '{$activity_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result->num_rows == 1) {
@@ -104,6 +111,7 @@ class Activity {
         } else {
             echo "Activity Not Found";
         }
+        $this->closeConnection();
     }
     
     public static function getActivityCodes($project_code) {

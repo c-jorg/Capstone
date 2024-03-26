@@ -12,7 +12,6 @@ class Project {
     private $table = "Projects";
 
     public function __construct($project_code) {
-        echo "HERE inside construct";
         $this->project_code = $project_code;
     }
 
@@ -30,7 +29,7 @@ class Project {
     }
 
     public function openConnection() {
-        $this->mysqli = new \mysqli('localhost:3306','root','', $this->database);
+        $this->mysqli = new \mysqli("localhost", "root", "letmein", $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -42,6 +41,7 @@ class Project {
     }
 
     public function createProject() {
+    	$this->openConnection();
         $query = "INSERT INTO $this->table "
                 . "VALUES ('$this->project_code',"
                 . "'$this->title',"
@@ -56,32 +56,37 @@ class Project {
         } else {
             echo "Error while saving Project";
         }
+        $this->closeConnection();
     }
 
     public function updateProject() {
+    	$this->openConnection();
         $query = "UPDATE $this->table "
-                . "SET title = '$this->title',"
-                . "description = '$this->description', "
-                . "stage = '$this->stage',"
-                . "type = '$this->type',"
-                . "start_date = '$this->start_date',"
-                . "end_date = '$this->end_date' "
-                . "WHERE project_code = '$this->project_code';";
+                . "SET title = $this->title,"
+                . "description = $this->description, "
+                . "stage = $this->stage,"
+                . "type = $this->type,"
+                . "start_date = $this->start_date,"
+                . "end_date = $this->end_date "
+                . "WHERE project_code = $this->project_code;";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             echo "Project has been updated";
         }
+        $this->closeConnection();
     }
 
     public function getProject($project_code) {
+    	$this->openConnection();
         $query = "SELECT * FROM {$this->table} WHERE project_code = {$project_code};";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
-        if ($result->num_rows == 1) {
+        if ($result) {
             $this->project_code = $project_code;
             $this->setProject($result);
         } else {
             echo "Project Not Found";
         }
+        $this->closeConnection();
     }
 
     public function setProject($result) {
@@ -95,6 +100,7 @@ class Project {
     }
 
     public function deleteProject($project_code) {
+    	$this->openConnection();
         $query = "DELETE FROM $this->table WHERE project_code = '{$project_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
@@ -102,6 +108,7 @@ class Project {
         } else {
             echo "Project Not Found";
         }
+        $this->closeConnection();
     }
 }
 

@@ -1,4 +1,10 @@
-function editProject(project_code, numOfFunders, numOfClients) {
+var numOfFunders = 0;
+var numOfClients = 0;
+function setProjectParam(numFunders, numClients) {
+    numOfFunders = numFunders;
+    numOfClients = numClients;
+}
+function editProject(project_code) {
     document.querySelector('a#editProject').setAttribute("onclick", "return false;");
     let id_array = ['title', 'stage', 'description', 'type', 'manager', 'start_date', 'end_date'];
     for (let i = 1; i <= numOfFunders; i++) {
@@ -33,7 +39,7 @@ function editProject(project_code, numOfFunders, numOfClients) {
                                     </datalist>`;
         } else if (id_array[i].includes("funder_end_date")) {
             input = `<input type="date" id='${id_array[i]}' name='${id_array[i]}' value='${text}'>`;
-        }else if (id_array[i].startsWith("funder") || id_array[i].startsWith("client") || id_array[i].startsWith("manager")) {
+        } else if (id_array[i].startsWith("funder") || id_array[i].startsWith("client") || id_array[i].startsWith("manager")) {
             input = `<input list="entities" name="${id_array[i]}" id="${id_array[i]}" value='${text}' style="width:300px;">
                                 <datalist id="entities"></datalist>`;
         } else if (id_array[i].includes("date")) {
@@ -45,12 +51,17 @@ function editProject(project_code, numOfFunders, numOfClients) {
         }
         document.querySelector(`span#${id_array[i]}`).innerHTML = input;
     }
-    //document.getElementById(`addFunder${numOfFunders+1}`).innerHTML = `<a onclick='addFunderField(${numOfFunders+1});return false;' id='addLink' href='#'>+add</a>`;
-    document.querySelector(`div#saveEditProject`).innerHTML = `<button onclick='saveEditProject(${project_code}, ${numOfFunders}, ${numOfClients});return false;' style="width:200px;">Save</button>`;
+    document.querySelector(`span#addFunderLink`).innerHTML = `<a onclick='addFunderField(${numOfFunders + 1});return false;' id='addLink' href='#'>+add</a>`;
+    document.querySelector(`span#addClientLink`).innerHTML = `<a onclick="addMoreField(${numOfClients + 1}, 'Client');return false;" id='addLink' href='#'>+add</a>`;
+    document.querySelector(`div#saveEditProject`).innerHTML = `<button onclick='saveEditProject("${project_code}");return false;' style="width:200px;">Save</button>`;
 }
 
-function saveEditProject(project_code, numOfFunders, numOfClients) {
-    document.querySelector(`a#editProject`).setAttribute("onclick", `editProject(${project_code},${numOfFunders},${numOfClients});return false;`);
+function saveEditProject(project_code) {
+    document.querySelector(`a#editProject`).setAttribute("onclick", `editProject("${project_code}");return false;`);
+    document.querySelector(`span#addFunderLink`).innerHTML = ``;
+    document.querySelector(`span#addClientLink`).innerHTML = ``;
+    document.querySelectorAll(`span#removeLink`).innerHTML = ``;
+    
     let id_array = ['title', 'stage', 'description', 'type', 'manager', 'start_date', 'end_date'];
     for (let i = 1; i <= numOfFunders; i++) {
         id_array.push(`funder${i}`);
@@ -61,18 +72,34 @@ function saveEditProject(project_code, numOfFunders, numOfClients) {
     for (let i = 1; i <= numOfClients; i++) {
         id_array.push(`client${i}`);
     }
+    console.log(numOfFunders,"\n\n",numOfClients);
+    console.log(id_array);
     const data = [project_code];
     for (let i = 0; i < id_array.length; i++) {
         if (id_array[i] === 'stage') {
             data.push(document.querySelector(`select#${id_array[i]}`).value);
             document.querySelector(`span#${id_array[i]}`).innerHTML = document.querySelector(`select#${id_array[i]}`).value;
+        } else if (id_array[i] === 'manager' || id_array[i].includes('funder') || id_array[i].includes('client')) {
+            let val = document.querySelector(`input#${id_array[i]}`).value;
+            if (val.includes("|")) {
+                data.push(val.substring(0, val.indexOf(" ")));
+                document.querySelector(`span#${id_array[i]}`).innerHTML = val.substring(val.indexOf("|") + 1).trim();
+            } else {
+                data.push(val);
+                document.querySelector(`span#${id_array[i]}`).innerHTML = val;
+            }
         } else {
             data.push(document.querySelector(`input#${id_array[i]}`).value);
             document.querySelector(`span#${id_array[i]}`).innerHTML = document.querySelector(`input#${id_array[i]}`).value;
         }
-        if (id_array[i + 1] === 'funder1') { data.push(numOfFunders); }
-        if (id_array[i + 1] === 'client1') { data.push(numOfClients); }
+        if (id_array[i + 1] === 'funder1') {
+            data.push(numOfFunders);
+        }
+        if (id_array[i + 1] === 'client1') {
+            data.push(numOfClients);
+        }
     }
+    
     document.querySelector(`div#saveEditProject`).innerHTML = "";
     console.log("BEFORE: " + data);
     insertEditedProject(data);
@@ -84,7 +111,7 @@ function insertEditedProject(data) {
         let responseString = this.responseText;
         console.log(responseString);
     };
-    const fields = ['project_code', 'title', 'stage', 'description' , 'type', 'project_manager', 'start_date', 'end_date'];
+    const fields = ['project_code', 'title', 'stage', 'description', 'type', 'project_manager', 'start_date', 'end_date'];
     let numOfFunders = data[fields.length];
     let numOfClients = data[fields.length + numOfFunders * 4 + 1];
     fields.push("numOfFunders");
@@ -95,43 +122,80 @@ function insertEditedProject(data) {
         fields.push(`date_given${i}`);
     }
     fields.push("numOfClients");
-    for (let i = 1; i <= numOfClients; i++) { fields.push(`client${i}`); }
+    for (let i = 1; i <= numOfClients; i++) {
+        fields.push(`client${i}`);
+    }
     let path = "";
     for (let i = 0; i < data.length; i++) {
-        path += fields[i] + "=" + data[i];
+        path += fields[i] + "='" + data[i] + "'";
         if (i + 1 !== data.length) {
             path += "&";
         }
     }
-    request.open("GET","saveProjectEdits.php?" + path);
+    request.open("GET", "saveProjectEdits.php?" + path);
     request.send();
 }
-//function addFunderField(num) {
-//	const s = `<p><span class='tag'>${num}: </span><span id='funder${num}'><input list="entities" name="funder${num}" id="funder${num}" style="width:300px;">
-//                    <datalist id="entities"></datalist></span>&ensp;`
-//                  +`<strong>Amount:</strong> $<span id='funding_amt${num}'><input type="number" id="funding_amt${num}" name="funding_amt${num}" min="1" step="any" style="width:100px"></span>&ensp;`
-//                  +`<strong>Date Received:</strong> <span id='date_given${num}'><input type="date" id="date_given${num}" name="date_given${num}"></span>&ensp;`
-//                  +`<strong>Frequency:</strong> <span id='funder_end_date${num}'><input type="checkbox" id="funder_end_date${num}" name="funder_end_date${num}" value="2">
-//                    <label for="funder_end_date${num}">yearly</label></span></p>
-//                    &ensp;
-//                    <span id="addFunder${num+1}">
-//                            <a onclick='removeFunderField(${num});return false;' href='#'>-remove</a>
-//                            &ensp;
-//                            <a onclick="addFunderField(${num+1});return false;" id="addLink"  href="#">+add</a>
-//                    </span>`;
-//  	document.getElementById(`addFunder${num}`).innerHTML = s;
-//};
-//function removeFunderField(num) {
-//	let s = "";
-//	if(num === 2) {
-//		s = `<a onclick='addFunderField(${num});return false;' id="addLink" href='#'>+add</a>`;
-//	} else {
-//		s = `<a onclick='removeFunderField(${num-1});return false;' href='#'>-remove</a>
-//    		&ensp;
-//			<a onclick='addFunderField(${num});return false;' id="addLink" href='#'>+add</a>`;
-//	}
-//	document.getElementById(`addFunder${num}`).innerHTML = s;
-//};
+function addFunderField(num) {
+    numOfFunders++;
+    const s = `<p><span class='tag'>${num}: </span><span id='funder${num}'><input list="entities" name="funder${num}" id="funder${num}" style="width:300px;">
+                    <datalist id="entities"></datalist></span>&ensp;`
+            + `<strong>Amount:</strong> $<span id='funding_amt${num}'><input type="number" id="funding_amt${num}" name="funding_amt${num}" min="1" step="any" style="width:100px"></span>&ensp;`
+            + `<strong>Date Received:</strong> <span id='date_given${num}'><input type="date" id="date_given${num}" name="date_given${num}"></span>&ensp;`
+            + `<strong>End Date:</strong> <span id='funder_end_date${num}'><input type="date" id="funder_end_date${num}" name="funder_end_date${num}"></span>
+                    &ensp;
+                    <span id="addFunder${num + 1}">
+                            <a id='removeLink' onclick='removeFunderField(${num});return false;' href='#'>-remove</a>
+                    </span></p>`;
+
+    document.getElementById(`addFunder${num}`).innerHTML = s;
+    document.querySelector(`span#addFunderLink`).innerHTML = `<a onclick='addFunderField(${num + 1});return false;' id='addLink' href='#'>+add</a>`;
+
+}
+;
+function removeFunderField(num) {
+    numOfFunders--;
+    let s = "";
+    if (num > 1) {
+        s = `&ensp;<a id='removeLink' onclick='removeFunderField(${num - 1});return false;' href='#'>-remove</a>`;
+    } else {
+        s = "";
+    }
+    document.getElementById(`addFunder${num}`).innerHTML = s;
+    document.getElementById(`addFunderLink`).innerHTML = `<a onclick='addFunderField(${num});return false;' id="addLink" href='#'>+add</a>`;
+}
+;
+function addMoreField(index, fieldName) {
+    if (fieldName === 'Client') {
+        numOfClients++;
+    }
+    const s = `<p><label for="${fieldName}${index}">${fieldName} ${index}:</label>
+                    <input list="entities" name="${fieldName}${index}" id="${fieldName}${index}" style="width:300px;">
+                    <datalist id="entities"></datalist>
+                    &ensp;
+                    <span id="add${fieldName}${index + 1}">
+                        <a id='removeLink' onclick="removeMoreField(${index},'${fieldName}');return false;" href='#'>-remove</a>
+                    </span></p>`;
+    console.log(`add${fieldName}${index}`);
+    document.getElementById(`add${fieldName}${index}`).innerHTML = s;
+    document.getElementById(`add${fieldName}Link`).innerHTML = `<a onclick="addMoreField(${index + 1},'${fieldName}');return false;" id="addLink" href='#'>+add</a>`;
+
+
+}
+;
+function removeMoreField(index, fieldName) {
+    if (fieldName === 'Client') {
+        numOfClients--;
+    }
+    let s = "";
+    if (index > 1) {
+        s = `<a id='removeLink' onclick="removeMoreField(${index - 1},'${fieldName}');return false;" href='#'>-remove</a>`;
+    } else {
+        s = "";
+    }
+    document.getElementById(`add${fieldName}${index}`).innerHTML = s;
+    document.getElementById(`add${fieldName}Link`).innerHTML = `<a onclick="addMoreField(${index},'${fieldName}');return false;" id="addLink" href='#'>+add</a>`;
+}
+;
 //function editActivity(activityCode, cl, co, s, con) {
 //    document.querySelector(`a#editActivity${activityCode}`).setAttribute("onclick", "return false;");
 //    let id_array = ['activityTitle', 'activityDescription'];
