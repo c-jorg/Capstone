@@ -220,6 +220,7 @@ ALTER TABLE Principal_Researchers
 	
 
 ALTER TABLE Entities ADD (category ENUM("non-student","Undergraduate","Masters","PHD","Other"));
+ reports
 
 
 ***NEW NEWER***

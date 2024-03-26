@@ -41,6 +41,9 @@
 
 $sqli = new mysqli('localhost:3306','root','','Research');
 $fullquery = "SELECT
+              e.first_name,
+              e.last_name,
+              e.salutation,
               e.company,
               e.email,
               c.activity_code,
@@ -64,6 +67,10 @@ if(mysqli_num_rows($result) !== 0){
     $payment = stripslashes($row['payment']);
     $datePayed = stripslashes($row['date_payed']);
     $projectCode = stripslashes($row['project_code']); //will be used for linking activity to project page...
+
+    if($companyName == NULL || $companyName == ''){
+      $companyName = stripslashes($row['salutation'] + ' ' + stripslashes($row['first_name']) + ' ' + stripslashes($row['last_name']));
+    }
 
     $entry = "<tr>
                 <td>".$companyName."</td>
