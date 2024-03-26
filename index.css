@@ -26,8 +26,13 @@ body {
 }
 
 .homepage {
+<<<<<<< HEAD
     margin-top: -15px;
     /*background-color: rgba(222, 156, 238, .25);*/
+=======
+	margin-top: -15px;
+	/*background-color: rgba(222, 156, 238, .25);*/
+>>>>>>> f9fdb032a6d8831135dc084f7009e9f0e909fc2b
 }
 
 .home {

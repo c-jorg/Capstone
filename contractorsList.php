@@ -34,7 +34,6 @@
     <th>Contractor Email</th> <!-- email -->
     <th>Subproject Code</th> <!-- activity code -->
     <th>Project Title</th> <!-- activity title -->
-    <th>Payment</th> <!-- payment -->
     <th>Date Payed</th> <!-- date payed -->
   </tr>
 <?php
@@ -48,7 +47,6 @@ $fullquery = "SELECT
               e.email,
               c.activity_code,
               p.title,
-              c.payment,
               c.date_payed,
               a.project_code
               FROM Entities e, Contractors c, Activities a, Projects p
@@ -64,7 +62,6 @@ if(mysqli_num_rows($result) !== 0){
     $email = stripslashes($row['email']);
     $activityCode = stripslashes($row['activity_code']);
     $projectName = stripslashes($row['title']);
-    $payment = stripslashes($row['payment']);
     $datePayed = stripslashes($row['date_payed']);
     $projectCode = stripslashes($row['project_code']); //will be used for linking activity to project page...
 
@@ -76,8 +73,7 @@ if(mysqli_num_rows($result) !== 0){
                 <td>".$companyName."</td>
                 <td>".$email."</td>
                 <td>".$activityCode."</td>
-                <td><a href='projectPage.php'>".$projectName."</td>
-                <td>$".number_format($payment)."</td>
+                <td><a href='projectPage.php?project_code=\"".$projectCode."\"'>".$projectName."</td>
                 <td>".$datePayed."</td>
               </tr>";
     echo $entry;

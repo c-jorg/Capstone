@@ -23,7 +23,7 @@ class Project_Manager {
     }
 
     public function openConnection() {
-        $this->mysqli = new \mysqli('localhost:3306','root','', $this->database);
+        $this->mysqli = new \mysqli("localhost", "root", "", $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -35,33 +35,34 @@ class Project_Manager {
     }
 
     public function insertManager() {
-        $query = "INSERT INTO $this->table VALUES ('{$this->entity->id}','{$this->project->project_code}');";
-        echo $query;
+    	$this->openConnection();
+        $query = "INSERT INTO $this->table VALUES ({$this->entity->id},{$this->project->project_code});";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             echo "Manager has been saved!";
         } else {
             echo "Error while saving Manager";
         }
+        $this->closeConnection();
     }
 
     public function updateManager($newEntity, $project) {
-        $this->openConnection();
         $this->deleteManager();
         $this->entity = $newEntity;
         $this->project = $project;
         $this->insertManager();
-        $this->closeConnection();
     }
 
     public function deleteManager() {
-        $query = "DELETE FROM {$this->table} WHERE project_code = '{$this->project->project_code}';";
+    	$this->openConnection();
+        $query = "DELETE FROM {$this->table} WHERE project_code = {$this->project->project_code};";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             echo "Manager Deleted";
         } else {
             echo "Manager Not Found";
         }
+        $this->closeConnection();
     }
 
     public static function managerId($project) {
@@ -71,7 +72,7 @@ class Project_Manager {
         $result = mysqli_query($check->mysqli, $query) or die(mysqli_error($check->mysqli));
         if ($result) {
             $data = mysqli_fetch_array($result, MYSQLI_ASSOC);            
-            $check->closeConnection();
+            $check->closeConnection(); 
             return $data['id'];
         } else {
             $check->closeConnection();
