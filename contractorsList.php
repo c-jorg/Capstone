@@ -69,14 +69,6 @@ if(mysqli_num_rows($result) !== 0){
       $companyName = stripslashes($row['salutation'] + ' ' + stripslashes($row['first_name']) + ' ' + stripslashes($row['last_name']));
     }
 
-    $projectCodeFormat = '';
-
-    if(is_numeric($projectCode)){
-      $projectCodeFormat = $projectCode; 
-    }else{
-      $projectCodeFormat = "'" . $projectCode . "'";
-    }
-
     $entry = "<tr>
                 <td>".$companyName."</td>
                 <td>".$email."</td>
