@@ -242,6 +242,8 @@ INSERT INTO Entities VALUES (NULL,"Bob","Dob","dob@gmail.com","MR.",NULL,'Underg
 	
 INSERT INTO Researchers VALUES (8, '123'),(9,'123'),(9,"abc");
 
+INSERT INTO Researchers VALUES (1,'123'),(2,'ABC'),(2,'123');
+
 INSERT INTO Entities VALUES(NULL,"Sally","Person","sally@gmail.com","MS.",NULL,'PHD');
 
 
@@ -268,3 +270,10 @@ WHERE
 	e.id NOT IN (SELECT entity_id FROM Researchers)
 GROUP BY e.email
 ORDER BY e.last_name;
+
+
+SELECT * FROM PROJECTS
+WHERE 
+	start_date BETWEEN "2023-01-01" AND "2025-01-01" OR
+	end_date BETWEEN "2023-01-01" AND "2025-01-01"
+ORDER BY start_date;
