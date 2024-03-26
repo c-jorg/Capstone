@@ -69,7 +69,6 @@ class Project_Manager {
         $check = new Project_Manager(new Entity(), $project);
         $check->openConnection();
         $query = "SELECT entity_id AS id FROM {$check->table} WHERE project_code = {$project->project_code};";
-        echo $query;
         $result = mysqli_query($check->mysqli, $query) or die(mysqli_error($check->mysqli));
         if ($result) {
             $data = mysqli_fetch_array($result, MYSQLI_ASSOC);            
