@@ -16,7 +16,7 @@ class Entity {
     }
 
     public function openConnection() {
-        $this->mysqli = new \mysqli('localhost:3306','root','', $this->database);
+        $this->mysqli = new \mysqli("localhost", "root", "letmein", $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -41,6 +41,7 @@ class Entity {
     }
 
     public function createEntity() {
+    	$this->openConnection();
         $query = "INSERT INTO $this->table (first_name, last_name, email, salutation, company, category) "
                 . "VALUES ('$this->first_name',"
                 . "'$this->last_name',"
@@ -55,9 +56,11 @@ class Entity {
         } else {
             echo "Error while saving Entity";
         }
+        $this->closeConnection();
     }
 
     public function updateEntity() {
+    	$this->openConnection();
         $query = "UPDATE $this->table "
                 . "SET first_name = '$this->first_name',"
                 . "last_name = '$this->last_name',"
@@ -70,9 +73,11 @@ class Entity {
         if ($result) {
             echo "Entity has been updated successfully";
         }
+        $this->closeConnection();
     }
 
     public function getEntity($id) {
+    	$this->openConnection();
         $query = "SELECT *  FROM {$this->table} WHERE id = '{$id}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result->num_rows === 1) {
@@ -81,6 +86,7 @@ class Entity {
         } else {
             echo "Entity Not Found";
         }
+        $this->closeConnection();
     }
 
     public function setEntity($result) {
@@ -95,6 +101,7 @@ class Entity {
     }
 
     public function deleteEntity($id) {
+    	$this->openConnection();
         $query = "DELETE FROM $this->table WHERE id = '{$id}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
@@ -102,6 +109,7 @@ class Entity {
         } else {
             echo "Entity Not Found";
         }
+        $this->closeConnection();
     }
     public function getName() {
         $name = $this->first_name . $this->last_name ? $this->first_name . " " . $this->last_name : "";

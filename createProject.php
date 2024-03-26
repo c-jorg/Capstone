@@ -1,34 +1,26 @@
 <?php
 
-require_once './Project.php';
+use Classes\{Project, Funder, Entity, Project_Manager, Activity, Client, Principal_Researcher, Researcher, Contractor};
+
+spl_autoload_register(function ($class) { include str_replace('\\', '/', $class) . ".php"; });
+
 $project_code = $_GET['project_code'];
 
 $project = new Project($project_code);
-echo "HERE 1";
-$project->openConnection();
-echo "here btwn";
+
 $project->title = $_GET['title'];
 $project->description = $_GET['description'];
 $project->stage = $_GET['stage'];
 $project->type = $_GET['type'];
 $project->start_date = $_GET['start_date'] ? "'" . $_GET['start_date'] . "'" : "null";
 $project->end_date = $_GET['end_date'] ? "'" . $_GET['end_date'] . "'" : "null";
-echo "HERE 2";
 $project->createProject();
-$project->closeConnection();
 if(!empty($_GET['managerId'])) { 
-    require_once './Project_Manager.php';
-    echo "AFTER REQUIREMENT: " . $_GET['managerId'] . " " . $project_code;
     $manager = new Project_Manager($_GET['managerId'],$project_code);
-    $manager->openConnection();
-    echo "AFTER declaring manager";
     $manager->insertManager();
-    echo "AFTER INSERTING manager";
-    $manager->closeConnection();
 }
 
-if(!empty($_GET['entity_id0'])) {
-    require_once './Funder.php'; 
+if(!empty($_GET['entity_id0'])) { 
     $funder = [];
     $numOfFunders = $_GET['numFunders'];
     for($i = 0; $i < $numOfFunders; $i++) {    
@@ -38,9 +30,7 @@ if(!empty($_GET['entity_id0'])) {
         $funder[$i]->date_given = $_GET["date_given{$i}"] ? "'" . $_GET['date_given{$i}'] . "'" : "null";
         $funder[$i]->funder_end_date = $_GET["frequency{$i}"];
         echo $funder[$i];
-        $funder[$i]->openConnection();
         $funder[$i]->insertFunder();
-        $funder[$i]->closeConnection();
     }
 }
 ?>

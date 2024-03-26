@@ -27,7 +27,7 @@ class Funder {
                 . "]";
     }
     public function openConnection() {
-        $this->mysqli = new \mysqli('localhost:3306','root','', $this->database);
+        $this->mysqli = new \mysqli("localhost", "root", "letmein", $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -39,6 +39,7 @@ class Funder {
     }
 
     public function insertFunder() {
+    	$this->openConnection();
         $query = "INSERT INTO $this->table "
                 . " VALUES ('{$this->entity->id}',"
                 . "'{$this->project->project_code}',"
@@ -53,10 +54,10 @@ class Funder {
         } else {
             echo "Error while saving record";
         }
+        $this->closeConnection();
     }
 
     public function updateFunder($newEntity, $project, $funding_amt, $date_given, $frequency) {
-        $this->openConnection();
         $this->deleteFunder();
         $this->entity = $newEntity;
         $this->project = $project;
@@ -64,10 +65,10 @@ class Funder {
         $this->date_given = $date_given;
         $this->funder_end_date = $frequency;
         $this->insertFunder();
-        $this->closeConnection();
     }
 
     public function deleteFunder() {
+    	$this->openConnection();
         $query = "DELETE FROM $this->table WHERE entity_id = '{$this->entity->id}' AND project_code = '{$this->project->project_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result->num_rows == 1) {
@@ -75,8 +76,10 @@ class Funder {
         } else {
             echo "Record Not Found";
         }
+        $this->closeConnection();
     }
     public function getFunderDetails() {
+    	$this->openConnection();
         $query = "SELECT * FROM {$this->table} WHERE entity_id = {$this->entity->id} AND project_code = {$this->project->project_code};";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
@@ -84,7 +87,8 @@ class Funder {
             $this->funding_amt = $data['funding_amt'];
             $this->date_given = $data['date_given'];
             $this->funder_end_date = $data['end_date'];
-        }   
+        }
+        $this->closeConnection();
     }
     
     public static function getFunderIds($project) {
