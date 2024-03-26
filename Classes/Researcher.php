@@ -68,7 +68,7 @@ class Researcher {
     public static function researcherId($activity) {
         $check = new Researcher(new Entity(), $activity);
         $check->openConnection();
-        $query = "SELECT entity_id AS id FROM {$check->table} WHERE activity_code = {$activity->activity_code};";
+        $query = "SELECT entity_id AS id FROM {$check->table} WHERE activity_code = '{$activity->activity_code}';";
         $result = mysqli_query($check->mysqli, $query) or die(mysqli_error($check->mysqli));
         if ($result) {
             $Id = [];

@@ -36,7 +36,7 @@ class Project_Manager {
 
     public function insertManager() {
     	$this->openConnection();
-        $query = "INSERT INTO $this->table VALUES ({$this->entity->id},{$this->project->project_code});";
+        $query = "INSERT INTO $this->table VALUES ('{$this->entity->id}','{$this->project->project_code}');";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             echo "Manager has been saved!";
@@ -55,7 +55,7 @@ class Project_Manager {
 
     public function deleteManager() {
     	$this->openConnection();
-        $query = "DELETE FROM {$this->table} WHERE project_code = {$this->project->project_code};";
+        $query = "DELETE FROM {$this->table} WHERE project_code = '{$this->project->project_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             echo "Manager Deleted";
@@ -68,7 +68,7 @@ class Project_Manager {
     public static function managerId($project) {
         $check = new Project_Manager(new Entity(), $project);
         $check->openConnection();
-        $query = "SELECT entity_id AS id FROM {$check->table} WHERE project_code = {$project->project_code};";
+        $query = "SELECT entity_id AS id FROM {$check->table} WHERE project_code = '{$project->project_code}';";
         $result = mysqli_query($check->mysqli, $query) or die(mysqli_error($check->mysqli));
         if ($result) {
             $data = mysqli_fetch_array($result, MYSQLI_ASSOC);            

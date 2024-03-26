@@ -78,7 +78,7 @@ class Entity {
 
     public function getEntity($id) {
     	$this->openConnection();
-        $query = "SELECT *  FROM {$this->table} WHERE id = '{$id}';";
+        $query = "SELECT * FROM {$this->table} WHERE id = '{$id}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result->num_rows === 1) {
             echo "Entity Found";
