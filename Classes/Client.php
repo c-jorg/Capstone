@@ -45,10 +45,10 @@ class Client {
         $this->closeConnection();
     }
 
-    public function updateClient($entity_id, $project_code) {
+    public function updateClient($entity, $project) {
         $this->deleteClient();
-        $this->entity = new Entity($entity_id);
-        $this->project = new Project($project_code);
+        $this->entity = $entity;
+        $this->project = $project;
         $this->insertClient();
         
     }
