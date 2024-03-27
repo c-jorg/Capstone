@@ -30,10 +30,7 @@
 <h1>Funders</h1>
 <table>
   <tr>
-  	<!--<th>Funder Salutation</th>
-    <th>Funder First Name</th>
-    <th>Funder Last Name</th>-->
-    <th>Funder Company</th>
+    <th>Funder Name</th>
     <th>Funder Email</th> <!-- entity table email -->
     <th>Project Code</th> <!-- projectcode -->
     <th>Project Name</th> <!-- title -->
@@ -45,6 +42,9 @@
 
 $sqli = new mysqli('localhost:3306','root','','Research');
 $fullquery = "SELECT e.company,
+              e.first_name,
+              e.last_name,
+              e.salutation,
               e.email,
               f.project_code,
               p.title,
@@ -58,9 +58,6 @@ $fullquery = "SELECT e.company,
 $result = mysqli_query($sqli, $fullquery);
 if(mysqli_num_rows($result) !== 0){
   while ($row = mysqli_fetch_array($result)) {
-    //$salutation = stripslashes($row['salutation']);
-    //$firstname = stripslashes($row['first_name']);
-    //$lastname = stripslashes($row['last_name']);
     $company = stripslashes($row['company']);
     $email = stripslashes($row['email']);
     $projectCode = stripslashes($row['project_code']);
@@ -73,12 +70,16 @@ if(mysqli_num_rows($result) !== 0){
       $endDate = "One-Time";
     }
 
+    if($company == NULL || $company == ''){
+      $company = stripslashes($row['salutation'] + ' ' + stripslashes($row['first_name']) + ' ' + stripslashes($row['last_name']));
+    }
+
     //project page link is WIP... send project_code via GET...
     $entry = "<tr>
                 <td>".$company."</td>
                 <td>".$email."</td>
                 <td>".$projectCode."</td>
-                <td><a href='projectPage.php'>".$projectTitle."</a></td>
+                <td><a href='projectPage.php?project_code=\"".$projectCode."\"'>".$projectTitle."</td>
                 <td>".$dateGiven."</td>
                 <td>".$endDate."</td>
                 <td>$".number_format($fundingAmt)."</td>

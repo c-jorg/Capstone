@@ -24,7 +24,7 @@ class Project_Manager {
     }
 
     public function openConnection() {
-        $this->mysqli = new \mysqli("localhost", "root", "letmein", $this->database);
+        $this->mysqli = new \mysqli("localhost", "root", "", $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -74,7 +74,7 @@ class Project_Manager {
         if ($result) {
             $data = mysqli_fetch_array($result, MYSQLI_ASSOC);            
             $check->closeConnection(); 
-            return $data['id'];
+            return $data['id']??'';
         } else {
             $check->closeConnection();
             return 0;

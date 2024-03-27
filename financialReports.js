@@ -9,18 +9,36 @@ function displayByYear(div, start, end, query){
 			document.getElementById(div).innerHTML = "Checking..";
 		}else if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
 			document.getElementById(div).innerHTML = xmlhttp.responseText;
-			displayCSV();
+			displayCSV(query);
 		}else {
 			document.getElementById(div).innerHTML = "Error ocurred.";
 		}
 	}
 	//console.log()
-	xmlhttp.open("GET", "financialQueries.php?start="+start+"&end="+end+"&query="+query,true);
+	xmlhttp.open("GET", "queriesByYear.php?start="+start+"&end="+end+"&query="+query,true);
 	xmlhttp.send();
-
 }
 
-function displayCSV (){
+function displayAll(div, query){
+	var xmlhttp = new XMLHttpRequest();
+	
+	xmlhttp.onreadystatechange = function() {
+		console.log("Ready state: " + xmlhttp.readyState + ", status: " + xmlhttp.status);
+		if(xmlhttp.readyState != 4 && xmlhttp.status == 200){
+			document.getElementById(div).innerHTML = "Checking..";
+		}else if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+			document.getElementById(div).innerHTML = xmlhttp.responseText;
+			displayCSV();
+		}else {
+			document.getElementById(div).innerHTML = "Error ocurred.";
+		}
+	}
+	
+	xmlhttp.open("GET", "queriesAll.php?query="+query,true);
+	xmlhttp.send();
+}
+
+function displayCSV (query){
 	var xmlhttp = new XMLHttpRequest();
 	//window.open(href, "csvOutput.html");
 	
@@ -32,7 +50,15 @@ function displayCSV (){
 			document.getElementById(div).innerHTML = "Checking..";
 		}else if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
 			var csvWindow = window.open('csvOutput.html');
-			csvWindow.document.getElementById(div).innerText = xmlhttp.responseText;
+			csvWindow.addEventListener('DOMContentLoaded', function(){
+				var element = csvWindow.document.getElementById(div);
+				if(element){
+					console.log(xmlhttp.responseText);
+					element.innerTHML = xmlhttp.responseText;
+				}else{
+					console.log(div + " Element not found in document")
+				}
+			});
 			//doesnt actually display anything the displayCSVOnPage function works though
 		}else {
 			document.getElementById(div).innerHTML = "Error ocurred.";

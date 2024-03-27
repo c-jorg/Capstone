@@ -1,0 +1,36 @@
+﻿input[type="text"],
+input[type="password"],
+input[type="submit"] {
+    width: 92%;
+    font-family: 'Modern Era Medium';
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: block;
+    color: black;
+}
+
+input[type="submit"] {
+    background-color: #E10054;
+    border: solid;
+    width: 100%;
+    font: bolder;
+}
+input[type="submit"]:hover {
+    background-color: #ff0066;
+}
+.container {
+    width: 300px; 
+    margin: 50px auto;
+}
+form {
+    padding: 20px;
+    border: 2px solid #E10054;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+label {
+    display: block; 
+    margin-bottom: 5px;
+}
