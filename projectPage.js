@@ -1,4 +1,5 @@
 //<<<<<<<<<<jQuery
+
 $(document).ready(() => {
     loadEntities();
     $("button#addEntityBTN").click(() => { loadEntities(); });
