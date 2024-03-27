@@ -19,7 +19,7 @@ spl_autoload_register(function ($class) {
 if (isset($_GET['project_code'])) {
 
     ob_start();
-    $project_code = $_GET['project_code'];
+    $project_code = str_replace(array("'",'"'), "", $_GET['project_code']) ;
     $project = new Project($project_code);
     $project->getProject($project_code);
 
@@ -56,7 +56,7 @@ if (isset($_GET['project_code'])) {
     for ($i = 0; $i < $numOfActivities; $i++) {
         $activity[$i] = new Activity($project, $activityCodes[$i]);
         $activity[$i]->getActivity($activityCodes[$i]);
-        $pResearcherId = Principal_Researcher::pResearcherId($activity[$i]);
+        $pResearcherId = Principal_Researcher::pResearcherId($activity[$i]);        
         if ($pResearcherId !== 0) {
             $pResearcher[$i] = new Principal_Researcher(new Entity($managerId), $activity[$i]);
             $pResearcher[$i]->entity->getEntity($pResearcherId);
@@ -145,7 +145,7 @@ if (isset($_GET['project_code'])) {
                 <br>
                 <h2>Activity : <?= $activity[$j]->activity_code ?></h2>
                 <br>
-                <fieldset id='activity<?= $k ?>'>
+                <fieldset id="activity<?= $k ?>">
                     <legend align='right'><a id='editActivity<?= $k ?>' onclick='editActivity(<?= $k ?>,<?= $numOfClients ?>,<?= $numOfResearchers ?>,<?= $numOfStudents ?>,<?= $numOfContractors ?>);return false;' href='#'>Edit</a></legend>
                     <br>
                     <p><span class='tag'>Title: </span><span id='aTitle<?= $k ?>'><?= $activity[$j]->title ?></span></p>

@@ -68,7 +68,7 @@ class Client {
     public static function clientId($project) {
         $check = new Client(new Entity(), $project);
         $check->openConnection();
-        $query = "SELECT entity_id AS id FROM {$check->table} WHERE project_code = {$project->project_code};";
+        $query = "SELECT entity_id AS id FROM {$check->table} WHERE project_code = '{$project->project_code}';";
         $result = mysqli_query($check->mysqli, $query) or die(mysqli_error($check->mysqli));
         if ($result) {
             $Id = [];

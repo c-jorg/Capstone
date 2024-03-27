@@ -68,7 +68,7 @@ class Project {
                 . "type = $this->type,"
                 . "start_date = $this->start_date,"
                 . "end_date = $this->end_date "
-                . "WHERE project_code = $this->project_code;";
+                . "WHERE project_code = '$this->project_code';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             echo "Project has been updated";
@@ -78,7 +78,7 @@ class Project {
 
     public function getProject($project_code) {
     	$this->openConnection();
-        $query = "SELECT * FROM {$this->table} WHERE project_code = {$project_code};";
+        $query = "SELECT * FROM {$this->table} WHERE project_code = '{$project_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             $this->project_code = $project_code;

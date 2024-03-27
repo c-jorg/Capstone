@@ -45,7 +45,7 @@ class Funder {
                 . "'{$this->project->project_code}',"
                 . "'$this->funding_amt',"
                 . "$this->date_given,"
-                . "'$this->funder_end_date'"
+                . "$this->funder_end_date"
                 . ");";
         echo $query;
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
@@ -80,7 +80,7 @@ class Funder {
     }
     public function getFunderDetails() {
     	$this->openConnection();
-        $query = "SELECT * FROM {$this->table} WHERE entity_id = {$this->entity->id} AND project_code = {$this->project->project_code};";
+        $query = "SELECT * FROM {$this->table} WHERE entity_id = '{$this->entity->id}' AND project_code = '{$this->project->project_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -94,7 +94,7 @@ class Funder {
     public static function getFunderIds($project) {
         $check = new Funder(new Entity(), $project);
         $check->openConnection();
-        $query = "SELECT entity_id AS id FROM {$check->table} WHERE project_code = {$project->project_code};";
+        $query = "SELECT entity_id AS id FROM {$check->table} WHERE project_code = '{$project->project_code}';";
         $result = mysqli_query($check->mysqli, $query) or die(mysqli_error($check->mysqli));
         if ($result) {
             $funderId = [];
@@ -109,7 +109,7 @@ class Funder {
     public static function getNumOfFunders($project) {
         $check = new Funder(new Entity(), $project);
         $check->openConnection();
-        $query = "SELECT count(*) AS count FROM {$check->table} WHERE project_code = {$project->project_code};";
+        $query = "SELECT count(*) AS count FROM {$check->table} WHERE project_code = '{$project->project_code}';";
         $result = mysqli_query($check->mysqli, $query) or die(mysqli_error($check->mysqli));
         if ($result) {
             $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
