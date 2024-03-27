@@ -19,7 +19,7 @@ spl_autoload_register(function ($class) {
 if (isset($_GET['project_code'])) {
 
     ob_start();
-    $project_code = str_replace(array("'",'"'), "", $_GET['project_code']) ;
+    $project_code = str_replace(array("'", '"'), "", $_GET['project_code']);
     $project = new Project($project_code);
     $project->getProject($project_code);
 
@@ -56,7 +56,7 @@ if (isset($_GET['project_code'])) {
     for ($i = 0; $i < $numOfActivities; $i++) {
         $activity[$i] = new Activity($project, $activityCodes[$i]);
         $activity[$i]->getActivity($activityCodes[$i]);
-        $pResearcherId = Principal_Researcher::pResearcherId($activity[$i]);        
+        $pResearcherId = Principal_Researcher::pResearcherId($activity[$i]);
         if ($pResearcherId !== 0) {
             $pResearcher[$i] = new Principal_Researcher(new Entity($managerId), $activity[$i]);
             $pResearcher[$i]->entity->getEntity($pResearcherId);
@@ -86,9 +86,8 @@ if (isset($_GET['project_code'])) {
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
             <link rel="stylesheet" href="index.css">
             <script src='header.js'></script>
+            <script src='jquery-3.7.1.min.js'></script>
             <script src='projectPage.js'></script>
-            <!--<script src='projectPosting.js'></script>-->
-            <?php include './entityLookUp.php'; ?>
             <title>Project : <?= $project_code ?></title>
             <style>
                 .tag {
@@ -97,56 +96,69 @@ if (isset($_GET['project_code'])) {
             </style>
             <script></script>
         </head>
-        <body onload='displayHeader()'>
+        <body onload="displayHeader();setProjectParam(<?= $numOfFunders . ',' . $numOfClients ?>);">
             <div class='header' id='header'></div>
             <br>
             <h1>Project : <?= $project_code ?></h1>
             <br>
-            <fieldset onload='setProjectParam(<?= $numOfFunders ?>, <?= $numOfClients ?>)'>
-                <legend align="right"><a id="editProject" onclick="editProject(<?= $project_code ?>);loadEntities();return false;" href="#">Edit</a></legend>
+            <fieldset>
+                <legend align="right" ><a id="editProject"  onclick="editProject('<?= $project_code ?>');loadEntities();return false;" href="#">Edit</a></legend>
                 <br>
-                <p><span class='tag'>Title: </span><span id="title"><?= $project->title ?></span></p><br>
-                <p><span class='tag'>Stage: </span><span id="stage"><?= $project->stage ?></span></p><br>
-                <p><span class='tag'>Description: </span><span id="description"><?= $project->description ?></span></p><br>
-                <p><span class='tag'>Type: </span><span id="type"><?= $project->type ?></span></p><br>           
-                <p><span class='tag'>Project Manager: </span><span id="manager"><?= $manager->entity->getName(); ?></span></p><br>           
-                <p><span class='tag'>Start Date: </span><span id="start_date"><?= $project->start_date ?></span></p><br>
+                <p><span class='tag'>Title: </span><span id="title"><?= $project->title ?></span></p>
+                <br>
+                <p><span class='tag'>Stage: </span><span id="stage"><?= $project->stage ?></span></p>
+                <br>
+                <p><span class='tag'>Description: </span><span id="description"><?= $project->description ?></span></p>
+                <br>
+                <p><span class='tag'>Type: </span><span id="type"><?= $project->type ?></span></p>
+                <br>           
+                <p><span class='tag'>Project Manager: </span><span id="manager"><?= $manager->entity->getName(); ?></span></p>
+                <br>           
+                <p><span class='tag'>Start Date: </span><span id="start_date"><?= $project->start_date ?></span></p>
+                <br>
                 <p><span class='tag'>End Date: </span><span id="end_date"><?= $project->end_date ?></span></p><br>
                 <h3>Funders</h3>
-                <?php
-                for ($i = 0; $i < $numOfFunders; $i++) {
-                    $j = $i + 1;
-                    echo "<p><span class='tag'>{$j}: </span><span id='funder{$j}'>" . $funder[$i]->entity->getName() . "</span>&ensp;"
-                    . "<strong>Amount:</strong> $<span id='funding_amt{$j}'>" . $funder[$i]->funding_amt . "</span>&ensp;"
-                    . "<strong>Date Received:</strong> <span id='date_given{$j}'>" . $funder[$i]->date_given . "</span>&ensp;"
-                    . "<strong>End Date:</strong> <span id='funder_end_date{$j}'>" . $funder[$i]->funder_end_date . "</span>"
-                    . "<span id='addFunder{$j}'><a onclick='removeFunderField({$j});return false;' href='#'>-remove</a></span></p>";
-                }
-                $newFunder = $numOfFunders + 1;
-                echo "<span id='addFunder{$newFunder}'></span>";
-                echo "<span id='addFunderLink'></span>";
-                echo "<br>";
-                echo "<h3>Clients</h3>";
-                for ($i = 1; $i <= $numOfClients; $i++) {
-                    echo "<p><span class='tag'>{$i}: </span><span id='client{$i}'>"
-                    . $client[$i - 1]->entity->getName() . "</span></p>";
-                }
-                $newClient = $numOfClients + 1;
-                echo "<span id='addClient{$newClient}'></span>";
-                echo "<span id='addClientLink'></span>";
-                ?>
+                <div class='Funders'>
+                    <?php
+                    for ($i = 0; $i < $numOfFunders; $i++) {
+                        $j = $i + 1;
+                        echo "<p id='addFunder{$j}'>"
+                        . "<span class='tag'>{$j}: </span><span id='funder{$j}'>" . $funder[$i]->entity->getName() . "</span>&ensp;"
+                        . "<strong>Amount:</strong> $<span id='funding_amt{$j}'>" . $funder[$i]->funding_amt . "</span>&ensp;"
+                        . "<strong>Date Received:</strong> <span id='date_given{$j}'>" . $funder[$i]->date_given . "</span>&ensp;"
+                        . "<strong>End Date:</strong> <span id='funder_end_date{$j}'>" . $funder[$i]->funder_end_date . "</span>&ensp;"
+                        . "</p>";
+                    }
+                    ?>
+                    <span id='addFunderLink'></span>
+
+                </div>
+                <br>
+
+                <h3>Clients</h3>
+                <div class='Clients'>
+                    <?php
+                    for ($i = 1; $i <= $numOfClients; $i++) {
+                        echo "<p id='addClient{$i}'>"
+                        . "<span class='tag'>{$i}: </span>"
+                        . "<span id='Client{$i}'>" . $client[$i - 1]->entity->getName() . "</span>&ensp;"
+                        . "</p>";
+                    }
+                    ?>
+                    <span id='addClientLink'></span>
+                </div>
                 <br>
                 <div id="saveEditProject"></div>
             </fieldset>
             <?php
-            for ($j = 0; $j < $numOfActivities; $j++) {
+            for ($j = $numOfActivities - 1; $j >= 0 ; $j--) {
                 $k = $j + 1;
                 ?>
                 <br>
                 <h2>Activity : <?= $activity[$j]->activity_code ?></h2>
                 <br>
-                <fieldset id="activity<?= $k ?>">
-                    <legend align='right'><a id='editActivity<?= $k ?>' onclick='editActivity(<?= $k ?>,<?= $numOfClients ?>,<?= $numOfResearchers ?>,<?= $numOfStudents ?>,<?= $numOfContractors ?>);return false;' href='#'>Edit</a></legend>
+                <fieldset>
+                    <legend align='right'><a id="editActivity<?= $k ?>" onclick="editActivity(<?= $k . ',' . $numOfClients . ',' . $numOfResearchers . ',' . $numOfStudents . ',' . $numOfContractors ?>);return false;" href="#">Edit</a></legend>
                     <br>
                     <p><span class='tag'>Title: </span><span id='aTitle<?= $k ?>'><?= $activity[$j]->title ?></span></p>
                     <br>
@@ -163,22 +175,33 @@ if (isset($_GET['project_code'])) {
                         <br>
                         <?php
                     }
-                    echo "<h3>Researchers</h3>";
-                    for ($i = 1; $i <= count($researcher[$j]); $i++) {
-                        echo "<p><span class='tag'>{$i}: </span><span id='researcher{$j}{$i}'>"
-                        . $researcher[$j][$i - 1]->entity->getName() . "</span></p>";
-                    }
-                    echo "<br>";
-                    echo "<h3>Contractors</h3>";
-                    for ($i = 1; $i <= count($contractor[$j]); $i++) {
-                        echo "<p><span class='tag'>{$i}: </span><span id='contractor{$j}{$i}'>" . $contractor[$j][$i - 1]->entity->getName() . "</span>"
-                        . "&ensp;"
-                        . "<span class='tag'>Payment: </span><span id='payment{$j}{$i}'>$" . $contractor[$j][$i - 1]->payment . "</span>"
-                        . "&ensp;"
-                        . "<span class='tag'>Pay date: </span><span id='payDate{$j}{$i}'>" . $contractor[$j][$i - 1]->date_payed . "</span></p>";
-                    }
-                    //$activityS .= "<br><div id='saveEditActivity{$k}'></div>";
                     ?>
+                    <h3>Researchers</h3>
+                    <div class="Researchers">
+                        <?php
+                        for ($i = 1; $i <= count($researcher[$j]); $i++) {
+                            echo "<p>"
+                            . "<span class='tag'>{$i}: </span>"
+                            . "<span id='researcher{$j}{$i}'>" . $researcher[$j][$i - 1]->entity->getName() . "</span>"
+                            . "</p>";
+                        }
+                        ?>
+                    </div>
+                    <br>
+                    <h3>Contractors</h3>
+                    <div class = 'Contractors'>
+                        <?php
+                        for ($i = 1; $i <= count($contractor[$j]); $i++) {
+                            echo "<p><span class='tag'>{$i}: </span><span id='contractor{$j}{$i}'>" . $contractor[$j][$i - 1]->entity->getName() . "</span>"
+                            . "&ensp;"
+                            . "<span class='tag'>Payment: </span><span id='payment{$j}{$i}'>$" . $contractor[$j][$i - 1]->payment . "</span>"
+                            . "&ensp;"
+                            . "<span class='tag'>Pay date: </span><span id='payDate{$j}{$i}'>" . $contractor[$j][$i - 1]->date_payed . "</span>"
+                            . "</p>";
+                        }
+                        //$activityS .= "<br><div id='saveEditActivity{$k}'></div>";
+                        ?>
+                    </div>
                     <br>
                 </fieldset>
                 <?php

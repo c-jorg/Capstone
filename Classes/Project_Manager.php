@@ -1,4 +1,5 @@
 <?php
+
 namespace Classes;
 
 class Project_Manager {

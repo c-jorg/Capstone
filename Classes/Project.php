@@ -1,5 +1,4 @@
 <?php
-
 namespace Classes;
 
 class Project {
