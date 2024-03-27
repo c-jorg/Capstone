@@ -58,11 +58,22 @@ $fullquery = "SELECT e.first_name,
               e.last_name,
               e.salutation,
               e.email,
-              e.category
+              e.category,
+              e.id
               FROM Entities e, Researchers r
               WHERE e.id = r.entity_id";
 
+$managerQuery = "SELECT m.entity_id, m.project_code
+                 FROM Project_Managers m, Researchers r
+                 WHERE r.entity_id = m.entity_id";
+
+$principalQuery = "SELECT p.entity_id, p.activity_code
+                   FROM Principal_Researchers p, Researchers r
+                   WHERE r.entity_id = p.entity_id";
+
 $result = mysqli_query($sqli, $fullquery);
+$managerResult = mysqli_query($sqli, $managerQuery);
+$principalResult = mysqli_query($sqli, $principalQuery);
 if(mysqli_num_rows($result) !== 0){
   while ($row = mysqli_fetch_array($result)) {
     $sal = stripslashes($row['salutation']);
@@ -76,13 +87,28 @@ if(mysqli_num_rows($result) !== 0){
     $manager = 'N/A';
     $principal = 'N/A';
 
-    /*
-    if(stripslashes($row['manager']) !== 'NULL'){
-        $manager = stripslashes($row['managerPro']);
-    }else if(stripslashes($row['principal']) !== 'NULL'){
-        $manager = stripslashes($row['principalAct']);
+    $id = stripslashes($row['id']);
+    if(mysqli_num_rows($managerResult) !== 0){
+        while ($managerRow = mysqli_fetch_array($managerResult)) {
+            $managerCheck = stripslashes($managerRow['entity_id']);
+            if($managerCheck == $id){
+                $code = stripslashes($managerRow['project_code']);
+                $manager = "Project Code: " . stripslashes($managerRow['project_code']);
+                $manager = "<a href='projectPage.php?project_code=\"".$code."\"'>" . $manager;
+            }
+        }
     }
-    */
+
+    if(mysqli_num_rows($principalResult) !== 0){
+        while ($principalRow = mysqli_fetch_array($principalResult)) {
+            $principalCheck = stripslashes($principalRow['entity_id']);
+            if($principalCheck == $id){
+                $code = stripslashes($principalRow['activity_code']);
+                $principal = "Activity Code: " . stripslashes($principalRow['activity_code']);
+                $principal = "<a href='projectPage.php?project_code=\"".$code."\"'>" . $principal;
+            }
+        }
+    }
 
     $entry = "<tr>
                 <td>".$name."</td>
