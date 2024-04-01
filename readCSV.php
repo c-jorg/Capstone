@@ -1,7 +1,9 @@
 <?php
 $file = fopen('output.txt', 'r');
 $info = fread($file, filesize('output.txt'));
-$lines = explode('\r\n', $info);
+//$info = stream_get_contents($file);
+fclose($file);
+$lines = explode("\n", $info);
 
 $display = "<table class='csvTable'>";
 foreach($lines as $line){
@@ -15,5 +17,5 @@ foreach($lines as $line){
 $display .= "</table>";
 echo $display;
 //echo fread($file, filesize('output.txt'));
-fclose($file);
+
 ?>

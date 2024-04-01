@@ -155,5 +155,16 @@ body {
 .csvTable {
 	border: 1px solid;
 	border-collapse: collapse;
-	
+	text-align: center;
+	vertical-align: middle;
+	padding: 4px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+}
+
+.downloadBtn {
+	position: absolute;
+	top: 10px;
+	right: 10px;
 }
