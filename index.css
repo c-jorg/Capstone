@@ -151,3 +151,9 @@ body {
 .quickAccess {
     text-align: left;
 }
+
+.csvTable {
+	border: 1px solid;
+	border-collapse: collapse;
+	
+}
