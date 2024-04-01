@@ -1,4 +1,5 @@
 <?php
+
 namespace Classes;
 
 class Funder {
@@ -28,7 +29,7 @@ class Funder {
     }
 
     public function openConnection() {
-        $this->mysqli = new \mysqli("localhost", "root", "", $this->database);
+        $this->mysqli = new \mysqli'localhost:3306','root','', $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
