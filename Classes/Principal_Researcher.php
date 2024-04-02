@@ -23,7 +23,7 @@ class Principal_Researcher {
     }
 
     public function openConnection() {
-        $this->mysqli = new \mysqli("localhost", "root", "", $this->database);
+        $this->mysqli = new \mysqli('localhost:3306','root','', $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -68,7 +68,7 @@ class Principal_Researcher {
     public static function pResearcherId($activity) {
         $check = new Principal_Researcher(new Entity(), $activity);
         $check->openConnection();
-        $query = "SELECT entity_id AS id FROM {$check->table} WHERE activity_code = {$activity->activity_code};";
+        $query = "SELECT entity_id AS id FROM {$check->table} WHERE activity_code = '{$activity->activity_code}';";
         $result = mysqli_query($check->mysqli, $query) or die(mysqli_error($check->mysqli));
         if ($result) {
             $data = mysqli_fetch_array($result, MYSQLI_ASSOC);

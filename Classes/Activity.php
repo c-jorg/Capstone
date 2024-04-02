@@ -12,9 +12,9 @@ class Activity {
     private $database = "Research";
     private $table = "Activities";
 
-    public function __construct($project, $activity_code = 0) {
+    public function __construct($project, $activity_code = '0') {
         $this->project = $project;
-        $this->activity_code = $activity_code;
+        $this->activity_code = strval($activity_code);
     }
     
     public function __toString(): string {
@@ -33,7 +33,7 @@ class Activity {
     }
 
     public function openConnection() {
-        $this->mysqli = new \mysqli("localhost", "root", "", $this->database);
+        $this->mysqli = new \mysqli('localhost:3306','root','', $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -82,8 +82,8 @@ class Activity {
     }
 
     public function getActivity($activity_code) {
-    	$this->openConnection();
-        $query = "SELECT *  FROM $this->table WHERE activity_code = {$activity_code} AND project_code = {$this->project->project_code};";
+        $this->openConnection();
+        $query = "SELECT * FROM $this->table WHERE activity_code = '{$activity_code}' AND project_code = '{$this->project->project_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result->num_rows === 1) {
             $this->setActivity($result);
@@ -117,7 +117,7 @@ class Activity {
     public static function getActivityCodes($project_code) {
         $check = new Activity($project_code);
         $check->openConnection();
-        $query = "SELECT activity_code AS code FROM {$check->table} WHERE project_code = {$project_code};";
+        $query = "SELECT activity_code AS code FROM {$check->table} WHERE project_code = '{$project_code}';";
         $result = mysqli_query($check->mysqli, $query) or die(mysqli_error($check->mysqli));
         if ($result) {
             $code = [];

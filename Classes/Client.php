@@ -22,7 +22,7 @@ class Client {
     }
     
     public function openConnection() {
-        $this->mysqli = new \mysqli("localhost", "root", "", $this->database);
+        $this->mysqli = new \mysqli('localhost:3306','root','', $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -45,10 +45,10 @@ class Client {
         $this->closeConnection();
     }
 
-    public function updateClient($entity_id, $project_code) {
+    public function updateClient($entity, $project) {
         $this->deleteClient();
-        $this->entity = new Entity($entity_id);
-        $this->project = new Project($project_code);
+        $this->entity = $entity;
+        $this->project = $project;
         $this->insertClient();
         
     }
@@ -68,7 +68,7 @@ class Client {
     public static function clientId($project) {
         $check = new Client(new Entity(), $project);
         $check->openConnection();
-        $query = "SELECT entity_id AS id FROM {$check->table} WHERE project_code = {$project->project_code};";
+        $query = "SELECT entity_id AS id FROM {$check->table} WHERE project_code = '{$project->project_code}';";
         $result = mysqli_query($check->mysqli, $query) or die(mysqli_error($check->mysqli));
         if ($result) {
             $Id = [];

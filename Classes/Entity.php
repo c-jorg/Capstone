@@ -16,7 +16,7 @@ class Entity {
     }
 
     public function openConnection() {
-        $this->mysqli = new \mysqli("localhost", "root", "", $this->database);
+        $this->mysqli = new \mysqli('localhost:3306','root','', $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -78,7 +78,7 @@ class Entity {
 
     public function getEntity($id) {
     	$this->openConnection();
-        $query = "SELECT *  FROM {$this->table} WHERE id = '{$id}';";
+        $query = "SELECT * FROM {$this->table} WHERE id = '{$id}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result->num_rows === 1) {
             echo "Entity Found";

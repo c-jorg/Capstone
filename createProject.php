@@ -1,5 +1,4 @@
 <?php
-
 use Classes\{Project, Funder, Entity, Project_Manager, Activity, Client, Principal_Researcher, Researcher, Contractor};
 
 spl_autoload_register(function ($class) { include str_replace('\\', '/', $class) . ".php"; });

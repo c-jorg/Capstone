@@ -28,7 +28,7 @@ class Contractor {
     }
 
     public function openConnection() {
-        $this->mysqli = new \mysqli("localhost", "root", "", $this->database);
+        $this->mysqli = new \mysqli('localhost:3306','root','', $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -45,7 +45,7 @@ class Contractor {
                 . "VALUES ('{$this->entity->id}',"
                 . "'{$this->activity->activity_code}',"
                 . "'$this->payment',"
-                . "'$this->date_payed'"
+                . "$this->date_payed"
                 . ");";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
@@ -78,7 +78,7 @@ class Contractor {
     }
     public function getContractorDetails() {
         $this->openConnection();
-    	$query = "SELECT * FROM {$this->table} WHERE entity_id = {$this->entity->id} AND activity_code = {$this->activity->activity_code};";
+    	$query = "SELECT * FROM {$this->table} WHERE entity_id = '{$this->entity->id}' AND activity_code = '{$this->activity->activity_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -91,7 +91,7 @@ class Contractor {
     public static function getContractorIds($activity) {
         $check = new Contractor(new Entity(), $activity);
         $check->openConnection();
-        $query = "SELECT entity_id AS id FROM {$check->table} WHERE activity_code = {$activity->activity_code};";
+        $query = "SELECT entity_id AS id FROM {$check->table} WHERE activity_code = '{$activity->activity_code}';";
         $result = mysqli_query($check->mysqli, $query) or die(mysqli_error($check->mysqli));
         if ($result) {
             $Id = [];
