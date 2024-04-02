@@ -8,6 +8,6 @@ $entity->email = $_GET['email'];
 $entity->salutation= $_GET['salutation'];
 $entity->company = $_GET['company'];
 $entity->category = $_GET['category'];
-$entity->createEntity();
+$entity->create();
 
 ?>

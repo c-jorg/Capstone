@@ -1,4 +1,5 @@
 <?php
+
 use Classes\{Project, Funder, Entity, Project_Manager, Activity, Client, Principal_Researcher, Researcher, Contractor};
 
 spl_autoload_register(function ($class) { include str_replace('\\', '/', $class) . ".php"; });
@@ -13,10 +14,10 @@ $project->stage = $_GET['stage'];
 $project->type = $_GET['type'];
 $project->start_date = $_GET['start_date'] ? "'" . $_GET['start_date'] . "'" : "null";
 $project->end_date = $_GET['end_date'] ? "'" . $_GET['end_date'] . "'" : "null";
-$project->createProject();
+$project->createxx();
 if(!empty($_GET['managerId'])) { 
     $manager = new Project_Manager($_GET['managerId'],$project_code);
-    $manager->insertManager();
+    $manager->insert();
 }
 
 if(!empty($_GET['entity_id0'])) { 
@@ -29,7 +30,7 @@ if(!empty($_GET['entity_id0'])) {
         $funder[$i]->date_given = $_GET["date_given{$i}"] ? "'" . $_GET['date_given{$i}'] . "'" : "null";
         $funder[$i]->funder_end_date = $_GET["frequency{$i}"];
         echo $funder[$i];
-        $funder[$i]->insertFunder();
+        $funder[$i]->insert();
     }
 }
 ?>

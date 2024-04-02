@@ -40,7 +40,7 @@ class Funder {
         mysqli_close($this->mysqli);
     }
 
-    public function insertFunder() {
+    public function insert() {
         $this->openConnection();
         $query = "INSERT INTO $this->table "
                 . "VALUES ('{$this->entity->id}',"
@@ -58,29 +58,29 @@ class Funder {
         $this->closeConnection();
     }
 
-    public function updateFunder($newEntity, $project, $funding_amt, $date_given, $funder_end_date) {
-        $this->deleteFunder();
+    public function update($newEntity, $project, $funding_amt, $date_given, $funder_end_date) {
+        $this->delete();
         $this->entity = $newEntity;
         $this->project = $project;
         $this->funding_amt = $funding_amt;
         $this->date_given = $date_given;
         $this->funder_end_date = $funder_end_date;
-        $this->insertFunder();
+        $this->insert();
     }
 
-    public function deleteFunder() {
+    public function delete() {
         $this->openConnection();
         $query = "DELETE FROM $this->table WHERE entity_id = '{$this->entity->id}' AND project_code = '{$this->project->project_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
-        if ($result->num_rows == 1) {
-            echo "Record Deleted";
+        if ($result) {
+            echo "Funder Deleted";
         } else {
-            echo "Record Not Found";
+            echo "Funder Not Found";
         }
         $this->closeConnection();
     }
 
-    public function getFunderDetails() {
+    public function load() {
         $this->openConnection();
         $query = "SELECT * FROM {$this->table} WHERE entity_id = '{$this->entity->id}' AND project_code = '{$this->project->project_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
@@ -93,7 +93,7 @@ class Funder {
         $this->closeConnection();
     }
 
-    public static function getFunderIds($project) {
+    public static function getIds($project) {
         $check = new Funder(new Entity(), $project);
         $check->openConnection();
         $query = "SELECT entity_id AS id FROM {$check->table} WHERE project_code = '{$project->project_code}';";

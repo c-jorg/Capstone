@@ -14,8 +14,8 @@
     <body onload='displayHeader()'>
         <div class='header' id='header'></div>
         <br><br>
-        <h1>Add Entity</h1>
         <fieldset id="addEntity">
+            <h4>Add Entity</h4>
             <br>
             <label for="salutation">Salutation:</label>
             <select name="salutation" id="salutation">
@@ -49,9 +49,7 @@
             </select>
             <br><br>
             <button onclick="addEntity();return false;" id="addEntityBTN" style="width:200px">Add Entity</button>&ensp;<span id="addEntityReponse" style="color:red;"></span>
-            <br><br>
         </fieldset>
-        <br><br>
         <h1>Create Project</h1>
         <fieldset>
             <h3>Project Details</h3>
@@ -73,7 +71,7 @@
             </select>
             <br><br>
             <label for="projectDescription">Project Description:</label><br>
-            <textarea id="projectDescription" name="projectDescription" rows="4" cols="60" required></textarea>
+            <textarea id="projectDescription" name="projectDescription" rows="4" cols="60"></textarea>
             <br><br>
             <label for="type">Project Type:</label>
             <input list="types" name="type" id="type">
@@ -114,8 +112,6 @@
             <button  onclick="createProject()" style="width:200px">Create Project</button>&ensp;<span id="projectCreated" style="color:red;"></span>		
             <br><br>
         </fieldset>
-        <br><br>
-        <h1>Create Subproject</h1>
         <fieldset>
             <h3>Subproject Details</h3>
             <br>

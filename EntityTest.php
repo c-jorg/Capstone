@@ -1,33 +1,33 @@
 <?php
-
+use Classes\Entity;
 /*
  *  Entity.php class test
  */
-include 'Entity.php';
+include 'Classes/Entity.php';
 $entity = new Entity();
 $entity->first_name = "Tom";
 $entity->last_name = "Tom";
-$entity->email = "dif33f@mail.com";
+$entity->email = "email1@mail.com";
 $entity->salutation = "Mr.";
 $entity->company = "sTom inc.";
 
-$entity->openConnection();
+//$entity->openConnection();
 
-$entity->createEntity();
+$entity->create();
 echo "<br>";
 
 $id = $entity->id;
 $entity->first_name = "Samu";
-$entity->updateEntity();
+$entity->update();
 echo "<br>";
 
-$entity->getEntity("9");
+$entity->load("9");
 echo "<br>";
-$entity->getEntity($id);
+$entity->load($id);
 echo "<br>";
-//echo $entity;
-$entity->deleteEntity($id);
+echo $entity;
+$entity->delete($id);
 echo "<br>";
-$entity->getEntity($id);
+$entity->load($id);
 
-$entity->closeConnection();
+//$entity->closeConnection();

@@ -44,7 +44,7 @@ class Activity {
         mysqli_close($this->mysqli);
     }
 
-    public function createActivity() {
+    public function create() {
     	$this->openConnection();
         $query = "INSERT INTO $this->table "
                 . "VALUES ('$this->activity_code',"
@@ -63,11 +63,11 @@ class Activity {
         $this->closeConnection();
     }
 
-    public function updateActivity() {
+    public function update() {
     	$this->openConnection();
         $query = "UPDATE $this->table "
                 . "SET activity_code = '$this->activity_code',"
-                . "project_code = '{$this->project->project_code}'"
+                . "project_code = '{$this->project->project_code}',"
                 . "title = '$this->title',"
                 . "description = '$this->description', "
                 . "start_date = '$this->start_date',"
@@ -76,24 +76,24 @@ class Activity {
                 . "WHERE activity_code = '$this->activity_code';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
-            echo "Record has been updated successfully";
+            echo "Activity has been updated successfully";
         }
         $this->closeConnection();
     }
 
-    public function getActivity($activity_code) {
+    public function load($activity_code) {
         $this->openConnection();
         $query = "SELECT * FROM $this->table WHERE activity_code = '{$activity_code}' AND project_code = '{$this->project->project_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result->num_rows === 1) {
-            $this->setActivity($result);
+            $this->set($result);
         } else {
             echo "Activity Not Found";
         }
         $this->closeConnection();
     }
 
-    public function setActivity($result) {
+    public function set($result) {
         $activity = mysqli_fetch_array($result, MYSQLI_ASSOC);
         $this->title = $activity['title'];
         $this->description = $activity['description'];
@@ -102,7 +102,7 @@ class Activity {
         $this->notes = $activity['notes'];
     }
 
-    public function deleteActivity($activity_code) {
+    public function delete($activity_code) {
     	$this->openConnection();
         $query = "DELETE FROM $this->table WHERE activity_code = '{$activity_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
@@ -114,7 +114,7 @@ class Activity {
         $this->closeConnection();
     }
     
-    public static function getActivityCodes($project_code) {
+    public static function getCodes($project_code) {
         $check = new Activity($project_code);
         $check->openConnection();
         $query = "SELECT activity_code AS code FROM {$check->table} WHERE project_code = '{$project_code}';";
