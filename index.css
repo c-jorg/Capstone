@@ -26,13 +26,8 @@ body {
 }
 
 .homepage {
-<<<<<<< HEAD
     margin-top: -15px;
     /*background-color: rgba(222, 156, 238, .25);*/
-=======
-	margin-top: -15px;
-	/*background-color: rgba(222, 156, 238, .25);*/
->>>>>>> f9fdb032a6d8831135dc084f7009e9f0e909fc2b
 }
 
 .home {
@@ -48,8 +43,7 @@ body {
 
 .links {
 	text-align: center;
-	margin-top: -300px;*/
-/*background-color: rgba(222, 156, 238, .25);*/
+	margin-top: -200px;
 }
 
 .links a {
@@ -63,7 +57,7 @@ body {
     border-radius: 15px; /* Increased border-radius for rounded corners */
     background-color: #f7f7f7;
 	transition: background-color 0.3s ease;
-	width: 200px; /* Increased width of the links */
+	width: 250px; /* Increased width of the links */
     box-sizing: border-box; /* Include padding in width calculation */
 }
 
@@ -151,3 +145,12 @@ body {
 .quickAccess {
     text-align: left;
 }
+
+.createBTNs button{
+    display: inline; 
+    margin-left: 5px;
+    font-size: 15px;
+    height: 50px;
+    width: 150px;
+}
+

@@ -13,6 +13,12 @@
     </head>
     <body onload='displayHeader()'>
         <div class='header' id='header'></div>
+        <br>
+        <div class="createBTNs">
+            <button id="addEntBTN">Add Entity</button>
+            <button id="addProjBTN">Create Project</button>
+            <button id="addSubProjBTN">Create Subproject</button>
+        </div>
         <br><br>
         <h1>Add Entity</h1>
         <fieldset id="addEntity">
