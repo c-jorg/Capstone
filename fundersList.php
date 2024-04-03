@@ -1,4 +1,4 @@
-<html> <!-- Original Version Created By Mustafa -->
+<html> <!-- Original Version Created By Mostafa -->
 <head>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -79,7 +79,7 @@ if(mysqli_num_rows($result) !== 0){
                 <td>".$company."</td>
                 <td>".$email."</td>
                 <td>".$projectCode."</td>
-                <td><a href='projectPage.php'>".$projectTitle."</a></td>
+                <td><a href='projectPage.php?project_code=\"".$projectCode."\"'>".$projectTitle."</td>
                 <td>".$dateGiven."</td>
                 <td>".$endDate."</td>
                 <td>$".number_format($fundingAmt)."</td>

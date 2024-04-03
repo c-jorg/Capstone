@@ -23,7 +23,7 @@ class Project_Manager {
     }
 
     public function openConnection() {
-        $this->mysqli = new \mysqli("localhost", "root", "", $this->database);
+        $this->mysqli = new \mysqli('localhost:3306','root','', $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -34,9 +34,9 @@ class Project_Manager {
         mysqli_close($this->mysqli);
     }
 
-    public function insertManager() {
+    public function insert() {
     	$this->openConnection();
-        $query = "INSERT INTO $this->table VALUES ({$this->entity->id},{$this->project->project_code});";
+        $query = "INSERT INTO $this->table VALUES ('{$this->entity->id}','{$this->project->project_code}');";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             echo "Manager has been saved!";
@@ -46,16 +46,16 @@ class Project_Manager {
         $this->closeConnection();
     }
 
-    public function updateManager($newEntity, $project) {
-        $this->deleteManager();
+    public function update($newEntity, $project) {
+        $this->delete();
         $this->entity = $newEntity;
         $this->project = $project;
-        $this->insertManager();
+        $this->insert();
     }
 
-    public function deleteManager() {
+    public function delete() {
     	$this->openConnection();
-        $query = "DELETE FROM {$this->table} WHERE project_code = {$this->project->project_code};";
+        $query = "DELETE FROM {$this->table} WHERE project_code = '{$this->project->project_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             echo "Manager Deleted";
@@ -65,15 +65,15 @@ class Project_Manager {
         $this->closeConnection();
     }
 
-    public static function managerId($project) {
+    public static function getId($project) {
         $check = new Project_Manager(new Entity(), $project);
         $check->openConnection();
-        $query = "SELECT entity_id AS id FROM {$check->table} WHERE project_code = {$project->project_code};";
+        $query = "SELECT entity_id AS id FROM {$check->table} WHERE project_code = '{$project->project_code}';";
         $result = mysqli_query($check->mysqli, $query) or die(mysqli_error($check->mysqli));
         if ($result) {
             $data = mysqli_fetch_array($result, MYSQLI_ASSOC);            
             $check->closeConnection(); 
-            return $data['id']??'';
+            return $data['id'];
         } else {
             $check->closeConnection();
             return 0;

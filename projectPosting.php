@@ -12,10 +12,18 @@
         <script></script>
     </head>
     <body onload='displayHeader()'>
-        <div class='header' id='header'></div>
+                <div class='header' id='header'></div>
+        <br>
+        <div class="createBTNs">
+            <button onclick="toggleAddEnt()" id="addEntBTN">Add Entity</button>
+            <button onclick="toggleCrPr()" id="addProjBTN">Create Project</button>
+            <button onclick="toggleSubPr()" id="addSubProjBTN">Create Subproject</button>
+        </div>
         <br><br>
+        <div id="addEnt" class="addEnt">
         <h1>Add Entity</h1>
         <fieldset id="addEntity">
+            <h4>Add Entity</h4>
             <br>
             <label for="salutation">Salutation:</label>
             <select name="salutation" id="salutation">
@@ -49,10 +57,10 @@
             </select>
             <br><br>
             <button onclick="addEntity();return false;" id="addEntityBTN" style="width:200px">Add Entity</button>&ensp;<span id="addEntityReponse" style="color:red;"></span>
-            <br><br>
         </fieldset>
-        <br><br>
-        <h1>Create Project</h1>
+                    </div>
+        <div id="crProj" class="crProj">
+            <h1>Create Project</h1>
         <fieldset>
             <h3>Project Details</h3>
             <br>
@@ -73,7 +81,7 @@
             </select>
             <br><br>
             <label for="projectDescription">Project Description:</label><br>
-            <textarea id="projectDescription" name="projectDescription" rows="4" cols="60" required></textarea>
+            <textarea id="projectDescription" name="projectDescription" rows="4" cols="60"></textarea>
             <br><br>
             <label for="type">Project Type:</label>
             <input list="types" name="type" id="type">
@@ -86,6 +94,11 @@
             <label for="projectManager">Project Manager:</label>
             <input list="entities" name="projectManager" id="projectManager" style="width:300px;">
             <datalist id="entities"></datalist>
+            <br><br>
+            <label for="pStartDate">Start Date:</label>
+            <input type="date" id="pStartDate" name="pStartDate">&ensp;
+            <label for="pEndDate">End Date:</label>
+            <input type="date" id="pEndDate" name="pEndDate">
             <br><br>
             <div id="funders">
                 <label for="funder1">Funder 1:</label>
@@ -106,24 +119,30 @@
                 </span>
             </div>
             <br>
-            <label for="pStartDate">Start Date:</label>
-            <input type="date" id="pStartDate" name="pStartDate">&ensp;
-            <label for="pEndDate">End Date:</label>
-            <input type="date" id="pEndDate" name="pEndDate">
-            <br><br>
+            <div id="clients">
+                <label for="Client1">Client 1:</label>
+                <input list="entities" name="Client1" id="Client1" style="width:300px;">
+                <datalist id="entities"></datalist>
+                &ensp;
+                <span id='addClient2'>
+                    <a onclick="addMoreField(2, 'Client');return false;" id="addLink" href="#">+add</a>
+                </span>
+            </div>
+            <br>
             <button  onclick="createProject()" style="width:200px">Create Project</button>&ensp;<span id="projectCreated" style="color:red;"></span>		
             <br><br>
         </fieldset>
-        <br><br>
-        <h1>Create Subproject</h1>
+            </div>
+        <div id="crSubproj" class="crSubproj">
+            <h2>Create Subproject</h2>
         <fieldset>
             <h3>Subproject Details</h3>
             <br>
             <label for="a1ProjectCode">Project Code:</label>
-            <input type="text" id="a1ProjectCode" name="a1ProjectCode"><span id="isA1ProjectCodeEmpty" style="color:red;"></span>
+            <input type="text" id="a1ProjectCode" name="a1ProjectCode"> <span id="isA1ProjectCodeEmpty" style="color:red;"></span>
             <br><br>
             <label for="activity1Code">Activity Code:</label>
-            <input type="text" id="activity1Code" name="activity1Code"><span id="isA1ActivityCodeEmpty" style="color:red;"></span>
+            <input type="text" id="activity1Code" name="activity1Code"> <span id="isA1ActivityCodeEmpty" style="color:red;"></span>
             <br><br>
             <label for="activityTitle">Activity Title:</label>
             <input type="text" id="activityTitle" name="activityTitle">
@@ -135,18 +154,8 @@
             <input type="date" id="a1StartDate" name="a1StartDate" required>
             &ensp;
             <label for="a1EndDate">End Date:</label>
-            <input type="date" id="a1EndDate" name="a2EndDate" required>
+            <input type="date" id="a1EndDate" name="a2EndDate" required>            
             <br><br>
-            <div id="clients">
-                <label for="Client1">Client 1:</label>
-                <input list="entities" name="Client1" id="Client1" style="width:300px;">
-                <datalist id="entities"></datalist>
-                &ensp;
-                <span id='addClient2'>
-                    <a onclick="addMoreField(2, 'Client');return false;" id="addLink" href="#">+add</a>
-                </span>
-            </div>
-            <br>
             <label for="principalResearcher">Principal Researcher:</label>
             <input list="entities" name="principalResearcher" id="principalResearcher" style="width:300px;">
             <datalist id="entities"></datalist>
@@ -184,5 +193,6 @@
             <button onclick="createActivity()" style="width:200px">Create Subproject</button>&ensp;<span id="activityCreated" style="color:red;"></span>		
             <br><br>	
         </fieldset>
+             </div>
     </body>
 </html>

@@ -23,7 +23,7 @@ class Researcher {
     }
 
     public function openConnection() {
-        $this->mysqli = new \mysqli("localhost", "root", "", $this->database);
+        $this->mysqli = new \mysqli('localhost:3306','root','', $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -34,41 +34,41 @@ class Researcher {
         mysqli_close($this->mysqli);
     }
 
-    public function insertResearcher() {
+    public function insert() {
     	$this->openConnection();
-        $query = "INSERT INTO $this->table VALUES ('{$this->entity->id}','{$this->activity->activity_code}','{$this->entity->category}');";
+        $query = "INSERT INTO $this->table VALUES ('{$this->entity->id}','{$this->activity->activity_code}');";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
-            echo "Record has been saved!";
+            echo "Researcher has been saved!";
         } else {
-            echo "Error while saving record";
+            echo "Error while saving Researcher";
         }
         $this->closeConnection();
     }
 
-    public function updateResearcher($entity_id, $project_code, $activity_code) {
-        $this->deleteResearcher();
-        $this->entity = new Entity($entity_id);
-        $this->activity = new Activity($project_code, $activity_code);
-        $this->insertResearcher();
+    public function update($entity, $activity) {
+        $this->delete();
+        $this->entity = $entity;
+        $this->activity = $activity;
+        $this->insert();
     }
 
-    public function deletePrincipalResearcher() {
+    public function delete() {
     	$this->openConnection();
         $query = "DELETE FROM $this->table WHERE entity_id = '{$this->entity->id}' AND activity_code = '{$this->activity->activity_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
-        if ($result->num_rows == 1) {
-            echo "Record Deleted";
+        if ($result) {
+            echo "Researcher Deleted";
         } else {
-            echo "Record Not Found";
+            echo "Researcher Not Found";
         }
         $this->closeConnection();
     }
 
-    public static function researcherId($activity) {
+    public static function getIds($activity) {
         $check = new Researcher(new Entity(), $activity);
         $check->openConnection();
-        $query = "SELECT entity_id AS id FROM {$check->table} WHERE activity_code = {$activity->activity_code};";
+        $query = "SELECT entity_id AS id FROM {$check->table} WHERE activity_code = '{$activity->activity_code}';";
         $result = mysqli_query($check->mysqli, $query) or die(mysqli_error($check->mysqli));
         if ($result) {
             $Id = [];

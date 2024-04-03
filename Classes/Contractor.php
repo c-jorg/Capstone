@@ -28,7 +28,7 @@ class Contractor {
     }
 
     public function openConnection() {
-        $this->mysqli = new \mysqli("localhost", "root", "", $this->database);
+        $this->mysqli = new \mysqli('localhost:3306','root','', $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -44,41 +44,41 @@ class Contractor {
         $query = "INSERT INTO $this->table "
                 . "VALUES ('{$this->entity->id}',"
                 . "'{$this->activity->activity_code}',"
-                . "'$this->payment',"
-                . "'$this->date_payed'"
+                . "$this->payment,"
+                . "$this->date_payed"
                 . ");";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
-            echo "Record has been saved!";
+            echo "Contractor has been saved!";
         } else {
-            echo "Error while saving record";
+            echo "Error while saving Contractor";
         }
         $this->closeConnection();
     }
 
-    public function updateContractor($entity_id, $project_code, $activity_code, $payment, $date_payed) {
-        $this->deleteContractor();
-        $this->entity = new Entity($entity_id);
-        $this->activity = new Activity($project_code, $activity_code);
+    public function update($entity, $activity, $payment, $date_payed) {
+        $this->delete();
+        $this->entity = $entity;
+        $this->activity = $activity;
         $this->payment = $payment;
         $this->date_payed = $date_payed;
         $this->insertContractor();
     }
 
-    public function deleteContractor() {
+    public function delete() {
     	$this->openConnection();
         $query = "DELETE FROM $this->table WHERE entity_id = '{$this->entity->id}' AND activity_code = '{$this->activity->activity_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
-        if ($result->num_rows == 1) {
-            echo "Record Deleted";
+        if ($result) {
+            echo "Contractor Deleted";
         } else {
-            echo "Record Not Found";
+            echo "Contractor Not Found";
         }
         $this->closeConnection();
     }
-    public function getContractorDetails() {
+    public function load() {
         $this->openConnection();
-    	$query = "SELECT * FROM {$this->table} WHERE entity_id = {$this->entity->id} AND activity_code = {$this->activity->activity_code};";
+    	$query = "SELECT * FROM {$this->table} WHERE entity_id = '{$this->entity->id}' AND activity_code = '{$this->activity->activity_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -88,10 +88,10 @@ class Contractor {
         $this->closeConnection();
     }
     
-    public static function getContractorIds($activity) {
+    public static function getIds($activity) {
         $check = new Contractor(new Entity(), $activity);
         $check->openConnection();
-        $query = "SELECT entity_id AS id FROM {$check->table} WHERE activity_code = {$activity->activity_code};";
+        $query = "SELECT entity_id AS id FROM {$check->table} WHERE activity_code = '{$activity->activity_code}';";
         $result = mysqli_query($check->mysqli, $query) or die(mysqli_error($check->mysqli));
         if ($result) {
             $Id = [];

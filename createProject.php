@@ -1,36 +1,48 @@
 <?php
 
-use Classes\{Project, Funder, Entity, Project_Manager, Activity, Client, Principal_Researcher, Researcher, Contractor};
+use Classes\{Project, Funder, Entity, Project_Manager, Client};
 
 spl_autoload_register(function ($class) { include str_replace('\\', '/', $class) . ".php"; });
 
-$project_code = $_GET['project_code'];
-
-$project = new Project($project_code);
-
-$project->title = $_GET['title'];
-$project->description = $_GET['description'];
-$project->stage = $_GET['stage'];
-$project->type = $_GET['type'];
-$project->start_date = $_GET['start_date'] ? "'" . $_GET['start_date'] . "'" : "null";
-$project->end_date = $_GET['end_date'] ? "'" . $_GET['end_date'] . "'" : "null";
-$project->createProject();
-if(!empty($_GET['managerId'])) { 
-    $manager = new Project_Manager($_GET['managerId'],$project_code);
-    $manager->insertManager();
+function removeQuotes($value) {
+    return trim($value,'\'"');
 }
-
-if(!empty($_GET['entity_id0'])) { 
+ob_start();
+$project_code = removeQuotes($_GET['project_code']);
+$project = new Project($project_code);
+$project->title = removeQuotes($_GET['title']);
+$project->description = removeQuotes($_GET['description']);
+$project->stage = removeQuotes($_GET['stage']);
+$project->type = removeQuotes($_GET['type']);
+$project->start_date = removeQuotes($_GET['start_date']) ? "'" . removeQuotes($_GET['start_date']) . "'" : "null";
+$project->end_date = removeQuotes($_GET['end_date']) ? "'" . removeQuotes($_GET['end_date']) . "'" : "null";
+$project->create();
+if(isset($_GET['project_manager'])) {
+    $managerId = (int) filter_var(removeQuotes($_GET['project_manager']), FILTER_SANITIZE_NUMBER_INT);
+    $manager = new Project_Manager(new Entity($managerId),$project);
+    $manager->insert();
+}
+$numOfFunders = (int) filter_var(removeQuotes($_GET['numOfFunders']), FILTER_SANITIZE_NUMBER_INT);
+if ($numOfFunders > 0) {
     $funder = [];
-    $numOfFunders = $_GET['numFunders'];
-    for($i = 0; $i < $numOfFunders; $i++) {    
-        $funder[$i] = new Funder($_GET["entity_id{$i}"], $project_code);
-        
-        $funder[$i]->funding_amt = $_GET["funding_amt{$i}"];
-        $funder[$i]->date_given = $_GET["date_given{$i}"] ? "'" . $_GET['date_given{$i}'] . "'" : "null";
-        $funder[$i]->funder_end_date = $_GET["frequency{$i}"];
-        echo $funder[$i];
-        $funder[$i]->insertFunder();
+    for($i = 0; $i < $numOfFunders; $i++) {
+        $j = $i + 1;
+        $funder[$i] = new Funder(new Entity(removeQuotes($_GET["funder{$j}"])), $project);        
+        $funder[$i]->funding_amt = removeQuotes($_GET["funding_amt{$j}"]) ? removeQuotes($_GET["funding_amt{$j}"]) : "null";
+        $funder[$i]->date_given = removeQuotes($_GET["date_given{$j}"]) ? "'" . removeQuotes($_GET["date_given{$i}"]) . "'" : "null";
+        $funder[$i]->funder_end_date = removeQuotes($_GET["funder_end_date{$j}"]) ? "'" . removeQuotes($_GET["funder_end_date{$i}"]) . "'" : "null";
+        $funder[$i]->insert();
     }
 }
+$numOfClients = (int) filter_var($_GET['numOfClients'], FILTER_SANITIZE_NUMBER_INT);
+if ($numOfClients > 0) {
+    $client = [];
+    for($i = 0; $i < $numOfClients; $i++) {
+        $j = $i + 1;
+        $client[$i] = new Client(new Entity(removeQuotes($_GET["client{$j}"])), $project);
+        $client[$i]->insert();
+    }
+}
+ob_end_clean();
+echo "Project Created";
 ?>

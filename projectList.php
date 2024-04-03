@@ -6,6 +6,24 @@
     <link rel="stylesheet" href="index.css">
     <script src='header.js'></script>
     <title>Projects</title>
+    <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+      text-align: center;
+    }
+
+    h1, th {
+        font-family: 'Noto Serif';
+    }
+    </style>
 </head>
 <body onload='displayHeader()'>
   <div class='header' id='header'></div>
@@ -14,40 +32,46 @@
 <table>
   <tr>
   	<th>Status</th>
-    <th>Code</th>
-    <th>Title</th>
+    <th>Project Code</th>
+    <th>Project Name</th>
     <th>Stage</th>
-    <th>Type</th>
-    <th>Funders</th>
-    <th>Funding Total</th>
-    <th>Application Date</th>
-    <th>Grant Received Date</th>
-    <th>Reporting Date</th>
-    <th>Client</th>
-    <th>Lead Researcher</th>
+    <th>Project Type</th>
+    <th>Start Date</th>
+    <th>End Date</th>
   </tr>
 <?php
-$colors = ["Red", "Yellow", "Green"];
-$type = ["Community", "Technical", "Business", "Other"];
-$stage = ["Ideation", "Proposal in Progress", "Awaiting Funding", "In Progress", "Completed - Not Signed Off", "Completed - Signed Off"];
-for($i = 1; $i < 15; $i++) {
-    $randomNum = random_int(100000, 999999);
-    $money = number_format($randomNum);
+
+$sqli = new mysqli('localhost:3306','root','','Research');
+$fullquery = "SELECT
+              p.project_code,
+              p.title,
+              p.stage,
+              p.type,
+              p.start_date,
+              p.end_date
+              FROM Projects p";
+
+$result = mysqli_query($sqli, $fullquery);
+if(mysqli_num_rows($result) !== 0){
+  while ($row = mysqli_fetch_array($result)) {
+    $projectCode = stripslashes($row['project_code']);
+    $title = stripslashes($row['title']);
+    $stage = stripslashes($row['stage']);
+    $type = stripslashes($row['type']);
+    $dateStart = stripslashes($row['start_date']);
+    $dateEnd = stripslashes($row['end_date']);
+
     $entry = "<tr>
-                <td bgcolor='{$colors[$i % count($colors)]}'>{$colors[$i % count($colors)]}</td>
-                <td>{$randomNum}</td>
-                <td><a href='projectPage.php'>Project{$i}</a></td>
-                <td>{$stage[$i % count($stage)]}</td>
-                <td>{$type[$i % count($type)]}</td>
-                <td>Funder{$i}</td>
-                <td>$ {$money}</td>
-                <td>2022-03-12</td>
-                <td>2022-09-15</td>
-                <td>2025-05-07</td>
-                <td>ClientName{$i}</td>
-                <td>Researcher{$i}</td>
+                <td>W.I.P.</td>
+                <td>".$projectCode."</td>
+                <td><a href='projectPage.php?project_code=\"".$projectCode."\"'>".$title."</td>
+                <td>".$stage."</td>
+                <td>".$type."</td>
+                <td>".$dateStart."</td>
+                <td>".$dateEnd."</td>
               </tr>";
     echo $entry;
+  }
 }
 ?>
 </table>
