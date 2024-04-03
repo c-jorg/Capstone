@@ -21,7 +21,7 @@ class Funder {
         return "Funder[entity=" . $this->entity
                 . ", project=" . $this->project
                 . ", funding_amt=" . $this->funding_amt
-                . ", frequency=" . $this->funder_end_date
+                . ", funder_end_date=" . $this->funder_end_date
                 . ", date_given=" . $this->date_given
                 . ", database=" . $this->database
                 . ", table=" . $this->table
@@ -29,7 +29,7 @@ class Funder {
     }
 
     public function openConnection() {
-        $this->mysqli = new \mysqli('localhost:3306','root','', $this->database);
+        $this->mysqli = new \mysqli("localhost", "root", "letmein", $this->database);
         if (mysqli_connect_errno()) {
             echo "Error connecting to the Database";
             exit();
@@ -49,6 +49,7 @@ class Funder {
                 . "$this->date_given,"
                 . "$this->funder_end_date"
                 . ");";
+        echo $query;
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             echo "Funder record has been saved!";
