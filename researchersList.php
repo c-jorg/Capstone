@@ -92,10 +92,11 @@ if(mysqli_num_rows($result) !== 0){
     $id = stripslashes($row['id']);
     if(mysqli_num_rows($managerResult) !== 0){
         while ($managerRow = mysqli_fetch_array($managerResult)) {
-            $managerCheck = stripslashes($managerRow['title']);
+            $managerCheck = stripslashes($managerRow['entity_id']);
             if($managerCheck == $id){
                 $code = stripslashes($managerRow['project_code']);
-                $manager = "Project Code: " . stripslashes($managerRow['project_code']);
+                $name = stripslashes($managerRow['title']);
+                $manager = "Project Code: " . $code . ", " . $name;
                 $manager = "<a href='projectPage.php?project_code=\"".$code."\"'>" . $manager;
             }
         }
@@ -103,10 +104,11 @@ if(mysqli_num_rows($result) !== 0){
 
     if(mysqli_num_rows($principalResult) !== 0){
         while ($principalRow = mysqli_fetch_array($principalResult)) {
-            $principalCheck = stripslashes($principalRow['title']);
+            $principalCheck = stripslashes($principalRow['entity_id']);
             if($principalCheck == $id){
                 $code = stripslashes($principalRow['activity_code']);
-                $principal = "Activity Code: " . stripslashes($principalRow['activity_code']);
+                $name = stripslashes($principalRow['title']);
+                $principal = "Activity Code: " . $code . ", " . $name;
                 $principal = "<a href='projectPage.php?project_code=\"".$code."\"'>" . $principal;
             }
         }
