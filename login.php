@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $hashPass = hash('SHA256', $password);
 
-    $stmt = $pdo->prepare("SELECT password FROM Login WHERE username = :username");
+    $stmt = $sqli->prepare("SELECT password FROM Login WHERE username = :username");
     $stmt->bindParam(':username', $username);
     $stmt->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -38,4 +38,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Invalid username or password.";
     }
 }
+
 
