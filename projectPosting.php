@@ -32,7 +32,7 @@
         <div id="addEnt" class="addEnt">
         <h1>Add Entity</h1>
         <fieldset id="addEntity">
-            <h4>Add Entity</h4>
+            <h4>Entity Details</h4>
             <br>
             <label for="salutation">Salutation:</label>
             <select name="salutation" id="salutation">
@@ -142,13 +142,12 @@
                     <a onclick="addMoreField(2, 'Client');return false;" id="addLink" href="#">+add</a>
                 </span>
             </div>
-            <br>
-            <button  onclick="createProject()" style="width:200px">Create Project</button>&ensp;<span id="projectCreated" style="color:red;"></span>		
             <br><br>
+            <button  onclick="createProject()" style="width:200px">Create Project</button>&ensp;<span id="projectCreated" style="color:red;"></span>		
         </fieldset>
          </div>
         <div id="crSubproj" class="crSubproj">
-        <h2>Create Subproject</h2>
+        <h1>Create Subproject</h1>
         <fieldset>
             <h3>Subproject Details</h3>
             <br>
@@ -204,8 +203,7 @@
             <label for="notes">Notes:</label><br>
             <textarea id="notes" name="notes" rows="8" cols="70"></textarea>
             <br><br>
-            <button onclick="createActivity()" style="width:200px">Create Subproject</button>&ensp;<span id="activityCreated" style="color:red;"></span>		
-            <br><br>	
+            <button onclick="createActivity()" style="width:200px">Create Subproject</button>&ensp;<span id="activityCreated" style="color:red;"></span>			
         </fieldset>
         </div>
     </body>
