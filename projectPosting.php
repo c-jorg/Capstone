@@ -12,8 +12,16 @@
         <script></script>
     </head>
     <body onload='displayHeader()'>
-        <div class='header' id='header'></div>
+                <div class='header' id='header'></div>
+        <br>
+        <div class="createBTNs">
+            <button onclick="toggleAddEnt()" id="addEntBTN">Add Entity</button>
+            <button onclick="toggleCrPr()" id="addProjBTN">Create Project</button>
+            <button onclick="toggleSubPr()" id="addSubProjBTN">Create Subproject</button>
+        </div>
         <br><br>
+        <div id="addEnt" class="addEnt">
+        <h1>Add Entity</h1>
         <fieldset id="addEntity">
             <h4>Add Entity</h4>
             <br>
@@ -50,7 +58,9 @@
             <br><br>
             <button onclick="addEntity();return false;" id="addEntityBTN" style="width:200px">Add Entity</button>&ensp;<span id="addEntityReponse" style="color:red;"></span>
         </fieldset>
-        <h1>Create Project</h1>
+                    </div>
+        <div id="crProj" class="crProj">
+            <h1>Create Project</h1>
         <fieldset>
             <h3>Project Details</h3>
             <br>
@@ -122,7 +132,9 @@
             <button  onclick="createProject()" style="width:200px">Create Project</button>&ensp;<span id="projectCreated" style="color:red;"></span>		
             <br><br>
         </fieldset>
-        <h2>Create Subproject</h2>
+            </div>
+        <div id="crSubproj" class="crSubproj">
+            <h2>Create Subproject</h2>
         <fieldset>
             <h3>Subproject Details</h3>
             <br>
@@ -181,5 +193,6 @@
             <button onclick="createActivity()" style="width:200px">Create Subproject</button>&ensp;<span id="activityCreated" style="color:red;"></span>		
             <br><br>	
         </fieldset>
+             </div>
     </body>
 </html>
