@@ -142,7 +142,7 @@
                     <a onclick="addMoreField(2, 'Client');return false;" id="addLink" href="#">+add</a>
                 </span>
             </div>
-            <br><br>
+            <br>
             <button  onclick="createProject()" style="width:200px">Create Project</button>&ensp;<span id="projectCreated" style="color:red;"></span>		
         </fieldset>
          </div>
