@@ -27,6 +27,9 @@ if (strcmp($project->description, $_GET['description'])) {
 if (strcmp($project->stage, $_GET['stage'])) {
     $project->stage = removeQuotes($_GET['stage']);
 }
+if (strcmp($project->status, $_GET['status'])) {
+    $project->status = removeQuotes($_GET['status']);
+}
 if (strcmp($project->type, $_GET['type'])) {
     $project->type = removeQuotes($_GET['type']);
 }

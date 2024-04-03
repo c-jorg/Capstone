@@ -10,9 +10,18 @@
         <?php include './entityLookUp.php'; ?>
         <title>Create Project</title>
         <script></script>
+        <style>
+            .statusColor{
+                vertical-align: middle;
+                min-width: 50px;
+                padding: 0.5rem;
+                border: 1px solid black;
+                display: inline-block;    
+            }
+        </style>
     </head>
     <body onload='displayHeader()'>
-                <div class='header' id='header'></div>
+        <div class='header' id='header'></div>
         <br>
         <div class="createBTNs">
             <button onclick="toggleAddEnt()" id="addEntBTN">Add Entity</button>
@@ -58,9 +67,9 @@
             <br><br>
             <button onclick="addEntity();return false;" id="addEntityBTN" style="width:200px">Add Entity</button>&ensp;<span id="addEntityReponse" style="color:red;"></span>
         </fieldset>
-                    </div>
+       </div>
         <div id="crProj" class="crProj">
-            <h1>Create Project</h1>
+        <h1>Create Project</h1>
         <fieldset>
             <h3>Project Details</h3>
             <br>
@@ -79,6 +88,11 @@
                 <option value="Completed - Not Signed Off">Completed - Not Signed Off</option>
                 <option value="Completed - Signed Off">Completed - Signed Off</option>
             </select>
+            <br><br>
+            <span id="currentStatus">Current Status:</span>
+                <input type="radio" id="red" name="currentStatus" value="Red" checked><label class="statusColor" for="red" style="background-color: red;"> </label> 
+                <input type="radio" id="yellow" name="currentStatus" value="Yellow"><label class="statusColor" for="yellow" style="background-color: yellow;"> </label> 
+                <input type="radio" id="green" name="currentStatus" value="Green"><label class="statusColor" for="green" style="background-color: green;"> </label> 
             <br><br>
             <label for="projectDescription">Project Description:</label><br>
             <textarea id="projectDescription" name="projectDescription" rows="4" cols="60"></textarea>
@@ -132,9 +146,9 @@
             <button  onclick="createProject()" style="width:200px">Create Project</button>&ensp;<span id="projectCreated" style="color:red;"></span>		
             <br><br>
         </fieldset>
-            </div>
+         </div>
         <div id="crSubproj" class="crSubproj">
-            <h2>Create Subproject</h2>
+        <h2>Create Subproject</h2>
         <fieldset>
             <h3>Subproject Details</h3>
             <br>
@@ -193,6 +207,6 @@
             <button onclick="createActivity()" style="width:200px">Create Subproject</button>&ensp;<span id="activityCreated" style="color:red;"></span>		
             <br><br>	
         </fieldset>
-             </div>
+        </div>
     </body>
 </html>
