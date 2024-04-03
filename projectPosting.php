@@ -154,13 +154,13 @@
             <label for="a1ProjectCode">Project Code:</label>
             <input type="text" id="a1ProjectCode" name="a1ProjectCode"> <span id="isA1ProjectCodeEmpty" style="color:red;"></span>
             <br><br>
-            <label for="activity1Code">Activity Code:</label>
+            <label for="activity1Code">Subproject Code:</label>
             <input type="text" id="activity1Code" name="activity1Code"> <span id="isA1ActivityCodeEmpty" style="color:red;"></span>
             <br><br>
-            <label for="activityTitle">Activity Title:</label>
+            <label for="activityTitle">Subproject Title:</label>
             <input type="text" id="activityTitle" name="activityTitle">
             <br><br>
-            <label for="activityDescription">Activity Description:</label><br>
+            <label for="activityDescription">Subproject Description:</label><br>
             <textarea id="activityDescription" name="activityDescription" rows="4" cols="100"></textarea>
             <br><br>
             <label for="a1StartDate">Start Date:</label>
