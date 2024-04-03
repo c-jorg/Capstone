@@ -33,7 +33,7 @@
   	<th>Contractor Name</th> <!-- company -->
     <th>Contractor Email</th> <!-- email -->
     <th>Subproject Code</th> <!-- activity code -->
-    <th>Project Title</th> <!-- activity title -->
+    <th>Project Name</th> <!-- activity title -->
     <th>Date Payed</th> <!-- date payed -->
   </tr>
 <?php
