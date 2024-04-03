@@ -33,6 +33,7 @@
     <th>Researcher Name</th>
     <th>Researcher Email</th> <!-- entity table email -->
     <th>Student Status</th> <!-- category -->
+    <th>Researcher Of...</th>
     <th>Principal Researcher Of...</th> <!-- principal researcher entry -->
     <th>Project Manager Of...</th> <!-- project manager entry -->
   </tr>
@@ -59,9 +60,12 @@ $fullquery = "SELECT e.first_name,
               e.salutation,
               e.email,
               e.category,
-              e.id
-              FROM Entities e, Researchers r
-              WHERE e.id = r.entity_id";
+              e.id,
+              r.activity_code,
+              a.title
+              FROM Entities e, Researchers r, Activities a
+              WHERE e.id = r.entity_id AND
+              r.activity_code = a.activity_code";
 
 $managerQuery = "SELECT m.entity_id, m.project_code, p.title
                  FROM Project_Managers m, Researchers r, Projects p
@@ -82,6 +86,8 @@ if(mysqli_num_rows($result) !== 0){
     $first = stripslashes($row["first_name"]);
     $last = stripslashes($row["last_name"]);
     $name = $sal . ' ' . $first . ' ' . $last;
+    $designation = stripslashes($row['activity_code']);
+    $activityTitle = stripslashes($row['title']);
     
     $email = stripslashes($row['email']);
     $status = stripslashes($row['category']);
@@ -118,6 +124,7 @@ if(mysqli_num_rows($result) !== 0){
                 <td>".$name."</td>
                 <td>".$email."</td>
                 <td>".$status."</td>
+                <td>".$designation.", ".$activityTitle."</td>
                 <td>".$principal."</td>
                 <td>".$manager."</td>
               </tr>";
