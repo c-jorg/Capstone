@@ -5,7 +5,7 @@ namespace Classes;
 class Project {
 
     public $project_code; //primary key
-    public $title, $description, $stage, $type;
+    public $title, $description, $stage, $type, $status;
     public $start_date, $end_date; //dates
     private $mysqli;
     private $database = "Research";
@@ -21,6 +21,7 @@ class Project {
                 . ", description=" . $this->description
                 . ", stage=" . $this->stage
                 . ", type=" . $this->type
+                . ", status=" . $this->status
                 . ", start_date=" . $this->start_date
                 . ", end_date=" . $this->end_date
                 . ", database=" . $this->database
@@ -49,7 +50,8 @@ class Project {
                 . "'$this->stage',"
                 . "'$this->type',"
                 . "$this->start_date,"
-                . "$this->end_date);";
+                . "$this->end_date,"
+                . "'$this->status');";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             echo "Project created";
@@ -67,7 +69,8 @@ class Project {
                 . "stage = '$this->stage',"
                 . "type = '$this->type',"
                 . "start_date = $this->start_date,"
-                . "end_date = $this->end_date "
+                . "end_date = $this->end_date, "
+                . "status= '$this->status' "
                 . "WHERE project_code = '$this->project_code';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
@@ -97,6 +100,7 @@ class Project {
         $this->type = $project['type'];
         $this->start_date = $project['start_date'];
         $this->end_date = $project['end_date'];
+        $this->status = $project['status'];
     }
 
     public function delete($project_code) {

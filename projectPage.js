@@ -63,7 +63,7 @@ function setProjectParam(numFunders, numClients) {
 }
 function editProject(project_code) {
     document.querySelector('a#editProject').setAttribute("onclick", "return false;");
-    let id_array = ['title', 'stage', 'description', 'type', 'manager', 'start_date', 'end_date'];
+    let id_array = ['title', 'stage', 'status', 'description', 'type', 'manager', 'start_date', 'end_date'];
     if (numOfFunders !== 0) {
         for (let i = 1; i <= numOfFunders; i++) {
             id_array.push(`funder${i}`);
@@ -89,6 +89,17 @@ function editProject(project_code) {
                         <option value="Completed - Signed Off">Completed - Signed Off</option>
                     </select>`;
             input = input.replace(`>${text}<`, `selected>${text}<`);
+        } else if (id_array[i] === 'status') {
+            let isChecked = ["","",""];
+            switch (text) {
+                case "Red": isChecked[0] = "Checked"; break;
+                case "Yellow": isChecked[1] = "Checked"; break;
+                case "Green": isChecked[2] = "Checked"; break;
+            }
+            document.querySelector(`span#${id_array[i]}`).removeAttribute("style");
+            input = `<input type="radio" id="red" name="currentStatus" value="Red" ${isChecked[0]}><label class="status" for="red" style="background-color: red;"> </label> 
+                    <input type="radio" id="yellow" name="currentStatus" value="Yellow" ${isChecked[1]}><label class="status" for="yellow" style="background-color: yellow;"> </label> 
+                    <input type="radio" id="green" name="currentStatus" value="Green" ${isChecked[2]}><label class="status" for="green" style="background-color: green;"> </label> `;
         } else if (id_array[i] === 'description') {
             input = `<br><textarea id="${id_array[i]}" name="${id_array[i]}" rows="4" cols="60">${text}</textarea>`;
         } else if (id_array[i] === 'type') {
@@ -126,7 +137,7 @@ function saveEditProject(project_code) {
     document.querySelector(`span#addClientLink`).innerHTML = ``;
     document.querySelectorAll(`.removeLink`).forEach(e => e.remove());
 
-    let id_array = ['title', 'stage', 'description', 'type', 'manager', 'start_date', 'end_date'];
+    let id_array = ['title', 'stage', 'status', 'description', 'type', 'manager', 'start_date', 'end_date'];
     for (let i = 1; i <= numOfFunders; i++) {
         id_array.push(`funder${i}`);
         id_array.push(`funding_amt${i}`);
@@ -142,6 +153,21 @@ function saveEditProject(project_code) {
         if (id_array[i] === 'stage') {
             data.push(document.querySelector(`select#${id_array[i]}`).value);
             document.querySelector(`span#${id_array[i]}`).innerHTML = document.querySelector(`select#${id_array[i]}`).value;
+        } else if (id_array[i] === 'status') { 
+            let color = "";
+            if (document.getElementById('red').checked) {
+                color = "Red";
+                data.push(color); 
+            } else if (document.getElementById('yellow').checked) {
+                color = "Yellow";
+                data.push(color);
+                
+            } else if (document.getElementById('green').checked) {
+                color = "Green";
+                data.push(color);   
+            }
+            document.querySelector(`span#${id_array[i]}`).innerHTML = color;
+            document.querySelector(`span#${id_array[i]}`).setAttribute("style",`background-color: ${color};`);
         } else if (id_array[i] === 'description') {
             data.push(document.querySelector(`textarea#${id_array[i]}`).value);
             document.querySelector(`span#${id_array[i]}`).innerHTML = document.querySelector(`textarea#${id_array[i]}`).value;
@@ -190,7 +216,7 @@ function insertEditedProject(data) {
         let responseString = this.responseText;
         console.log(responseString);
     };
-    const fields = ['project_code', 'title', 'stage', 'description', 'type', 'project_manager', 'start_date', 'end_date'];
+    const fields = ['project_code', 'title', 'stage', 'status', 'description', 'type', 'project_manager', 'start_date', 'end_date'];
     let numOfFunders = data[fields.length];
     let numOfClients = data[fields.length + numOfFunders * 4 + 1];
     fields.push("numOfFunders");

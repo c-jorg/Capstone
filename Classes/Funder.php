@@ -49,7 +49,6 @@ class Funder {
                 . "$this->date_given,"
                 . "$this->funder_end_date"
                 . ");";
-        echo $query;
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             echo "Funder record has been saved!";

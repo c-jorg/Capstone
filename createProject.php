@@ -16,6 +16,7 @@ $project->stage = removeQuotes($_GET['stage']);
 $project->type = removeQuotes($_GET['type']);
 $project->start_date = removeQuotes($_GET['start_date']) ? "'" . removeQuotes($_GET['start_date']) . "'" : "null";
 $project->end_date = removeQuotes($_GET['end_date']) ? "'" . removeQuotes($_GET['end_date']) . "'" : "null";
+$project->status = removeQuotes($_GET['status']);
 $project->create();
 if(isset($_GET['project_manager'])) {
     $managerId = (int) filter_var(removeQuotes($_GET['project_manager']), FILTER_SANITIZE_NUMBER_INT);

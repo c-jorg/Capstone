@@ -156,6 +156,20 @@ function createProject() {
     if (code) {
         const title = document.getElementById(`projectTitle`).value;
         const stage = document.getElementById(`stage`).value;
+        
+        let status = "";
+        if (document.getElementById("red").checked) {
+            status = "Red";
+            document.getElementById("red").checked = true;
+        } else if (document.getElementById("yellow").checked) {
+            status = "Yellow";
+            document.getElementById("yellow").checked = false;
+            document.getElementById("red").checked = true;
+        } else {
+            status = "Green";
+            document.getElementById("green").checked = false;
+            document.getElementById("red").checked = true;
+        } 
         const description = document.getElementById(`projectDescription`).value;
         const type = document.getElementById(`type`).value;
         
@@ -214,6 +228,7 @@ function createProject() {
                 + `&description='${description}'`
                 + `&stage='${stage}'`
                 + `&type='${type}'`
+                + `&status='${status}'`
                 + `&start_date='${startDate}'`
                 + `&end_date='${endDate}'`;
         if (managerId) { project += `&project_manager='${managerId}'`; }
