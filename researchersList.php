@@ -31,7 +31,7 @@
 <table>
   <tr>
     <th>Researcher Name</th>
-    <th>Researchers Email</th> <!-- entity table email -->
+    <th>Researcher Email</th> <!-- entity table email -->
     <th>Student Status</th> <!-- category -->
     <th>Principal Researcher Of...</th> <!-- principal researcher entry -->
     <th>Project Manager Of...</th> <!-- project manager entry -->
