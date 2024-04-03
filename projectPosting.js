@@ -216,7 +216,7 @@ function createProject() {
                 + `&type='${type}'`
                 + `&start_date='${startDate}'`
                 + `&end_date='${endDate}'`;
-        if (managerId) { project += `project_manager='${managerId}'`; }
+        if (managerId) { project += `&project_manager='${managerId}'`; }
         project += `&numOfFunders='${funderId.length}'`;
         for (let i = 1; i <= funderId.length; i++) {
             project += `&funder${i}='${funderId[i-1]}'`
@@ -241,12 +241,10 @@ function createProject() {
         document.getElementById("isProjectCodeEmpty").innerHTML = "Must provide a project code!";
     }
 }
-;
 function getEntityId(entity) {
     const id = entity.split("|");
     return parseInt(id[0].trim());
 }
-;
 function createActivity() {
     const pCode = document.getElementById(`a1ProjectCode`).value;
     const aCode = document.getElementById(`activity1Code`).value;
@@ -264,44 +262,43 @@ function createActivity() {
         const startDate = document.getElementById(`a1StartDate`).value;
         const endDate = document.getElementById(`a1EndDate`).value;
         const principalResearcher = document.getElementById(`principalResearcher`).value;
-
-        let i = 1;
-        let client = [];
-        while (document.getElementById(`Client${i}`) != null) {
-            console.log("HERE 1");
-            client.push(document.getElementById(`Client${i}`).value);
-            if (i > 1) {
-                removeMoreField(i, 'Client');
+        let pResearcherId = "";
+        if (document.getElementById(`principalResearcher`).value) {
+            pResearcherId = getEntityId(document.getElementById(`principalResearcher`).value);
+            document.getElementById(`principalResearcher`).value = "";
+        }     
+        let researcherId = [];
+        for (let i = 1; i <= numOfResearchers; i++) {
+            if (document.getElementById(`Researcher${i}`).value) {
+                researcherId.push(getEntityId(document.getElementById(`Researcher${i}`).value));
+                if (i > 1) {
+                    removeMoreField(i, 'Researcher');
+                } else {
+                    document.getElementById(`Researcher${i}`).value = "";
+                }
             }
-            i++;
         }
-        let j = 1;
-        let researcher = [];
-        while (document.getElementById(`Researcher${j}`) != null) {
-            console.log("HERE 2");
-            researcher.push(document.getElementById(`Researcher${j}`).value);
-            if (j > 1) {
-                removeMoreField(j, 'Researcher');
-            }
-            j++;
-        }
-        let k = 1;
-        let contractor = [];
+        
+        let contractorId = [];
         let payment = [];
         let payDate = [];
-        while (document.getElementById(`Contractor${k}`) != null) {
-            console.log("HERE 3");
-            contractor.push(document.getElementById(`Contractor${k}`).value);
-            payment.push(document.getElementById(`payment${k}`).value);
-            payDate.push(document.getElementById(`payDate${k}`).value);
-            if (k > 1) {
-                removeContractorField(k);
+        for (let i = 1; i <= numOfContractors; i++) {
+            if (document.getElementById(`Contractor${i}`).value !== "") {
+                contractorId.push(getEntityId(document.getElementById(`Contractor${i}`).value));
+                payment.push(document.getElementById(`payment${i}`).value);
+                payDate.push(document.getElementById(`payDate${i}`).value);
+                if (i > 1) {
+                    removeContractorField(i);
+                } else {
+                    document.getElementById(`Contractor${i}`).value = "";
+                    document.getElementById(`payment${i}`).value = "";
+                    document.getElementById(`payDate${i}`).value = "";
+                }
             }
-            k++;
         }
+        const notes = document.getElementById(`notes`).value;
 
-
-        console.log(pCode, aCode, title, startDate, endDate, client, principalResearcher, researcher, contractor, payment, payDate);
+        //console.log(pCode, aCode, title,description, startDate, endDate, pResearcherId, researcherId, contractorId, payment, payDate);
 
 
         document.getElementById(`a1ProjectCode`).value = "";
@@ -310,29 +307,35 @@ function createActivity() {
         document.getElementById(`activityDescription`).value = "";
         document.getElementById(`a1StartDate`).value = "";
         document.getElementById(`a1EndDate`).value = "";
-        document.getElementById(`Client1`).value = "";
-        document.getElementById(`principalResearcher`).value = "";
-        document.getElementById(`Researcher1`).value = "";
-        document.getElementById(`Contractor1`).value = "";
-        document.getElementById(`payment1`).value = "";
-        document.getElementById(`payDate1`).value = "";
-
-        let activity = `project_code=$pcode&
-       					activity_code=$acode&
-				 		 title=$title&
-				 		 description=$description&
-						 start_date=$startDate&
-						 end_date=$endDate&
-						 `;
-//<<<<<<<<<<<<<<<<<<<<<<<<CONTINUE
-        // Need to find how to access entities list
-
-//                 const request = new XMLHttpRequest();
-//                 request.onload = function(){
-//                     document.getElementById("addEntityReponse").innerHTML = this.responseText;
-//                 };
-//                 request.open("GET","insertEntity.php?" + entries);
-//                 request.send();
+        document.getElementById(`notes`).value = "";
+        
+        let activity = `project_code='${pCode}'`
+                       + `&activity_code='${aCode}'`
+                       + `&title='${title}'`
+                       + `&description='${description}'`
+                       + `&start_date='${startDate}'`
+                       + `&end_date='${endDate}'`
+                       + `&notes='${notes}'`;
+        
+        if (pResearcherId) { activity += `&principal_researcher='${pResearcherId}'`; }
+        activity += `&numOfResearchers='${researcherId.length}'`;
+        for (let i = 1; i <= researcherId.length; i++) {
+            activity += `&researcher${i}='${researcherId[i-1]}'`;
+        }
+        activity += `&numOfContractors='${contractorId.length}'`;
+        for (let i = 1; i <= contractorId.length; i++) {
+            activity += `&contractor${i}='${contractorId[i-1]}'`
+                    + `&payment${i}='${payment[i-1]}'`
+                    + `&date_payed${i}='${payDate[i-1]}'`;
+        }
+        
+        console.log(activity);
+        const request = new XMLHttpRequest();
+        request.onload = function () {
+            document.getElementById("activityCreated").innerHTML = this.responseText;
+            console.log(this.responseText);
+        };
+       request.open("GET", "createActivity.php?" + activity);
+       request.send();
     }
 }
-;
