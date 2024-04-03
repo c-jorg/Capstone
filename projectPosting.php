@@ -23,6 +23,7 @@
         <div id="addEnt" class="addEnt">
         <h1>Add Entity</h1>
         <fieldset id="addEntity">
+            <h4>Add Entity</h4>
             <br>
             <label for="salutation">Salutation:</label>
             <select name="salutation" id="salutation">
@@ -56,7 +57,6 @@
             </select>
             <br><br>
             <button onclick="addEntity();return false;" id="addEntityBTN" style="width:200px">Add Entity</button>&ensp;<span id="addEntityReponse" style="color:red;"></span>
-            <br><br>
         </fieldset>
         </div>
         <div id="crProj" class="crProj">
@@ -81,7 +81,7 @@
             </select>
             <br><br>
             <label for="projectDescription">Project Description:</label><br>
-            <textarea id="projectDescription" name="projectDescription" rows="4" cols="60" required></textarea>
+            <textarea id="projectDescription" name="projectDescription" rows="4" cols="60"></textarea>
             <br><br>
             <label for="type">Project Type:</label>
             <input list="types" name="type" id="type">
