@@ -58,7 +58,7 @@
             <br><br>
             <button onclick="addEntity();return false;" id="addEntityBTN" style="width:200px">Add Entity</button>&ensp;<span id="addEntityReponse" style="color:red;"></span>
         </fieldset>
-        </div>
+         </div>
         <div id="crProj" class="crProj">
         <h1>Create Project</h1>
         <fieldset>
@@ -95,6 +95,11 @@
             <input list="entities" name="projectManager" id="projectManager" style="width:300px;">
             <datalist id="entities"></datalist>
             <br><br>
+            <label for="pStartDate">Start Date:</label>
+            <input type="date" id="pStartDate" name="pStartDate">&ensp;
+            <label for="pEndDate">End Date:</label>
+            <input type="date" id="pEndDate" name="pEndDate">
+            <br><br>
             <div id="funders">
                 <label for="funder1">Funder 1:</label>
                 <input list="entities" name="funder1" id="funder1" style="width:300px;">
@@ -114,15 +119,20 @@
                 </span>
             </div>
             <br>
-            <label for="pStartDate">Start Date:</label>
-            <input type="date" id="pStartDate" name="pStartDate">&ensp;
-            <label for="pEndDate">End Date:</label>
-            <input type="date" id="pEndDate" name="pEndDate">
-            <br><br>
+            <div id="clients">
+                <label for="Client1">Client 1:</label>
+                <input list="entities" name="Client1" id="Client1" style="width:300px;">
+                <datalist id="entities"></datalist>
+                &ensp;
+                <span id='addClient2'>
+                    <a onclick="addMoreField(2, 'Client');return false;" id="addLink" href="#">+add</a>
+                </span>
+            </div>
+            <br>
             <button  onclick="createProject()" style="width:200px">Create Project</button>&ensp;<span id="projectCreated" style="color:red;"></span>		
             <br><br>
         </fieldset>
-        </div>
+                </div>
         <div id="crSubproj" class="crSubproj">
         <h1>Create Subproject</h1>
         <fieldset>
@@ -144,18 +154,8 @@
             <input type="date" id="a1StartDate" name="a1StartDate" required>
             &ensp;
             <label for="a1EndDate">End Date:</label>
-            <input type="date" id="a1EndDate" name="a2EndDate" required>
+            <input type="date" id="a1EndDate" name="a2EndDate" required>            
             <br><br>
-            <div id="clients">
-                <label for="Client1">Client 1:</label>
-                <input list="entities" name="Client1" id="Client1" style="width:300px;">
-                <datalist id="entities"></datalist>
-                &ensp;
-                <span id='addClient2'>
-                    <a onclick="addMoreField(2, 'Client');return false;" id="addLink" href="#">+add</a>
-                </span>
-            </div>
-            <br>
             <label for="principalResearcher">Principal Researcher:</label>
             <input list="entities" name="principalResearcher" id="principalResearcher" style="width:300px;">
             <datalist id="entities"></datalist>
