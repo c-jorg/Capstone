@@ -339,3 +339,32 @@ function createActivity() {
        request.send();
     }
 }
+function toggleAddEnt() {
+	var bt1 = document.getElementById("addEnt");
+	var bt2 = document.getElementById("crProj");
+	var bt3 = document.getElementById("crSubproj");
+
+	bt1.style.display = "block";
+	bt2.style.display = "none";
+	bt3.style.display = "none";
+}
+
+function toggleCrPr() {
+	var bt1 = document.getElementById("addEnt");
+	var bt2 = document.getElementById("crProj");
+	var bt3 = document.getElementById("crSubproj");
+
+	bt1.style.display = "none";
+	bt2.style.display = "block";
+	bt3.style.display = "none";
+}
+
+function toggleSubPr() {
+	var bt1 = document.getElementById("addEnt");
+	var bt2 = document.getElementById("crProj");
+	var bt3 = document.getElementById("crSubproj");
+
+	bt1.style.display = "none";
+	bt2.style.display = "none";
+	bt3.style.display = "block";
+}
