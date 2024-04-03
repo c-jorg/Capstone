@@ -95,7 +95,7 @@
                 <input type="radio" id="green" name="currentStatus" value="Green"><label class="statusColor" for="green" style="background-color: green;"> </label> 
             <br><br>
             <label for="projectDescription">Project Description:</label><br>
-            <textarea id="projectDescription" name="projectDescription" rows="4" cols="60"></textarea>
+            <textarea id="projectDescription" name="projectDescription" rows="4" cols="70"></textarea>
             <br><br>
             <label for="type">Project Type:</label>
             <input list="types" name="type" id="type">
@@ -161,7 +161,7 @@
             <input type="text" id="activityTitle" name="activityTitle">
             <br><br>
             <label for="activityDescription">Subproject Description:</label><br>
-            <textarea id="activityDescription" name="activityDescription" rows="4" cols="100"></textarea>
+            <textarea id="activityDescription" name="activityDescription" rows="4" cols="70"></textarea>
             <br><br>
             <label for="a1StartDate">Start Date:</label>
             <input type="date" id="a1StartDate" name="a1StartDate" required>
