@@ -1,12 +1,13 @@
 <?php
 
-use Classes\{Project, Funder, Entity, Project_Manager, Activity, Client, Principal_Researcher, Researcher, Contractor};
+use Classes\{Project, Funder, Entity, Project_Manager, Client};
 
 spl_autoload_register(function ($class) { include str_replace('\\', '/', $class) . ".php"; });
 
 function removeQuotes($value) {
     return trim($value,'\'"');
 }
+ob_start();
 $project_code = removeQuotes($_GET['project_code']);
 $project = new Project($project_code);
 $project->title = removeQuotes($_GET['title']);
@@ -28,7 +29,7 @@ if ($numOfFunders > 0) {
         $j = $i + 1;
         $funder[$i] = new Funder(new Entity(removeQuotes($_GET["funder{$j}"])), $project);        
         $funder[$i]->funding_amt = removeQuotes($_GET["funding_amt{$j}"]) ? removeQuotes($_GET["funding_amt{$j}"]) : "null";
-        $funder[$i]->date_given = removeQuotes($_GET["date_given{$j}"]) ? "'" . removeQuotes($_GET['date_given{$i}']) . "'" : "null";
+        $funder[$i]->date_given = removeQuotes($_GET["date_given{$j}"]) ? "'" . removeQuotes($_GET["date_given{$i}"]) . "'" : "null";
         $funder[$i]->funder_end_date = removeQuotes($_GET["funder_end_date{$j}"]) ? "'" . removeQuotes($_GET["funder_end_date{$i}"]) . "'" : "null";
         $funder[$i]->insert();
     }
@@ -42,4 +43,6 @@ if ($numOfClients > 0) {
         $client[$i]->insert();
     }
 }
+ob_end_clean();
+echo "Project Created";
 ?>

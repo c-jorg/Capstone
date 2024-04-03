@@ -51,14 +51,14 @@ class Activity {
                 . "'{$this->project->project_code}',"
                 . "'$this->title',"
                 . "'$this->description',"
-                . "'$this->start_date',"
-                . "'$this->end_date',"
-                . "'$this->notes);";
+                . "$this->start_date,"
+                . "$this->end_date,"
+                . "'$this->notes');";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
-            echo "Record has been saved!";
+            echo "Activity has been saved!";
         } else {
-            echo "Error while saving record";
+            echo "Error while saving Activity";
         }
         $this->closeConnection();
     }
