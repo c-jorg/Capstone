@@ -162,3 +162,17 @@ body {
 	top: 10px;
 	right: 10px;
 }
+
+.createBTNs {
+    margin-left: 35%;
+}
+.createBTNs button {
+    height: 50px;
+    font-size: 15PX;
+    padding: 10px;
+}
+
+.addEnt, .crProj, .crSubproj {
+    display: none;
+    margin-left: 3px;
+}

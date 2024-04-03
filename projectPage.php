@@ -21,33 +21,33 @@ if (isset($_GET['project_code'])) {
     ob_start();
     $project_code = str_replace(array("'", '"'), "", $_GET['project_code']);
     $project = new Project($project_code);
-    $project->getProject($project_code);
+    $project->load($project_code);
 
-    $managerId = Project_Manager::managerId($project);
+    $managerId = Project_Manager::getId($project);
     $manager;
     if ($managerId !== 0) {
         $manager = new Project_Manager(new Entity($managerId), $project);
-        $manager->entity->getEntity($managerId);
+        $manager->entity->load($managerId);
     }
 
     $numOfFunders = Funder::getNumOfFunders($project);
-    $funderId = Funder::getFunderIds($project);
+    $funderId = Funder::getIds($project);
 
     $funder = [];
     for ($i = 0; $i < $numOfFunders; $i++) {
         $funder[$i] = new Funder(new Entity($funderId[$i]), $project);
-        $funder[$i]->entity->getEntity($funderId[$i]);
-        $funder[$i]->getFunderDetails();
+        $funder[$i]->entity->load($funderId[$i]);
+        $funder[$i]->load();
     }
-    $clientId = Client::clientId($project);
+    $clientId = Client::getIds($project);
     $numOfClients = count($clientId);
     $client = [];
     for ($i = 0; $i < $numOfClients; $i++) {
         $client[$i] = new Client(new Entity($clientId[$i]), $project);
-        $client[$i]->entity->getEntity($clientId[$i]);
+        $client[$i]->entity->load($clientId[$i]);
     }
 
-    $activityCodes = Activity::getActivityCodes($project_code);
+    $activityCodes = Activity::getCodes($project_code);
     $numOfActivities = count($activityCodes);
     $activity = [];
     $pResearcher = [];
@@ -56,26 +56,26 @@ if (isset($_GET['project_code'])) {
     $setParamString = "";
     for ($i = 0; $i < $numOfActivities; $i++) {
         $activity[$i] = new Activity($project, $activityCodes[$i]);
-        $activity[$i]->getActivity($activityCodes[$i]);
-        $pResearcherId = Principal_Researcher::pResearcherId($activity[$i]);
+        $activity[$i]->load($activityCodes[$i]);
+        $pResearcherId = Principal_Researcher::getIds($activity[$i]);
         if ($pResearcherId !== 0) {
             $pResearcher[$i] = new Principal_Researcher(new Entity($managerId), $activity[$i]);
-            $pResearcher[$i]->entity->getEntity($pResearcherId);
+            $pResearcher[$i]->entity->load($pResearcherId);
         }
-        $researcherId = Researcher::researcherId($activity[$i]);
+        $researcherId = Researcher::getIds($activity[$i]);
         $numOfResearchers = count($researcherId);
         $researcher[$i] = [];
         for ($j = 0; $j < $numOfResearchers; $j++) {
             $researcher[$i][$j] = new Researcher(new Entity($researcherId[$j]), $activity[$i]);
-            $researcher[$i][$j]->entity->getEntity($researcherId[$j]);
+            $researcher[$i][$j]->entity->load($researcherId[$j]);
         }
-        $contractorId = Contractor::getContractorIds($activity[$i]);
+        $contractorId = Contractor::getIds($activity[$i]);
         $numOfContractors = count($contractorId);
         $contractor[$i] = [];
         for ($j = 0; $j < $numOfContractors; $j++) {
             $contractor[$i][$j] = new Contractor(new Entity($contractorId[$j]), $activity[$i]);
-            $contractor[$i][$j]->entity->getEntity($contractorId[$i]);
-            $contractor[$i][$j]->getContractorDetails();
+            $contractor[$i][$j]->entity->load($contractorId[$i]);
+            $contractor[$i][$j]->load();
         }
         $setParamString .= "setActivityParam(" . $i . "," . $numOfResearchers . "," . $numOfContractors . ");";
     }
@@ -159,7 +159,7 @@ if (isset($_GET['project_code'])) {
                 
                 echo "<br><h2>Subproject : " . $activityCodes[$j] . "</h2><br>";
                 echo "<fieldset>";
-                echo "<legend align='right'><a class='editLink' id='editActivity$k' onclick='editActivity($k," . $activityCodes[$j] . ");return false;' href='#'>Edit</a></legend> ";
+                echo "<legend align='right'><a class='editLink' id='editActivity$k' onclick='editActivity($k," . $project_code . "," . $activityCodes[$j] . ");return false;' href='#'>Edit</a></legend> ";
                 echo "<br>
                       <p><span class='tag'>Title: </span><span id='aTitle$k'>" .  $activity[$j]->title ."</span></p><br>
                       <p><span class='tag'>Description: </span><span id='aDescription$k'>" . $activity[$j]->description . "</span></p><br>
@@ -193,6 +193,7 @@ if (isset($_GET['project_code'])) {
                         }
                         echo "<span id='addContractorA{$k}Link'></span>";
                         echo "</div>";
+                        echo "<br><p><span class='tag'>Notes: </span><span id='aNotes$k'>" . $activity[$j]->notes. "</span></p><br>";
                         echo "<br><div id='saveEditActivity{$k}'></div>";
                         echo "<br></fieldset>";
                    }
