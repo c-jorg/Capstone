@@ -278,3 +278,21 @@ WHERE
 	start_date BETWEEN "2023-01-01" AND "2025-01-01" OR
 	end_date BETWEEN "2023-01-01" AND "2025-01-01"
 ORDER BY start_date;
+
+
+*******new******
+
+
+ALTER TABLE Contractors DROP payment;
+
+ALTER TABLE Contractors DROP data_payed;
+
+SELECT e.company, e.email, c.activity_code, p.project_code, p.title, p.stage, p.type, a.start_date, a.end_date
+FROM Contractors c, Projects p, Activities a, Entities e
+WHERE c.activity_code = a.activity_code AND
+	c.entity_id = e.id AND
+	a.project_code = p.project_code AND
+	a.activity_code IN (SELECT activity_code FROM Activities WHERE start_date BETWEEN '2022-01-01' AND '2024-01-01' OR
+	 end_date BETWEEN '2022-01-01' AND '2024-01-01');
+						 
+						 
