@@ -5,7 +5,7 @@ namespace Classes;
 class Project {
 
     public $project_code; //primary key
-    public $title, $description, $stage, $type;
+    public $title, $description, $stage, $type, $status;
     public $start_date, $end_date; //dates
     private $mysqli;
     private $database = "Research";
@@ -21,6 +21,7 @@ class Project {
                 . ", description=" . $this->description
                 . ", stage=" . $this->stage
                 . ", type=" . $this->type
+                . ", status=" . $this->status
                 . ", start_date=" . $this->start_date
                 . ", end_date=" . $this->end_date
                 . ", database=" . $this->database
@@ -40,7 +41,7 @@ class Project {
         mysqli_close($this->mysqli);
     }
 
-    public function createProject() {
+    public function create() {
     	$this->openConnection();
         $query = "INSERT INTO $this->table "
                 . "VALUES ('$this->project_code',"
@@ -49,7 +50,8 @@ class Project {
                 . "'$this->stage',"
                 . "'$this->type',"
                 . "$this->start_date,"
-                . "$this->end_date);";
+                . "$this->end_date,"
+                . "'$this->status');";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             echo "Project created";
@@ -59,15 +61,16 @@ class Project {
         $this->closeConnection();
     }
 
-    public function updateProject() {
+    public function update() {
     	$this->openConnection();
         $query = "UPDATE $this->table "
-                . "SET title = $this->title,"
-                . "description = $this->description, "
-                . "stage = $this->stage,"
-                . "type = $this->type,"
+                . "SET title = '$this->title',"
+                . "description = '$this->description', "
+                . "stage = '$this->stage',"
+                . "type = '$this->type',"
                 . "start_date = $this->start_date,"
-                . "end_date = $this->end_date "
+                . "end_date = $this->end_date, "
+                . "status= '$this->status' "
                 . "WHERE project_code = '$this->project_code';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
@@ -76,7 +79,7 @@ class Project {
         $this->closeConnection();
     }
 
-    public function getProject($project_code) {
+    public function load($project_code) {
     	$this->openConnection();
         $query = "SELECT * FROM {$this->table} WHERE project_code = '{$project_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
@@ -89,7 +92,7 @@ class Project {
         $this->closeConnection();
     }
 
-    public function setProject($result) {
+    private function setProject($result) {
         $project = mysqli_fetch_array($result, MYSQLI_ASSOC);
         $this->title = $project['title'];
         $this->description = $project['description'];
@@ -97,9 +100,10 @@ class Project {
         $this->type = $project['type'];
         $this->start_date = $project['start_date'];
         $this->end_date = $project['end_date'];
+        $this->status = $project['status'];
     }
 
-    public function deleteProject($project_code) {
+    public function delete($project_code) {
     	$this->openConnection();
         $query = "DELETE FROM $this->table WHERE project_code = '{$project_code}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));

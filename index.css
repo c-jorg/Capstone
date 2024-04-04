@@ -181,3 +181,11 @@ body {
     display: none;
     margin-left: 3px;
 }
+
+fieldset {
+	margin: 10px;
+	border-color: #E10054;
+	border-radius: 20px;
+	border-style: solid;
+	padding: 10px;
+}

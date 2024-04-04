@@ -40,7 +40,7 @@ class Entity {
                 . "]";
     }
 
-    public function createEntity() {
+    public function create() {
     	$this->openConnection();
         $query = "INSERT INTO $this->table (first_name, last_name, email, salutation, company, category) "
                 . "VALUES ('$this->first_name',"
@@ -59,7 +59,7 @@ class Entity {
         $this->closeConnection();
     }
 
-    public function updateEntity() {
+    public function update() {
     	$this->openConnection();
         $query = "UPDATE $this->table "
                 . "SET first_name = '$this->first_name',"
@@ -76,7 +76,7 @@ class Entity {
         $this->closeConnection();
     }
 
-    public function getEntity($id) {
+    public function load($id) {
     	$this->openConnection();
         $query = "SELECT * FROM {$this->table} WHERE id = '{$id}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
@@ -89,7 +89,7 @@ class Entity {
         $this->closeConnection();
     }
 
-    public function setEntity($result) {
+    private function setEntity($result) {
         $entity = mysqli_fetch_array($result, MYSQLI_ASSOC);
         $this->id = $entity['id'];
         $this->first_name = $entity['first_name'];
@@ -100,7 +100,7 @@ class Entity {
         $this->category = $entity['category'];
     }
 
-    public function deleteEntity($id) {
+    public function delete($id) {
     	$this->openConnection();
         $query = "DELETE FROM $this->table WHERE id = '{$id}';";
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));

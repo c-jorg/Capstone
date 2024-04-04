@@ -1,15 +1,11 @@
 <?php
 use function CommonMark\Render\HTML;
-$db_host = 'Research'; // Hostname of database
-$db_name = 'Login';
-$db_user = 'username';
-$db_pass = 'password';
 
-try {
-    $pdo = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Your connection to our database has failed: " . $e->getMessage());
+$sqli = new mysqli('localhost:3306', 'root', '', 'Research');
+
+// Check connection
+if ($sqli->connect_error) {
+    die("Connection failed: " . $sqli->connect_error);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -18,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $hashPass = hash('SHA256', $password);
 
-    $stmt = $pdo->prepare("SELECT password FROM Login WHERE username = :username");
+    $stmt = $sqli->prepare("SELECT password FROM Login WHERE username = :username");
     $stmt->bindParam(':username', $username);
     $stmt->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -42,4 +38,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Invalid username or password.";
     }
 }
+
 

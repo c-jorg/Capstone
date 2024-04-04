@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<link rel='stylesheet' href='loginStyle.css'
+<link rel='stylesheet' href='loginStyle.css'>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

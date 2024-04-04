@@ -254,6 +254,7 @@ CREATE TABLE `projects` (
   `type` varchar(100) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
+  `status` enum('Green','Yellow','Red') NOT NULL,
   PRIMARY KEY (`project_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -264,7 +265,7 @@ CREATE TABLE `projects` (
 
 LOCK TABLES `projects` WRITE;
 /*!40000 ALTER TABLE `projects` DISABLE KEYS */;
-INSERT INTO `projects` VALUES ('123','project 2','test Projects testing','Awaiting Funding','Tech','2026-01-01','2028-01-01'),('ABC','projects 1','test Projects','In Progress','Science','2024-01-01','2026-01-01');
+INSERT INTO `projects` VALUES ('123','project 2','test Projects','In Progress','Tech','2026-01-01','2028-01-01','Green'),('ABC','projects 1','test Projects','In Progress','Science','2024-01-01','2026-01-01','Green');
 /*!40000 ALTER TABLE `projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -291,7 +292,7 @@ CREATE TABLE `researchers` (
 
 LOCK TABLES `researchers` WRITE;
 /*!40000 ALTER TABLE `researchers` DISABLE KEYS */;
-INSERT INTO `researchers` VALUES (8,'123'),(9,'123'),(9,'abc'),(1,'123'),(1,'ABC'),(2,'ABC');
+INSERT INTO `researchers` VALUES (8,'123'),(9,'123'),(9,'abc'),(1,'123'),(2,'ABC'),(2,'123');
 /*!40000 ALTER TABLE `researchers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -304,4 +305,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-01 16:00:00
+-- Dump completed on 2024-04-03 11:36:26

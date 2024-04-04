@@ -31,8 +31,9 @@
 <table>
   <tr>
     <th>Researcher Name</th>
-    <th>Researchers Email</th> <!-- entity table email -->
+    <th>Researcher Email</th> <!-- entity table email -->
     <th>Student Status</th> <!-- category -->
+    <th>Researcher Of...</th>
     <th>Principal Researcher Of...</th> <!-- principal researcher entry -->
     <th>Project Manager Of...</th> <!-- project manager entry -->
   </tr>
@@ -59,17 +60,22 @@ $fullquery = "SELECT e.first_name,
               e.salutation,
               e.email,
               e.category,
-              e.id
-              FROM Entities e, Researchers r
-              WHERE e.id = r.entity_id";
+              e.id,
+              r.activity_code,
+              a.title
+              FROM Entities e, Researchers r, Activities a
+              WHERE e.id = r.entity_id AND
+              r.activity_code = a.activity_code";
 
-$managerQuery = "SELECT m.entity_id, m.project_code
-                 FROM Project_Managers m, Researchers r
-                 WHERE r.entity_id = m.entity_id";
+$managerQuery = "SELECT m.entity_id, m.project_code, p.title
+                 FROM Project_Managers m, Researchers r, Projects p
+                 WHERE r.entity_id = m.entity_id AND
+                 m.project_code = p.project_code";
 
-$principalQuery = "SELECT p.entity_id, p.activity_code
-                   FROM Principal_Researchers p, Researchers r
-                   WHERE r.entity_id = p.entity_id";
+$principalQuery = "SELECT p.entity_id, p.activity_code, a.title
+                   FROM Principal_Researchers p, Researchers r, Activities a
+                   WHERE r.entity_id = p.entity_id AND
+                   p.activity_code = a.activity_code";
 
 $result = mysqli_query($sqli, $fullquery);
 $managerResult = mysqli_query($sqli, $managerQuery);
@@ -80,6 +86,8 @@ if(mysqli_num_rows($result) !== 0){
     $first = stripslashes($row["first_name"]);
     $last = stripslashes($row["last_name"]);
     $name = $sal . ' ' . $first . ' ' . $last;
+    $designation = stripslashes($row['activity_code']);
+    $activityTitle = stripslashes($row['title']);
     
     $email = stripslashes($row['email']);
     $status = stripslashes($row['category']);
@@ -93,7 +101,8 @@ if(mysqli_num_rows($result) !== 0){
             $managerCheck = stripslashes($managerRow['entity_id']);
             if($managerCheck == $id){
                 $code = stripslashes($managerRow['project_code']);
-                $manager = "Project Code: " . stripslashes($managerRow['project_code']);
+                $name = stripslashes($managerRow['title']);
+                $manager = "Project Code: " . $code . ", " . $name;
                 $manager = "<a href='projectPage.php?project_code=\"".$code."\"'>" . $manager;
             }
         }
@@ -104,7 +113,8 @@ if(mysqli_num_rows($result) !== 0){
             $principalCheck = stripslashes($principalRow['entity_id']);
             if($principalCheck == $id){
                 $code = stripslashes($principalRow['activity_code']);
-                $principal = "Activity Code: " . stripslashes($principalRow['activity_code']);
+                $name = stripslashes($principalRow['title']);
+                $principal = "Activity Code: " . $code . ", " . $name;
                 $principal = "<a href='projectPage.php?project_code=\"".$code."\"'>" . $principal;
             }
         }
@@ -114,6 +124,7 @@ if(mysqli_num_rows($result) !== 0){
                 <td>".$name."</td>
                 <td>".$email."</td>
                 <td>".$status."</td>
+                <td>".$designation.", ".$activityTitle."</td>
                 <td>".$principal."</td>
                 <td>".$manager."</td>
               </tr>";

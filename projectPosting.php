@@ -10,6 +10,15 @@
         <?php include './entityLookUp.php'; ?>
         <title>Create Project</title>
         <script></script>
+        <style>
+            .statusColor{
+                vertical-align: middle;
+                min-width: 50px;
+                padding: 0.5rem;
+                border: 1px solid black;
+                display: inline-block;    
+            }
+        </style>
     </head>
     <body onload='displayHeader()'>
         <div class='header' id='header'></div>
@@ -23,6 +32,7 @@
         <div id="addEnt" class="addEnt">
         <h1>Add Entity</h1>
         <fieldset id="addEntity">
+            <h4>Entity Details</h4>
             <br>
             <label for="salutation">Salutation:</label>
             <select name="salutation" id="salutation">
@@ -56,9 +66,8 @@
             </select>
             <br><br>
             <button onclick="addEntity();return false;" id="addEntityBTN" style="width:200px">Add Entity</button>&ensp;<span id="addEntityReponse" style="color:red;"></span>
-            <br><br>
         </fieldset>
-        </div>
+       </div>
         <div id="crProj" class="crProj">
         <h1>Create Project</h1>
         <fieldset>
@@ -80,8 +89,13 @@
                 <option value="Completed - Signed Off">Completed - Signed Off</option>
             </select>
             <br><br>
+            <span id="currentStatus">Current Status:</span>
+                <input type="radio" id="red" name="currentStatus" value="Red" checked><label class="statusColor" for="red" style="background-color: red;"> </label> 
+                <input type="radio" id="yellow" name="currentStatus" value="Yellow"><label class="statusColor" for="yellow" style="background-color: yellow;"> </label> 
+                <input type="radio" id="green" name="currentStatus" value="Green"><label class="statusColor" for="green" style="background-color: green;"> </label> 
+            <br><br>
             <label for="projectDescription">Project Description:</label><br>
-            <textarea id="projectDescription" name="projectDescription" rows="4" cols="60" required></textarea>
+            <textarea id="projectDescription" name="projectDescription" rows="4" cols="70"></textarea>
             <br><br>
             <label for="type">Project Type:</label>
             <input list="types" name="type" id="type">
@@ -94,6 +108,11 @@
             <label for="projectManager">Project Manager:</label>
             <input list="entities" name="projectManager" id="projectManager" style="width:300px;">
             <datalist id="entities"></datalist>
+            <br><br>
+            <label for="pStartDate">Start Date:</label>
+            <input type="date" id="pStartDate" name="pStartDate">&ensp;
+            <label for="pEndDate">End Date:</label>
+            <input type="date" id="pEndDate" name="pEndDate">
             <br><br>
             <div id="funders">
                 <label for="funder1">Funder 1:</label>
@@ -114,38 +133,6 @@
                 </span>
             </div>
             <br>
-            <label for="pStartDate">Start Date:</label>
-            <input type="date" id="pStartDate" name="pStartDate">&ensp;
-            <label for="pEndDate">End Date:</label>
-            <input type="date" id="pEndDate" name="pEndDate">
-            <br><br>
-            <button  onclick="createProject()" style="width:200px">Create Project</button>&ensp;<span id="projectCreated" style="color:red;"></span>		
-            <br><br>
-        </fieldset>
-        </div>
-        <div id="crSubproj" class="crSubproj">
-        <h1>Create Subproject</h1>
-        <fieldset>
-            <h3>Subproject Details</h3>
-            <br>
-            <label for="a1ProjectCode">Project Code:</label>
-            <input type="text" id="a1ProjectCode" name="a1ProjectCode"><span id="isA1ProjectCodeEmpty" style="color:red;"></span>
-            <br><br>
-            <label for="activity1Code">Activity Code:</label>
-            <input type="text" id="activity1Code" name="activity1Code"><span id="isA1ActivityCodeEmpty" style="color:red;"></span>
-            <br><br>
-            <label for="activityTitle">Activity Title:</label>
-            <input type="text" id="activityTitle" name="activityTitle">
-            <br><br>
-            <label for="activityDescription">Activity Description:</label><br>
-            <textarea id="activityDescription" name="activityDescription" rows="4" cols="100"></textarea>
-            <br><br>
-            <label for="a1StartDate">Start Date:</label>
-            <input type="date" id="a1StartDate" name="a1StartDate" required>
-            &ensp;
-            <label for="a1EndDate">End Date:</label>
-            <input type="date" id="a1EndDate" name="a2EndDate" required>
-            <br><br>
             <div id="clients">
                 <label for="Client1">Client 1:</label>
                 <input list="entities" name="Client1" id="Client1" style="width:300px;">
@@ -156,6 +143,32 @@
                 </span>
             </div>
             <br>
+            <button  onclick="createProject()" style="width:200px">Create Project</button>&ensp;<span id="projectCreated" style="color:red;"></span>		
+        </fieldset>
+         </div>
+        <div id="crSubproj" class="crSubproj">
+        <h1>Create Subproject</h1>
+        <fieldset>
+            <h3>Subproject Details</h3>
+            <br>
+            <label for="a1ProjectCode">Project Code:</label>
+            <input type="text" id="a1ProjectCode" name="a1ProjectCode"> <span id="isA1ProjectCodeEmpty" style="color:red;"></span>
+            <br><br>
+            <label for="activity1Code">Subproject Code:</label>
+            <input type="text" id="activity1Code" name="activity1Code"> <span id="isA1ActivityCodeEmpty" style="color:red;"></span>
+            <br><br>
+            <label for="activityTitle">Subproject Title:</label>
+            <input type="text" id="activityTitle" name="activityTitle">
+            <br><br>
+            <label for="activityDescription">Subproject Description:</label><br>
+            <textarea id="activityDescription" name="activityDescription" rows="4" cols="70"></textarea>
+            <br><br>
+            <label for="a1StartDate">Start Date:</label>
+            <input type="date" id="a1StartDate" name="a1StartDate" required>
+            &ensp;
+            <label for="a1EndDate">End Date:</label>
+            <input type="date" id="a1EndDate" name="a2EndDate" required>            
+            <br><br>
             <label for="principalResearcher">Principal Researcher:</label>
             <input list="entities" name="principalResearcher" id="principalResearcher" style="width:300px;">
             <datalist id="entities"></datalist>
@@ -190,8 +203,7 @@
             <label for="notes">Notes:</label><br>
             <textarea id="notes" name="notes" rows="8" cols="70"></textarea>
             <br><br>
-            <button onclick="createActivity()" style="width:200px">Create Subproject</button>&ensp;<span id="activityCreated" style="color:red;"></span>		
-            <br><br>	
+            <button onclick="createActivity()" style="width:200px">Create Subproject</button>&ensp;<span id="activityCreated" style="color:red;"></span>			
         </fieldset>
         </div>
     </body>

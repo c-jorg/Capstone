@@ -1,13 +1,16 @@
 <?php 
-include './Entity.php';
+use Classes\Entity;
+include 'Classes/Entity.php';
+function removeQuotes($value) {
+    return trim($value,'\'"');
+}
 $entity = new Entity();
-//var_dump($_GET);
-$entity->first_name = $_GET['first_name'];
-$entity->last_name = $_GET['last_name'];
-$entity->email = $_GET['email'];
-$entity->salutation= $_GET['salutation'];
-$entity->company = $_GET['company'];
-$entity->category = $_GET['category'];
-$entity->createEntity();
+$entity->first_name = removeQuotes($_GET['first_name']);
+$entity->last_name = removeQuotes($_GET['last_name']);
+$entity->email = removeQuotes($_GET['email']);
+$entity->salutation= removeQuotes($_GET['salutation']);
+$entity->company = removeQuotes($_GET['company']);
+$entity->category = removeQuotes($_GET['category']);
+$entity->create();
 
 ?>

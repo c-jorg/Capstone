@@ -48,7 +48,8 @@ $fullquery = "SELECT
               p.stage,
               p.type,
               p.start_date,
-              p.end_date
+              p.end_date,
+              p.status
               FROM Projects p";
 
 $result = mysqli_query($sqli, $fullquery);
@@ -60,9 +61,20 @@ if(mysqli_num_rows($result) !== 0){
     $type = stripslashes($row['type']);
     $dateStart = stripslashes($row['start_date']);
     $dateEnd = stripslashes($row['end_date']);
+    $status = stripslashes($row['status']);
+
+    $color = 'White';
+    
+    if($status == 'Green'){
+      $color = 'Green';
+    }else if($status == 'Yellow'){
+      $color = 'Yellow';
+    }else if($status == 'Red'){
+      $color = 'Red';
+    }
 
     $entry = "<tr>
-                <td>W.I.P.</td>
+                <td bgcolor='".$color."'>".$status."</td>
                 <td>".$projectCode."</td>
                 <td><a href='projectPage.php?project_code=\"".$projectCode."\"'>".$title."</td>
                 <td>".$stage."</td>

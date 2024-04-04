@@ -33,7 +33,7 @@
   	<th>Contractor Name</th> <!-- company -->
     <th>Contractor Email</th> <!-- email -->
     <th>Subproject Code</th> <!-- activity code -->
-    <th>Project Title</th> <!-- activity title -->
+    <th>Subproject Name</th> <!-- activity title -->
     <th>Date Payed</th> <!-- date payed -->
   </tr>
 <?php
@@ -46,13 +46,12 @@ $fullquery = "SELECT
               e.company,
               e.email,
               c.activity_code,
-              p.title,
+              a.title,
               c.date_payed,
               a.project_code
-              FROM Entities e, Contractors c, Activities a, Projects p
+              FROM Entities e, Contractors c, Activities a
               WHERE e.id = c.entity_id AND
-              a.activity_code = c.activity_code AND
-              a.project_code = p.project_code
+              a.activity_code = c.activity_code
               ORDER BY c.date_payed DESC";
 
 $result = mysqli_query($sqli, $fullquery);
