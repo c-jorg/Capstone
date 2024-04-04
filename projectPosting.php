@@ -70,7 +70,7 @@
        </div>
         <div id="crProj" class="crProj">
         <h1>Create Project</h1>
-        <fieldset>
+        <fieldset id="addEntity">
             <h3>Project Details</h3>
             <br>
             <label for="projectCode">Project Code:</label>
@@ -148,7 +148,7 @@
          </div>
         <div id="crSubproj" class="crSubproj">
         <h1>Create Subproject</h1>
-        <fieldset>
+        <fieldset id="addEntity">
             <h3>Subproject Details</h3>
             <br>
             <label for="a1ProjectCode">Project Code:</label>

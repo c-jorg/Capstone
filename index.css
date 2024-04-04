@@ -182,10 +182,53 @@ body {
     margin-left: 3px;
 }
 
-fieldset {
+#addEntity {
 	margin: 10px;
 	border-color: #E10054;
 	border-radius: 20px;
 	border-style: solid;
 	padding: 10px;
+}
+
+.queries {
+    margin: 20px auto;
+    width: 80%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.query {
+    margin-bottom: 20px;
+}
+
+.dateInput {
+    width: 150px;
+}
+
+.queryButton {
+    background-color: #E10054;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.queryButton:hover {
+    background-color: #782434;
+}
+
+.reportGeneration {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.reportGeneration p {
+    margin: 0;
 }
