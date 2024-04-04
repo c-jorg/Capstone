@@ -21,7 +21,7 @@ body {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 15px;
+    margin-top: 20px;
     width: 45%;
 }
 
@@ -42,12 +42,13 @@ body {
 
 
 .links {
-	text-align: center;
-	margin-top: -200px;
+    text-align: center;
+    margin-top: -25px;
 }
 
 .links a {
-	display: inline-block;
+	display: block;
+    margin-inline: 10px;
 	margin-bottom: 25px; /* Increased spacing between links */
     font-size: 28px; /* Increased font size */
     font-weight: bold;
@@ -63,6 +64,10 @@ body {
 
 .links a:hover {
     background-color: #ccc;
+}
+
+#crBTN {
+    width: 520px;
 }
 
 .centered {
