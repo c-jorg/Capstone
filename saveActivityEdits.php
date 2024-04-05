@@ -15,29 +15,43 @@ spl_autoload_register(function ($class) {
 function removeQuotes($value) {
     return trim($value,'\'"');
 }
-$project_code = removeQuotes($_GET['project_code']);
+ob_start();
+$option = array("options" => "removeQuotes");
+$project_code = filter_input(INPUT_GET,'project_code', FILTER_CALLBACK, $option);
 $project = new Project($project_code);
 $project->load($project_code);
 
-$activity_code = removeQuotes($_GET['activity_code']);
+$activity_code = filter_input(INPUT_GET,'activity_code', FILTER_CALLBACK, $option);
 $activity = new Activity($project, $activity_code);
 $activity->load($activity_code);
 
-if (strcmp($activity->title, $_GET['title'])) {
-    $activity->title = removeQuotes($_GET['title']);
+$title = filter_input(INPUT_GET, 'title', FILTER_CALLBACK, $option);
+if (strcmp($activity->title, $title)) {
+    $activity->title = $title;
 }
-if (strcmp($activity->description, $_GET['description'])) { 
-    $activity->description = removeQuotes($_GET['description']);
+
+$description = filter_input(INPUT_GET, 'description', FILTER_CALLBACK, $option);
+if (strcmp($activity->description, $description)) { 
+    $activity->description = $description;
 }
-if (strcmp($activity->start_date, $_GET['start_date'])) {
-    $activity->start_date = removeQuotes($_GET['start_date']);
+
+$start_date = filter_input(INPUT_GET, 'start_date', FILTER_CALLBACK, $option);
+$start_date = empty($start_date) ? 'NULL' : "'" . $start_date . "'";
+if (strcmp($activity->start_date, $start_date)) {
+    $activity->start_date = $start_date;
+} 
+
+$end_date = filter_input(INPUT_GET, 'end_date', FILTER_CALLBACK, $option);
+$end_date = empty($end_date) ? 'NULL' : "'" . $end_date ."'";
+if (strcmp($activity->end_date, $end_date)) {
+    $activity->end_date = $end_date;
 }
-if (strcmp($activity->end_date, $_GET['end_date'])) {
-    $activity->end_date = removeQuotes($_GET['end_date']);
+
+$notes = filter_input(INPUT_GET, 'notes', FILTER_CALLBACK, $option);
+if (strcmp($activity->notes, $notes)) {
+    $activity->notes = $notes;
 }
-if (strcmp($activity->notes, $_GET['notes'])) {
-    $activity->notes = removeQuotes($_GET['notes']);
-}
+
 $activity->update(); 
 $pResearcherId = Principal_Researcher::getIds($activity);
 $newPResearcherId = (int) filter_var($_GET['principal_researcher'], FILTER_SANITIZE_NUMBER_INT);
@@ -130,5 +144,6 @@ for ($i = $numOfContractors; $i < count($contractorId); $i++) {
     $contractor[$i] = new Contractor(new Entity($contractorId[$i]), $activity);
     $contractor[$i]->delete();
 }
-echo "HERE END OF Contractors";
+ob_end_clean();
+echo "Edits Saved";
 ?>

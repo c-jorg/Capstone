@@ -26,6 +26,7 @@ class Activity {
                 . ", notes=" . $this->notes
                 . ", start_date=" . $this->start_date
                 . ", end_date=" . $this->end_date
+                . ", notes=" . $this. $this->notes
                 . ", project=" . $this->project
                 . ", database=" . $this->database
                 . ", table=" . $this->table
@@ -70,10 +71,11 @@ class Activity {
                 . "project_code = '{$this->project->project_code}',"
                 . "title = '$this->title',"
                 . "description = '$this->description', "
-                . "start_date = '$this->start_date',"
-                . "end_date = '$this->end_date',"
+                . "start_date = $this->start_date,"
+                . "end_date = $this->end_date,"
                 . "notes = '$this->notes' "
                 . "WHERE activity_code = '$this->activity_code';";
+        echo $query;
         $result = mysqli_query($this->mysqli, $query) or die(mysqli_error($this->mysqli));
         if ($result) {
             echo "Activity has been updated successfully";
