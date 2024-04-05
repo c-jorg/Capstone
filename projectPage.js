@@ -90,11 +90,17 @@ function editProject(project_code) {
                     </select>`;
             input = input.replace(`>${text}<`, `selected>${text}<`);
         } else if (id_array[i] === 'status') {
-            let isChecked = ["","",""];
+            let isChecked = ["", "", ""];
             switch (text) {
-                case "Red": isChecked[0] = "Checked"; break;
-                case "Yellow": isChecked[1] = "Checked"; break;
-                case "Green": isChecked[2] = "Checked"; break;
+                case "Red":
+                    isChecked[0] = "Checked";
+                    break;
+                case "Yellow":
+                    isChecked[1] = "Checked";
+                    break;
+                case "Green":
+                    isChecked[2] = "Checked";
+                    break;
             }
             document.querySelector(`span#${id_array[i]}`).removeAttribute("style");
             input = `<input type="radio" id="red" name="currentStatus" value="Red" ${isChecked[0]}><label class="status" for="red" style="background-color: red;"> </label> 
@@ -153,28 +159,27 @@ function saveEditProject(project_code) {
         if (id_array[i] === 'stage') {
             data.push(document.querySelector(`select#${id_array[i]}`).value);
             document.querySelector(`span#${id_array[i]}`).innerHTML = document.querySelector(`select#${id_array[i]}`).value;
-        } else if (id_array[i] === 'status') { 
+        } else if (id_array[i] === 'status') {
             let color = "";
             if (document.getElementById('red').checked) {
                 color = "Red";
-                data.push(color); 
+                data.push(color);
             } else if (document.getElementById('yellow').checked) {
                 color = "Yellow";
                 data.push(color);
-                
+
             } else if (document.getElementById('green').checked) {
                 color = "Green";
-                data.push(color);   
+                data.push(color);
             }
             document.querySelector(`span#${id_array[i]}`).innerHTML = color;
-            document.querySelector(`span#${id_array[i]}`).setAttribute("style",`background-color: ${color};`);
+            document.querySelector(`span#${id_array[i]}`).setAttribute("style", `background-color: ${color};`);
         } else if (id_array[i] === 'description') {
             data.push(document.querySelector(`textarea#${id_array[i]}`).value);
             document.querySelector(`span#${id_array[i]}`).innerHTML = document.querySelector(`textarea#${id_array[i]}`).value;
         } else if (id_array[i] === 'manager') {
             let val = document.querySelector(`input#${id_array[i]}`).value;
             if (val.includes("|")) {
-                console.log(val);
                 data.push(val.substring(0, val.indexOf('|') - 1));
                 document.querySelector(`span#${id_array[i]}`).innerHTML = val.substring(val.indexOf("|") + 1).trim();
             } else {
@@ -202,11 +207,7 @@ function saveEditProject(project_code) {
             data.push(numOfClients);
         }
     }
-
-//    let funders = document.getElementByClassName(`Funders`);
-//    let funder = parent.querySelectorAll(`p#addFunder${i}`);
-
-    console.log(id_array);
+    //console.log(id_array);
     document.querySelector(`div#saveEditProject`).innerHTML = "";
     insertEditedProject(data);
 }
@@ -214,7 +215,8 @@ function insertEditedProject(data) {
     const request = new XMLHttpRequest();
     request.onload = function () {
         let responseString = this.responseText;
-        console.log(responseString);
+        console.log(responseString);   
+        document.querySelector(`div#saveEditProject`).innerHTML = responseString;
     };
     const fields = ['project_code', 'title', 'stage', 'status', 'description', 'type', 'project_manager', 'start_date', 'end_date'];
     let numOfFunders = data[fields.length];
@@ -237,7 +239,7 @@ function insertEditedProject(data) {
             path += "&";
         }
     }
-    console.log(path);
+    //console.log(path);
     request.open("GET", "saveProjectEdits.php?" + path);
     request.send();
 }
@@ -390,17 +392,17 @@ function saveEditActivity(aIndex, project_code, activity_code) {
             data.push(numOfContractors[aIndex - 1]);
         }
     }
-
 //    console.log(id_array);
 //    console.log(data);
     document.querySelector(`div#saveEditActivity${aIndex}`).innerHTML = "";
-    insertEditedActivity(data);
+    insertEditedActivity(data, aIndex);
 }
-function insertEditedActivity(data) {
+function insertEditedActivity(data, aIndex) {
     const request = new XMLHttpRequest();
     request.onload = function () {
         let responseString = this.responseText;
         console.log(responseString);
+        document.querySelector(`div#saveEditActivity${aIndex}`).innerHTML = responseString;
     };
     const fields = ['project_code', 'activity_code', 'title', 'description', 'notes', 'start_date', 'end_date', 'principal_researcher'];
     let numOfResearchers = data[fields.length];
@@ -415,7 +417,7 @@ function insertEditedActivity(data) {
         fields.push(`payment${i}`);
         fields.push(`date_payed${i}`);
     }
-    
+
     let path = "";
     for (let i = 0; i < data.length; i++) {
         path += fields[i] + "='" + data[i] + "'";
@@ -423,7 +425,7 @@ function insertEditedActivity(data) {
             path += "&";
         }
     }
-    console.log(path);
+    //console.log(path);
     request.open("GET", "saveActivityEdits.php?" + path);
     request.send();
 }

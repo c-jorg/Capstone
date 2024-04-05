@@ -11,66 +11,83 @@ use Classes\{
 spl_autoload_register(function ($class) {
     include str_replace('\\', '/', $class) . ".php";
 });
+
 function removeQuotes($value) {
-    return trim($value,'\'"');
+    return trim($value, '\'"');
 }
-$project_code = removeQuotes($_GET['project_code']);
+
+ob_start();
+$option = array("options" => "removeQuotes");
+$project_code = filter_input(INPUT_GET, 'project_code', FILTER_CALLBACK, $option);
 //echo str_replace(array("'", '"'), "", $_GET['project_code']);
 $project = new Project($project_code);
 $project->load($project_code);
-if (strcmp($project->title, $_GET['title'])) {
-    $project->title = removeQuotes($_GET['title']);
+
+$title = filter_input(INPUT_GET, 'title', FILTER_CALLBACK, $option);
+if (strcmp($project->title, $title)) {
+    $project->title = $title;
 }
-if (strcmp($project->description, $_GET['description'])) { 
-    $project->description = removeQuotes($_GET['description']);
+
+$description = filter_input(INPUT_GET, 'description', FILTER_CALLBACK, $option);
+if (strcmp($project->description, $description)) {
+    $project->description = $description;
 }
-if (strcmp($project->stage, $_GET['stage'])) {
-    $project->stage = removeQuotes($_GET['stage']);
+
+$stage = filter_input(INPUT_GET, 'stage', FILTER_CALLBACK, $option);
+if (strcmp($project->stage, $stage)) {
+    $project->stage = $stage;
 }
-if (strcmp($project->status, $_GET['status'])) {
-    $project->status = removeQuotes($_GET['status']);
+
+$status = filter_input(INPUT_GET, 'status', FILTER_CALLBACK, $option);
+if (strcmp($project->status, $status)) {
+    $project->status = $status;
 }
-if (strcmp($project->type, $_GET['type'])) {
-    $project->type = removeQuotes($_GET['type']);
+
+$type = filter_input(INPUT_GET, 'type', FILTER_CALLBACK, $option);
+if (strcmp($project->type, $type)) {
+    $project->type = $type;
 }
-if (strcmp($project->start_date, $_GET['start_date'])) {
-    $project->start_date = $_GET['start_date'];
+
+$start_date = filter_input(INPUT_GET, 'start_date');
+if (strcmp($project->start_date, $start_date)) {
+    $project->start_date = $start_date;
 }
-if (strcmp($project->end_date, $_GET['end_date'])) {
-    $project->end_date = $_GET['end_date'];
+
+$end_date = filter_input(INPUT_GET, 'end_date');
+if (strcmp($project->end_date, $end_date)) {
+    $project->end_date = $end_date;
 }
-$project->update(); 
+$project->update();
+
 $managerId = Project_Manager::getId($project);
-$newManagerId = (int) filter_var($_GET['project_manager'], FILTER_SANITIZE_NUMBER_INT);
-if ($newManagerId !== 0) {
+$newManagerId = filter_input(INPUT_GET, 'project_manager', FILTER_CALLBACK, $option);
+if (is_numeric($newManagerId)) {
     if ($managerId !== $newManagerId) {
-        if ($managerId !== $newManagerId) {
-            $manager;
-            if (!empty($managerId)) {
-                $manager = new Project_Manager(new Entity($managerId), $project);
-                $newManager = new Entity($newManagerId);
-                $manager->update($newManager, $project);
-            } else {
-                $manager = new Project_Manager(new Entity($newManagerId), $project);
-                $manager->insert();
-            }
-        }
-    } else if ($_GET['project_manager'] === "''") {
-        $managerId = Project_Manager::getId($project);
         $manager;
-        if ($managerId !== 0) {
+        if (empty($managerId)) {
+            $manager = new Project_Manager(new Entity($newManagerId), $project);
+            $manager->insert();
+        } else {
             $manager = new Project_Manager(new Entity($managerId), $project);
-            $manager->delete();
+            $newManager = new Entity($newManagerId);
+            $manager->update($newManager, $project);
         }
+    }
+} else if (empty($newManagerId)) {
+    $managerId = Project_Manager::getId($project);
+    $manager;
+    if ($managerId !== 0) {
+        $manager = new Project_Manager(new Entity($managerId), $project);
+        $manager->delete();
     }
 }
 $funderId = Funder::getIds($project);
-$numOfFunders = (int) filter_var($_GET['numOfFunders'], FILTER_SANITIZE_NUMBER_INT);
+$numOfFunders = (int) filter_input(INPUT_GET, 'numOfFunders', FILTER_SANITIZE_NUMBER_INT);
 $funder = [];
 for ($i = 0; $i < $numOfFunders; $i++) {
     $j = $i + 1;
-    $newfunderId = (int) filter_var($_GET["funder{$j}"], FILTER_SANITIZE_NUMBER_INT);
-    if (!empty($newfunderId) && $newfunderId !== 0) {
+    $newfunderId = filter_input(INPUT_GET, "funder{$j}", FILTER_CALLBACK, $option);
+    if (is_numeric($newfunderId)) {
         if (!in_array($newfunderId, $funderId)) {
             if ($i < count($funderId)) {
                 $funder[$i] = new Funder(new Entity($funderId[$i]), $project);
@@ -85,7 +102,7 @@ for ($i = 0; $i < $numOfFunders; $i++) {
                 $funder[$i]->insert();
             }
         }
-    } else if ($newfunderId === 0 && $i < count($funderId)) {
+    } else if (!empty($newfunderId) && $i < count($funderId)) {
         $funder[$i] = new Funder(new Entity($funderId[$i]), $project);
         $funder[$i]->entity->load($funderId[$i]);
         $funder[$i]->update(new Entity($funderId[$i]), $project,
@@ -103,12 +120,12 @@ for ($i = $numOfFunders; $i < count($funderId); $i++) {
     $funder[$i]->delete();
 }
 $clientId = Client::getIds($project);
-$numOfClients = (int) filter_var($_GET['numOfClients'], FILTER_SANITIZE_NUMBER_INT);
+$numOfClients = (int) filter_input(INPUT_GET, 'numOfClients', FILTER_SANITIZE_NUMBER_INT);
 $client = [];
 for ($i = 0; $i < $numOfClients; $i++) {
     $j = $i + 1;
-    $newclientId = (int) filter_var($_GET["client{$j}"], FILTER_SANITIZE_NUMBER_INT);
-    if (!empty($newclientId) && $newclientId !== 0) {
+    $newclientId = filter_input(INPUT_GET, "client{$j}", FILTER_CALLBACK, $option);
+    if (is_numeric($newclientId)) {
         if (!in_array($newclientId, $clientId)) {
             if ($i < count($clientId)) {
                 $client[$i] = new Client(new Entity($clientId[$i]), $project);
@@ -119,9 +136,7 @@ for ($i = 0; $i < $numOfClients; $i++) {
                 $client[$i]->insert();
             }
         }
-    } else if ($newclientId === 0 && $i < count($clientId)) {
-        // do nothing
-    } else {
+    } else if (empty($newclientId)) {
         $client[$i] = new Client(new Entity($clientId[$i]), $project);
         $client[$i]->delete();
     }
@@ -130,6 +145,6 @@ for ($i = $numOfClients; $i < count($clientId); $i++) {
     $client[$i] = new Client(new Entity($clientId[$i]), $project);
     $client[$i]->delete();
 }
-echo "HERE END OF CLIENT";
-
+ob_end_clean();
+echo "Edits Saved";
 ?>

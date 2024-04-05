@@ -15,11 +15,10 @@ use Classes\{
 spl_autoload_register(function ($class) {
     include str_replace('\\', '/', $class) . ".php";
 });
-
 if (isset($_GET['project_code'])) {
 
     ob_start();
-    $project_code = str_replace(array("'", '"'), "", $_GET['project_code']);
+    $project_code = str_replace(array("'", '"'), "", filter_input(INPUT_GET, 'project_code'));
     $project = new Project($project_code);
     $project->load($project_code);
 
@@ -162,7 +161,7 @@ if (isset($_GET['project_code'])) {
                     <span id='addClientLink'></span>
                 </div>
                 <br>
-                <div id="saveEditProject"></div>
+                <div id="saveEditProject" style="color: red;"></div>
             </fieldset>
             <?php
             for ($j = $numOfActivities - 1; $j >= 0; $j--) {
@@ -205,7 +204,7 @@ if (isset($_GET['project_code'])) {
                     echo "<span id='addContractorA{$k}Link'></span>";
                     echo "</div>";
                     echo "<br><p><span class='tag'>Notes: </span><span id='aNotes$k'>" . $activity[$j]->notes . "</span></p><br>";
-                    echo "<br><div id='saveEditActivity{$k}'></div>";
+                    echo "<br><div id='saveEditActivity{$k}' style='color: red;'></div>";
                     echo "<br></fieldset>";
                 }
                 ?>
