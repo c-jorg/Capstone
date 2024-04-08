@@ -1,3 +1,5 @@
+<?php include 'loginchecker.php';?>
+
 <?php
 include 'Project.php';
 $pCode = filter_input(INPUT_GET, 'project_code');

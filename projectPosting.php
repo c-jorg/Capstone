@@ -1,3 +1,5 @@
+<?php include 'loginchecker.php';?>
+
 <!-- Create new project Form -->
 <html>
     <head>

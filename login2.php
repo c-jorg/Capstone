@@ -26,7 +26,7 @@ $result = mysqli_query($connect, $query) or die(mysqli_error($connect));
 
 if (mysqli_num_rows($result) == 1) {
     $username = $_SESSION['username'];
-    header("Location: homepage.html");
+    header("Location: homepage.php");
     exit();
 } else {
     $_SESSION['loginError'] = true;
