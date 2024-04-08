@@ -5,7 +5,7 @@ $query = $_GET['query'];
 $sqli = new mysqli('localhost:3306','root','','Research');
 $fundingYear = 'SELECT * FROM Funders WHERE date_given BETWEEN "'.$start.'" AND "'.$end.'"';
 $projectsByYear = '
-SELECT * FROM PROJECTS
+SELECT project_code, title, stage, type, start_date, end_date, status FROM PROJECTS
 WHERE 
 	start_date BETWEEN "'.$start.'" AND "'.$end.'" OR
 	end_date BETWEEN "'.$start.'" AND "'.$end.'"
@@ -36,7 +36,7 @@ if($query == "fundingByYear"){
 }else if($query == 'projectsByYear'){
     $result = mysqli_query($sqli, $projectsByYear);
     if($result && mysqli_num_rows($result) > 0){
-        $headers = array("Project Code","Project Title","Stage","Type","Start Date","End Date");
+        $headers = array("Project Code","Project Title","Stage","Type","Start Date","End Date", "Status");
         fputcsv($file, $headers);
         while($row = mysqli_fetch_assoc($result)){
             fputcsv($file, $row);
