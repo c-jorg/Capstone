@@ -3,7 +3,7 @@ $query = $_GET['query'];
 $sqli = new mysqli('localhost:3306','root','','Research');
 $file = fopen("output.txt","w");
 $showAllStudents = 
-'SELECT e.first_name, e.last_name, e.email, e.category, p.title, p.project_code, p.stage, p.type, p.start_date, p.end_date
+'SELECT e.first_name, e.last_name, e.email, e.category, p.title, p.project_code, p.stage, p.type, p.start_date, p.end_date, p.status
 FROM Projects p, Entities e, Researchers r, Activities a
 WHERE 
 	(e.category NOT IN ("non-student") AND
@@ -21,7 +21,7 @@ GROUP BY e.email
 ORDER BY e.last_name
 ';
 $showAllResearchers = '
-Select e.first_name, e.last_name, e.email, p.title, p.project_code, p.stage, p.type, p.start_date, p.end_date
+Select e.first_name, e.last_name, e.email, p.title, p.project_code, p.stage, p.type, p.start_date, p.end_date, p.status
 FROM Projects p, Entities e, Researchers r, Activities a 
 WHERE
 	e.category LIKE "non-student" AND
@@ -33,7 +33,7 @@ ORDER BY e.last_name';
 if($query == "allStudents"){
     $result = mysqli_query($sqli,$showAllStudents);
     if ($result && mysqli_num_rows($result) > 0) {
-        $headers = array("First Name","Last Name","email","Type of Student","Project Title","Project Code","Stage","Type","Start Date","End Date");
+        $headers = array("First Name","Last Name","email","Type of Student","Project Title","Project Code","Stage","Type","Start Date","End Date", "Status");
         fputcsv($file,$headers);
         while($row = mysqli_fetch_assoc($result)){
             fputcsv($file,$row);
@@ -48,7 +48,7 @@ if($query == "allStudents"){
 }else if($query == "allResearchers"){
     $result = mysqli_query($sqli,$showAllResearchers);
     if($result && mysqli_num_rows($result) > 0){
-        $headers = array("First Name","Last Name","Email","Project Title","Project Code","Stage","type","Start Date","End Date");
+        $headers = array("First Name","Last Name","Email","Project Title","Project Code","Stage","type","Start Date","End Date", "Status");
         fputcsv($file,$headers);
         while($row = mysqli_fetch_assoc($result)){
             fputcsv($file,$row);
