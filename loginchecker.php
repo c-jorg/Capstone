@@ -6,4 +6,7 @@
         header("Location: index.php");
         exit;
     }
+
+    echo '<span id="document_target" style="display: none;">'.$_SESSION["username"].'</span>'
+
 ?>
