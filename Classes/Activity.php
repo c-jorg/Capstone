@@ -1,6 +1,8 @@
 <?php
 namespace Classes;
 
+include 'loginchecker.php';
+
 class Activity {
 
     public $activity_code; //Primary key

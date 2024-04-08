@@ -1,6 +1,8 @@
 <?php
 namespace Classes;
 
+include 'loginchecker.php';
+
 class Project_Manager {
 
     public $entity;

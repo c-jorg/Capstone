@@ -1,6 +1,8 @@
 <?php
 namespace Classes;
 
+include 'loginchecker.php';
+
 class Principal_Researcher {
 
     public $entity;

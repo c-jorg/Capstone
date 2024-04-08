@@ -1,3 +1,5 @@
+<?php include 'loginchecker.php';?>
+
 <?php
 $query = $_GET['query'];
 $sqli = new mysqli('localhost:3306','root','','Research');

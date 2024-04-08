@@ -2,6 +2,8 @@
 
 namespace Classes;
 
+include 'loginchecker.php';
+
 class Project {
 
     public $project_code; //primary key

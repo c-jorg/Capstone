@@ -14,8 +14,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $hashPass = hash('SHA256', $password);
 
-    $stmt = $sqli->prepare("SELECT password FROM Login WHERE username = :username");
+    if($sqli->prepare("SELECT password FROM Login WHERE username = ".$username) == false){
+        echo "failed";
+    }
     $stmt->bindParam(':username', $username);
+    //$stmt = $sqli->prepare("SELECT password FROM Login WHERE username = :username");
     $stmt->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     $result = mysqli_query($conn, $sql);

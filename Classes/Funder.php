@@ -2,6 +2,8 @@
 
 namespace Classes;
 
+include 'loginchecker.php';
+
 class Funder {
 
     public $entity;

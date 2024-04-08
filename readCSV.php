@@ -1,3 +1,5 @@
+<?php include 'loginchecker.php';?>
+
 <?php
 $file = fopen('output.txt', 'r');
 $info = fread($file, filesize('output.txt'));

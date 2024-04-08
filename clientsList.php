@@ -1,3 +1,5 @@
+<?php include 'loginchecker.php';?>
+
 <html> <!-- Original Version Created By Mostafa -->
 <head>
 <meta charset="UTF-8">

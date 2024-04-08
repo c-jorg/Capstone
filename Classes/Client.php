@@ -1,5 +1,8 @@
 <?php
 namespace Classes;
+
+include 'loginchecker.php';
+
 class Client {
 
     public $entity;

@@ -1,3 +1,5 @@
+<?php include 'loginchecker.php';?>
+
 <?php
 $start = $_GET['start'];
 //$year = 2022;

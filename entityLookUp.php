@@ -1,3 +1,5 @@
+<?php include 'loginchecker.php';?>
+
 <script src='./jquery-3.7.1.min.js'></script>
 <script>
 $(document).ready(() => {
