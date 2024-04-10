@@ -1,7 +1,6 @@
 <?php
 namespace Classes;
 
-include 'loginchecker.php';
 
 class Contractor {
 
