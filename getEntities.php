@@ -1,5 +1,3 @@
-<?php include 'loginchecker.php';?>
-
 <?php 
 
 $result = getEntities();
