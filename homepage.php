@@ -28,7 +28,7 @@
                     </tr>
                     <tr>
                         <td><a href="projects.html">Projects</a></td>
-                        <td><a href="reports.html">Reports</a></td>
+                        <td><a href="reports.php">Reports</a></td>
                     </tr>
                 </table>
                 <table>
