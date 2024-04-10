@@ -53,6 +53,7 @@ body {
     font-size: 28px; /* Increased font size */
     font-weight: bold;
 	color: #333;
+    text-align: center;
 	text-decoration: none;
 	padding: 15px 30px; /* Increased padding for wider links */
     border-radius: 15px; /* Increased border-radius for rounded corners */

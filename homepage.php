@@ -1,4 +1,4 @@
-﻿<?php include 'loginchecker.php';?>
+<?php include 'loginchecker.php';?>
 
 <!DOCTYPE html>
 
@@ -19,7 +19,7 @@
             <div class="links" id="links" name="links">
                 <table class="homeBTNs">
                     <tr>
-                        <td><a href="funders.html">Funders</a></td>
+                        <td><a href="fundersList.php">Funders</a></td>
                         <td><a href="clientsList.php">Clients</a></td>
                     </tr>
                     <tr>
@@ -27,7 +27,7 @@
                         <td><a href="researchersList.php">Researchers</a></td>
                     </tr>
                     <tr>
-                        <td><a href="projects.html">Projects</a></td>
+                        <td><a href="projectList.php">Projects</a></td>
                         <td><a href="reports.php">Reports</a></td>
                     </tr>
                 </table>
