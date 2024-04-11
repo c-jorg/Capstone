@@ -196,6 +196,11 @@ table {
 	padding: 10px;
 }
 
+h1, h2, h3 {
+	margin: 10px;
+	padding: 10px;
+}
+
 .queries {
     margin: 20px auto;
     width: 80%;
