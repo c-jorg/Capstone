@@ -1,5 +1,3 @@
-<?php include 'loginchecker.php';?>
-
 <?php
 
 use Classes\{Project, Funder, Entity, Project_Manager, Client};
