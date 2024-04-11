@@ -191,6 +191,11 @@ fieldset {
 	padding: 10px;
 }
 
+table {
+	margin: 10px;
+	padding: 10px;
+}
+
 .queries {
     margin: 20px auto;
     width: 80%;
