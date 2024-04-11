@@ -67,7 +67,7 @@ if(mysqli_num_rows($result) !== 0){
     $projectCode = stripslashes($row['project_code']); //will be used for linking activity to project page...
 
     if($companyName == NULL || $companyName == ''){
-      $companyName = stripslashes($row['salutation'] + ' ' + stripslashes($row['first_name']) + ' ' + stripslashes($row['last_name']));
+      $companyName = stripslashes($row['salutation'] . ' ' . stripslashes($row['first_name']) . ' ' . stripslashes($row['last_name']));
     }
 
     $entry = "<tr>

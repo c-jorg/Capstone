@@ -61,7 +61,7 @@ if(mysqli_num_rows($result) !== 0){
     $projectName = stripslashes($row['title']);
 
     if($companyName == NULL || $companyName == ''){
-      $companyName = stripslashes($row['salutation'] + ' ' + stripslashes($row['first_name']) + ' ' + stripslashes($row['last_name']));
+      $companyName = stripslashes($row['salutation'] . ' ' . stripslashes($row['first_name']) . ' ' . stripslashes($row['last_name']));
     }
 
     //project page link is WIP... send project_code via GET...
