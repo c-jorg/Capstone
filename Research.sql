@@ -42,7 +42,7 @@ CREATE TABLE `activities` (
 
 LOCK TABLES `activities` WRITE;
 /*!40000 ALTER TABLE `activities` DISABLE KEYS */;
-INSERT INTO `activities` VALUES ('123','123',NULL,'test Activity','2026-01-01','2028-01-01',NULL),('ABC','ABC',NULL,'Test Activity','2024-01-01','2026-01-01',NULL);
+INSERT INTO `activities` VALUES ('123','123','cvcb','test Activity','2026-01-01','2028-01-01',''),('221','123','project 2','this is subbproject','2024-04-10','2024-04-29','ths is new sub project '),('789','12345','smaller project','small demo project','2024-04-25','2024-04-27','This is a good project'),('ABC','ABC',NULL,'Test Activity','2024-01-01','2026-01-01',NULL);
 /*!40000 ALTER TABLE `activities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,7 +69,7 @@ CREATE TABLE `clients` (
 
 LOCK TABLES `clients` WRITE;
 /*!40000 ALTER TABLE `clients` DISABLE KEYS */;
-INSERT INTO `clients` VALUES (5,'ABC'),(6,'123');
+INSERT INTO `clients` VALUES (5,'ABC'),(6,'123'),(13,'12345');
 /*!40000 ALTER TABLE `clients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,9 +84,9 @@ CREATE TABLE `contractors` (
   `entity_id` int(11) NOT NULL,
   `activity_code` varchar(100) NOT NULL,
   `payment` decimal(10,0) DEFAULT NULL,
-  `date_payed` date NOT NULL,
-  PRIMARY KEY (`entity_id`,`activity_code`,`date_payed`),
+  `date_payed` date DEFAULT NULL,
   KEY `Contractors_Activities_FK` (`activity_code`),
+  KEY `Contractors_Entities_FK` (`entity_id`),
   CONSTRAINT `Contractors_Activities_FK` FOREIGN KEY (`activity_code`) REFERENCES `activities` (`activity_code`),
   CONSTRAINT `Contractors_Entities_FK` FOREIGN KEY (`entity_id`) REFERENCES `entities` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -98,7 +98,7 @@ CREATE TABLE `contractors` (
 
 LOCK TABLES `contractors` WRITE;
 /*!40000 ALTER TABLE `contractors` DISABLE KEYS */;
-INSERT INTO `contractors` VALUES (7,'ABC',10000,'2024-02-02');
+INSERT INTO `contractors` VALUES (7,'ABC',10000,NULL);
 /*!40000 ALTER TABLE `contractors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,7 +119,7 @@ CREATE TABLE `entities` (
   `category` enum('non-student','Undergraduate','Masters','PHD','Other') DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +128,7 @@ CREATE TABLE `entities` (
 
 LOCK TABLES `entities` WRITE;
 /*!40000 ALTER TABLE `entities` DISABLE KEYS */;
-INSERT INTO `entities` VALUES (1,'Jane','Doe','jdoe@gmail.com','MRS.',NULL,'non-student'),(2,'John','Doe','jodoe@gmail.com','DR.',NULL,'non-student'),(3,NULL,NULL,'funder1@gmail.com',NULL,'Science Company','non-student'),(4,NULL,NULL,'funder2@gmail.com',NULL,'Tech Company','non-student'),(5,NULL,NULL,'client1@gmail.com',NULL,'Science Client','non-student'),(6,NULL,NULL,'client2@gmail.com',NULL,'Tech Client','non-student'),(7,NULL,NULL,'contractor1@gmail.com',NULL,'Science Contractor','non-student'),(8,'Bob','Dob','dob@gmail.com','MR.',NULL,'Undergraduate'),(9,'Joe','Son','son@gmail.com',NULL,NULL,'Masters'),(10,'Sally','Person','sally@gmail.com','MS.',NULL,'PHD');
+INSERT INTO `entities` VALUES (1,'Jane','Doe','jdoe@gmail.com','MRS.',NULL,'non-student'),(2,'John','Doe','jodoe@gmail.com','DR.',NULL,'non-student'),(3,NULL,NULL,'funder1@gmail.com',NULL,'Science Company','non-student'),(4,NULL,NULL,'funder2@gmail.com',NULL,'Tech Company','non-student'),(5,NULL,NULL,'client1@gmail.com',NULL,'Science Client','non-student'),(6,NULL,NULL,'client2@gmail.com',NULL,'Tech Client','non-student'),(7,NULL,NULL,'contractor1@gmail.com',NULL,'Science Contractor','non-student'),(8,'Bob','Dob','dob@gmail.com','MR.',NULL,'Undergraduate'),(9,'Joe','Son','son@gmail.com',NULL,NULL,'Masters'),(10,'Sally','Person','sally@gmail.com','MS.',NULL,'PHD'),(11,'','','hgcfhf@fd.com','None','',''),(12,'brick','flipper','notanemail@email.eorg','Dr.','floippingBricks',''),(13,'Bob','Joe','bobjoe@test.com','Mr.','',''),(14,'Bob','Joeson','bobj@test.com','Mr.','tech company','');
 /*!40000 ALTER TABLE `entities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -158,7 +158,7 @@ CREATE TABLE `funders` (
 
 LOCK TABLES `funders` WRITE;
 /*!40000 ALTER TABLE `funders` DISABLE KEYS */;
-INSERT INTO `funders` VALUES (3,'ABC',1000000,'2023-01-01','2025-01-01'),(4,'123',50000,'2026-01-01','2026-01-01');
+INSERT INTO `funders` VALUES (3,'ABC',1000000,'2023-01-01','2025-01-01'),(4,'123',50000,'2026-01-01','2026-01-01'),(14,'12345',10,NULL,NULL);
 /*!40000 ALTER TABLE `funders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,6 +210,7 @@ CREATE TABLE `principal_researchers` (
 
 LOCK TABLES `principal_researchers` WRITE;
 /*!40000 ALTER TABLE `principal_researchers` DISABLE KEYS */;
+INSERT INTO `principal_researchers` VALUES (14,'789');
 /*!40000 ALTER TABLE `principal_researchers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,6 +237,7 @@ CREATE TABLE `project_managers` (
 
 LOCK TABLES `project_managers` WRITE;
 /*!40000 ALTER TABLE `project_managers` DISABLE KEYS */;
+INSERT INTO `project_managers` VALUES (1,'12345');
 /*!40000 ALTER TABLE `project_managers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -265,7 +267,7 @@ CREATE TABLE `projects` (
 
 LOCK TABLES `projects` WRITE;
 /*!40000 ALTER TABLE `projects` DISABLE KEYS */;
-INSERT INTO `projects` VALUES ('123','project 2','test Projects','In Progress','Tech','2026-01-01','2028-01-01','Green'),('ABC','projects 1','test Projects','In Progress','Science','2024-01-01','2026-01-01','Green');
+INSERT INTO `projects` VALUES ('123','project 2','test Projects','Ideation','Tech','2026-01-01','2028-01-01','Red'),('12345','demo project','demo project ','In Progress','Community','2024-04-25','2024-05-25','Yellow'),('345','Test','test','Ideation','Technical','2024-04-10','2024-04-02','Yellow'),('878','arsh','rftfgf,ujgvgh','Ideation','Technical','2024-04-12','2024-02-15','Green'),('ABC','projects 1','test Projects and also the toher stuff <button>click me!!</button>','In Progress','Science','2024-01-01','2026-01-01','Green'),('COSC224','Project management','We need to complete the project','Proposal in Progress','Technical','2024-04-10','2024-04-30','Red'),('fddcx  ','vernon immigrant','bgfds','Proposal in Progress','Technical','2024-04-11','2024-03-21','Yellow');
 /*!40000 ALTER TABLE `projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,7 +294,7 @@ CREATE TABLE `researchers` (
 
 LOCK TABLES `researchers` WRITE;
 /*!40000 ALTER TABLE `researchers` DISABLE KEYS */;
-INSERT INTO `researchers` VALUES (8,'123'),(9,'123'),(9,'abc'),(1,'123'),(2,'ABC'),(2,'123');
+INSERT INTO `researchers` VALUES (8,'123'),(9,'123'),(9,'abc'),(1,'123'),(2,'ABC'),(2,'123'),(8,'789'),(2,'789');
 /*!40000 ALTER TABLE `researchers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -305,4 +307,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-03 11:36:26
+-- Dump completed on 2024-04-11 13:17:53
