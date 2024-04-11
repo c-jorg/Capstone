@@ -183,7 +183,7 @@ body {
     margin-left: 3px;
 }
 
-#addEntity {
+fieldset {
 	margin: 10px;
 	border-color: #E10054;
 	border-radius: 20px;
