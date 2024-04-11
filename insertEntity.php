@@ -1,5 +1,3 @@
-<?php include 'loginchecker.php';?>
-
 <?php 
 use Classes\Entity;
 include 'Classes/Entity.php';
